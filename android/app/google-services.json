@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "575370405832",
+    "project_id": "golden-titab",
+    "storage_bucket": "golden-titab.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:575370405832:android:c03b7e5cc1044a69ad82fd",
+        "android_client_info": {
+          "package_name": "com.example.first_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCBOu-NnsGujtU_8hMY6LHjFe85wzNgXPc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
