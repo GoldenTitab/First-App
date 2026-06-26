@@ -1,22 +1,25 @@
-<<<<<<< HEAD
-# first_app
+# 🎵 First App - Music Player
 
-A new Flutter project.
+این پروژه، اولین تجربه من در یادگیری و کار با فریم‌ورک قدرتمند **Flutter** است. 
 
-## Getting Started
+## درباره پروژه
+هدف از ایجاد این پروژه، یادگیری اصول توسعه اپلیکیشن‌های موبایل و پیاده‌سازی رابط کاربری است. در حال حاضر، این اپلیکیشن در مراحل ابتدایی توسعه قرار دارد، اما چشم‌انداز من برای آن بسیار روشن است. 
 
-This project is a starting point for a Flutter application.
+## 🚀 نقشه راه (Roadmap)
+این پروژه یک موجود زنده است و به مرور زمان کامل‌تر و بهینه‌تر خواهد شد. هدف نهایی من تبدیل این پروژه به یک **اپلیکیشن موزیک‌پلیر حرفه‌ای** با قابلیت‌های زیر است:
+- [ ] پخش فایل‌های صوتی محلی و آنلاین
+- [ ] مدیریت لیست پخش (Playlist)
+- [ ] طراحی رابط کاربری زیبا و مدرن
+- [ ] قابلیت کنترل پخش در پس‌زمینه
+- [ ] و بسیاری ویژگی‌های جذاب دیگر...
 
-A few resources to get you started if this is your first Flutter project:
+## 🛠 ابزارهای استفاده شده
+- **Flutter SDK**
+- **Dart**
+- **Firebase** (برای مدیریت داده‌ها و احراز هویت)
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+## 💡 وضعیت فعلی
+پروژه در حال توسعه است. از آنجایی که در حال یادگیری هستم، هر روز در حال افزودن قابلیت‌های جدید و بهبود کدهای قبلی هستم. پیشنهادها و بازخوردهای شما برای من بسیار ارزشمند است!
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-=======
-# First-App
-Building My First App with Flutter Framework
->>>>>>> f5c1ee999f3880b15b02e9ab037fc76947023eab
+---
+*ساخته شده با عشق در مسیر یادگیری فلاتر.*
