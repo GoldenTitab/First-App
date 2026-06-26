@@ -60,15 +60,48 @@ class HomePage extends StatelessWidget {
             case ConnectionState.done:
               final user = FirebaseAuth.instance.currentUser;
               if (user?.emailVerified ?? false) {
-                print("You are a verified user");
               } else {
-                print("You need to verify your email first");
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const VerifyEmailView(),
+                    ),
+                  );
+                });
               }
               return const Text("Done");
             default:
               return const Text("Loading...");
           }
         },
+      ),
+    );
+  }
+}
+
+class VerifyEmailView extends StatefulWidget {
+  const VerifyEmailView({super.key});
+
+  @override
+  State<VerifyEmailView> createState() => _VerifyEmailViewState();
+}
+
+class _VerifyEmailViewState extends State<VerifyEmailView> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("اعتبارسنجی ایمیل")),
+      body: Column(
+        children: [
+          Text("لطفا ایمیل خود را اعتبارسنجی کنید"),
+          TextButton(
+            onPressed: () async {
+              final user = FirebaseAuth.instance.currentUser;
+              await user?.sendEmailVerification();
+            },
+            child: Text("کد اعتبارسنجی ایمیل را ارسال کن"),
+          ),
+        ],
       ),
     );
   }
