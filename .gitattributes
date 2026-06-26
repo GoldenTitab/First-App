@@ -1,5 +1,5 @@
-windows/* linguist-vendored
-linux/* linguist-vendored
-android/* linguist-vendored
-ios/* linguist-vendored
+android/* linguist-documentation=false linguist-vendored
+ios/* linguist-documentation=false linguist-vendored
+windows/* linguist-documentation=false linguist-vendored
+linux/* linguist-documentation=false linguist-vendored
 macos/* linguist-vendored
