@@ -29,4 +29,4 @@ I am constantly refining the codebase and adding new functionalities.
 This project is part of my learning journey. While it is currently a personal project, I value feedback, bug reports, and suggestions. Feel free to open an issue or reach out if you have any ideas to improve this player!
 
 ---
-*Built with passion by [Golden Titab/Aurora Studio]*
+*Built with passion by Golden Titab/Aurora Studio*
