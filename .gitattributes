@@ -1,10 +1,15 @@
-android/* linguist-vendored
-ios/* linguist-vendored
-windows/* linguist-vendored
-linux/* linguist-vendored
-macos/* linguist-vendored
-web/* linguist-vendored
 
-*.gradle linguist-vendored
-*.lock linguist-vendored
-*.properties linguist-vendored
+android/** linguist-vendored
+ios/** linguist-vendored
+linux/** linguist-vendored
+macos/** linguist-vendored
+windows/** linguist-vendored
+web/** linguist-vendored
+
+
+*.lock linguist-generated
+*.json linguist-generated
+*.gradle linguist-generated
+*.properties linguist-generated
+*.xcworkspace linguist-generated
+*.xcodeproj linguist-generated
