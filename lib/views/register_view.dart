@@ -77,9 +77,9 @@ class _RegisterViewState extends State<RegisterView> {
           ),
           TextButton(
             onPressed: () {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => const LoginView()),
-              );
+              Navigator.of(
+                context,
+              ).pushNamedAndRemoveUntil('/register/', (route) => false);
             },
             child: const Text("حساب دارید؟ ورود به سیستم"),
           ),
