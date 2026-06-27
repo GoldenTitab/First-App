@@ -126,7 +126,10 @@ class HomePage extends StatelessWidget {
           IconButton(
             icon: RotatedBox(
               quarterTurns: 2,
-              child: Icon(Icons.logout, color: Colors.red),
+              child: Icon(
+                Icons.logout,
+                color: Theme.of(context).colorScheme.error,
+              ),
             ),
             onPressed: () async {
               final shouldLogout = await showDialog<bool>(
