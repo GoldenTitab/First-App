@@ -1,25 +1,32 @@
-# 🎵 First App - Music Player
+# 🎵 Aurora Music Player
 
-این پروژه، اولین تجربه من در یادگیری و کار با فریم‌ورک قدرتمند **Flutter** است. 
+[![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)](https://flutter.dev/)
+[![Dart](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white)](https://dart.dev/)
 
-## درباره پروژه
-هدف از ایجاد این پروژه، یادگیری اصول توسعه اپلیکیشن‌های موبایل و پیاده‌سازی رابط کاربری است. در حال حاضر، این اپلیکیشن در مراحل ابتدایی توسعه قرار دارد، اما چشم‌انداز من برای آن بسیار روشن است. 
+A modern, high-performance music player application built with **Flutter**. This project serves as a showcase of my journey into mobile development, focusing on clean architecture, intuitive UI/UX design, and seamless media playback.
 
-## 🚀 نقشه راه (Roadmap)
-این پروژه یک موجود زنده است و به مرور زمان کامل‌تر و بهینه‌تر خواهد شد. هدف نهایی من تبدیل این پروژه به یک **اپلیکیشن موزیک‌پلیر حرفه‌ای** با قابلیت‌های زیر است:
-- [ ] پخش فایل‌های صوتی محلی و آنلاین
-- [ ] مدیریت لیست پخش (Playlist)
-- [ ] طراحی رابط کاربری زیبا و مدرن
-- [ ] قابلیت کنترل پخش در پس‌زمینه
-- [ ] و بسیاری ویژگی‌های جذاب دیگر...
+## 🚀 Key Features
+*Currently in active development with the following roadmap:*
 
-## 🛠 ابزارهای استفاده شده
-- **Flutter SDK**
-- **Dart**
-- **Firebase** (برای مدیریت داده‌ها و احراز هویت)
+- [ ] **Local & Online Playback:** Support for various audio formats and streaming.
+- [ ] **Playlist Management:** Create, edit, and organize your favorite tracks.
+- [ ] **Background Processing:** Seamless audio control while the app is in the background.
+- [ ] **Modern UI/UX:** A clean, responsive interface designed for an optimal user experience.
+- [ ] **Authentication:** Secure user data and settings synchronization via Firebase.
 
-## 💡 وضعیت فعلی
-پروژه در حال توسعه است. از آنجایی که در حال یادگیری هستم، هر روز در حال افزودن قابلیت‌های جدید و بهبود کدهای قبلی هستم. پیشنهادها و بازخوردهای شما برای من بسیار ارزشمند است!
+## 🛠 Tech Stack
+- **Framework:** Flutter SDK
+- **Language:** Dart
+- **Backend/Services:** Firebase (Auth & Firestore)
+
+## 📈 Roadmap
+I am constantly refining the codebase and adding new functionalities. 
+- [ ] Implement audio state management.
+- [ ] Design custom themes (Light/Dark mode).
+- [ ] Integrate local database storage (Hive/SQLite).
+
+## 🤝 Contribution
+This project is part of my learning journey. While it is currently a personal project, I value feedback, bug reports, and suggestions. Feel free to open an issue or reach out if you have any ideas to improve this player!
 
 ---
-*ساخته شده با عشق در مسیر یادگیری فلاتر.*
+*Built with passion by Golden Titab/Aurora Studio*
