@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:first_app/views/register_view.dart';
 import 'package:flutter/material.dart';
 
 class LoginView extends StatefulWidget {
@@ -57,18 +58,19 @@ class _LoginViewState extends State<LoginView> {
                       email: _email.text,
                       password: _password.text,
                     );
-                // final userCredential = await FirebaseAuth.instance
-                //     .createUserWithEmailAndPassword(
-                //       email: _email.text,
-                //       password: _password.text,
-                //     );
-                print(userCredential);
               } on FirebaseAuthException catch (e) {
-                print('CODE: ${e.code}');
-                print('MESSAGE: ${e.message}');
+                print('Error: ${e.code}');
               }
             },
-            child: Text("ورود"),
+            child: const Text("ورود"),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => const RegisterView()),
+              );
+            },
+            child: const Text("ثبت‌نام نکرده‌اید؟ ایجاد حساب جدید"),
           ),
         ],
       ),
