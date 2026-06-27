@@ -1,16 +1,24 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:first_app/views/login_view.dart';
 import 'package:first_app/views/register_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'dart:async';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(
-    MaterialApp(
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
@@ -35,46 +43,35 @@ void main() async {
         appBarTheme: const AppBarTheme(backgroundColor: Colors.blueGrey),
       ),
       themeMode: ThemeMode.system,
-      // home: const RegisterView(),
-      home: HomePage(),
-    ),
-  );
+
+      home: const AuthWrapper(),
+    );
+  }
 }
 
-class HomePage extends StatelessWidget {
-  HomePage({super.key});
+class AuthWrapper extends StatelessWidget {
+  const AuthWrapper({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('خانه'),
-        actions: [IconButton(icon: Icon(Icons.search), onPressed: () {})],
-      ),
-      body: FutureBuilder(
-        future: Firebase.initializeApp(
-          options: DefaultFirebaseOptions.currentPlatform,
-        ),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.done:
-              final user = FirebaseAuth.instance.currentUser;
-              if (user?.emailVerified ?? false) {
-              } else {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const VerifyEmailView(),
-                    ),
-                  );
-                });
-              }
-              return const Text("Done");
-            default:
-              return const Text("Loading...");
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
+        if (snapshot.hasData) {
+          final user = snapshot.data;
+          if (user != null && user.emailVerified) {
+            return const HomePage();
+          } else {
+            return const VerifyEmailView();
           }
-        },
-      ),
+        }
+        return const LoginView();
+      },
     );
   }
 }
@@ -87,22 +84,80 @@ class VerifyEmailView extends StatefulWidget {
 }
 
 class _VerifyEmailViewState extends State<VerifyEmailView> {
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer.periodic(const Duration(seconds: 3), (timer) async {
+      final user = FirebaseAuth.instance.currentUser;
+      await user?.reload();
+
+      if (user?.emailVerified ?? false) {
+        timer.cancel();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("اعتبارسنجی ایمیل")),
-      body: Column(
-        children: [
-          Text("لطفا ایمیل خود را اعتبارسنجی کنید"),
-          TextButton(
+      appBar: AppBar(title: const Text('تأیید ایمیل')),
+      body: Center(child: Text('لطفاً ایمیل خود را تأیید کنید.')),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('خانه'),
+        actions: [
+          IconButton(
+            icon: RotatedBox(
+              quarterTurns: 2,
+              child: Icon(Icons.logout, color: Colors.red),
+            ),
             onPressed: () async {
-              final user = FirebaseAuth.instance.currentUser;
-              await user?.sendEmailVerification();
+              final shouldLogout = await showDialog<bool>(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: const Text('خروج از حساب'),
+                    content: const Text(
+                      'آیا مطمئن هستید که می‌خواهید خارج شوید؟',
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pop(false),
+                        child: const Text('لغو'),
+                      ),
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pop(true),
+                        child: const Text('خروج'),
+                      ),
+                    ],
+                  );
+                },
+              );
+              if (shouldLogout ?? false) {
+                await FirebaseAuth.instance.signOut();
+              }
             },
-            child: Text("کد اعتبارسنجی ایمیل را ارسال کن"),
           ),
         ],
       ),
+      body: const Center(child: Text('به صفحه اصلی خوش آمدید')),
     );
   }
 }
