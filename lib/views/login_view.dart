@@ -66,9 +66,9 @@ class _LoginViewState extends State<LoginView> {
           ),
           TextButton(
             onPressed: () {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => const RegisterView()),
-              );
+              Navigator.of(
+                context,
+              ).pushNamedAndRemoveUntil('/login/', (route) => false);
             },
             child: const Text("ثبت‌نام نکرده‌اید؟ ایجاد حساب جدید"),
           ),
