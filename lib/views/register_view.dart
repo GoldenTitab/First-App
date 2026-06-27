@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:first_app/views/login_view.dart';
 import 'package:flutter/material.dart';
 
 class RegisterView extends StatefulWidget {
@@ -57,13 +58,30 @@ class _RegisterViewState extends State<RegisterView> {
                       email: _email.text,
                       password: _password.text,
                     );
-                print(userCredential);
+                await userCredential.user?.sendEmailVerification();
+                if (mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                        'ایمیل تأیید ارسال شد. لطفاً صندوق ورودی خود را چک کنید.',
+                      ),
+                    ),
+                  );
+                  Navigator.of(context).pop();
+                }
               } on FirebaseAuthException catch (e) {
-                print('CODE: ${e.code}');
-                print('MESSAGE: ${e.message}');
+                print('Error: ${e.code}');
               }
             },
-            child: Text("ثبت‌نام"),
+            child: const Text("ثبت‌نام"),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => const LoginView()),
+              );
+            },
+            child: const Text("حساب دارید؟ ورود به سیستم"),
           ),
         ],
       ),
