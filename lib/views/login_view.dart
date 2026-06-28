@@ -1,9 +1,7 @@
-// lib/views/login_view.dart
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
-import '../utils/error_handler.dart';
 import '../utils/constants.dart';
+import '../utils/exception_handler.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -37,14 +35,10 @@ class _LoginViewState extends State<LoginView> {
         _emailController.text,
         _passwordController.text,
       );
-      // در صورت موفقیت، AuthWrapper وضعیت را مدیریت می‌کند
-    } on FirebaseAuthException catch (e) {
-      ErrorHandler.showError(context, AuthService.getErrorMessage(e));
     } catch (e) {
-      ErrorHandler.showError(
-        context,
-        '${AppStrings.unknownError}${e.toString()}',
-      );
+      if (mounted) {
+        await ExceptionHandler.showErrorDialog(context, e, onRetry: _login);
+      }
     }
   }
 
@@ -53,9 +47,7 @@ class _LoginViewState extends State<LoginView> {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppStrings.loginTitle),
-        actions: const [
-          Icon(Icons.search),
-        ], // اگر جستجو واقعی ندارید، می‌توانید حذف کنید
+        actions: const [Icon(Icons.search)],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

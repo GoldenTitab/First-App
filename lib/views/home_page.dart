@@ -1,4 +1,3 @@
-// lib/views/home_page.dart
 import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
 import '../utils/constants.dart';
@@ -8,7 +7,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AuthService _authService = AuthService();
+    final authService = AuthService();
 
     return Scaffold(
       appBar: AppBar(
@@ -40,7 +39,7 @@ class HomePage extends StatelessWidget {
                 },
               );
               if (shouldLogout ?? false) {
-                await _authService.signOut();
+                await authService.signOut();
               }
             },
           ),

@@ -1,4 +1,3 @@
-// lib/views/verify_email_view.dart
 import 'dart:async';
 import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
@@ -23,8 +22,6 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
       final user = _authService.currentUser;
       if (user?.emailVerified ?? false) {
         timer.cancel();
-        // نیازی به action نیست، زیرا AuthWrapper خودش واکنش نشان می‌دهد
-        // ولی می‌توانیم بازسازی کنیم
         if (mounted) setState(() {});
       }
     });

@@ -1,9 +1,7 @@
-// lib/views/register_view.dart
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
-import '../utils/error_handler.dart';
 import '../utils/constants.dart';
+import '../utils/exception_handler.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -41,17 +39,19 @@ class _RegisterViewState extends State<RegisterView> {
       if (user != null) {
         await _authService.sendEmailVerification(user);
         if (mounted) {
-          ErrorHandler.showSuccess(context, AppStrings.emailVerificationSent);
-          Navigator.of(context).pop(); // بازگشت به صفحه ورود
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text(AppStrings.emailVerificationSent),
+              backgroundColor: Colors.green,
+            ),
+          );
+          Navigator.of(context).pop();
         }
       }
-    } on FirebaseAuthException catch (e) {
-      ErrorHandler.showError(context, AuthService.getErrorMessage(e));
     } catch (e) {
-      ErrorHandler.showError(
-        context,
-        '${AppStrings.unknownError}${e.toString()}',
-      );
+      if (mounted) {
+        await ExceptionHandler.showErrorDialog(context, e, onRetry: _register);
+      }
     }
   }
 
