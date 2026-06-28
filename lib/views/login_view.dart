@@ -13,6 +13,12 @@ class _LoginViewState extends State<LoginView> {
   late final TextEditingController _email;
   late final TextEditingController _password;
 
+  void showError(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message), backgroundColor: Colors.red),
+    );
+  }
+
   @override
   void initState() {
     _email = TextEditingController();
@@ -55,20 +61,28 @@ class _LoginViewState extends State<LoginView> {
               try {
                 final userCredential = await FirebaseAuth.instance
                     .signInWithEmailAndPassword(
-                      email: _email.text,
-                      password: _password.text,
+                      email: _email.text.trim(),
+                      password: _password.text.trim(),
                     );
               } on FirebaseAuthException catch (e) {
-                print('Error: ${e.code}');
+                String errorMessage = "خطایی رخ داده است.";
+                if (e.code == 'user-not-found') {
+                  errorMessage = 'کاربری با این ایمیل یافت نشد.';
+                } else if (e.code == 'wrong-password') {
+                  errorMessage = 'رمز عبور اشتباه است.';
+                } else if (e.code == 'invalid-email') {
+                  errorMessage = 'فرمت ایمیل صحیح نیست.';
+                }
+                showError(errorMessage);
+              } catch (e) {
+                showError("خطای ناشناخته: ${e.toString()}");
               }
             },
             child: const Text("ورود"),
           ),
           TextButton(
             onPressed: () {
-              Navigator.of(
-                context,
-              ).pushNamedAndRemoveUntil('/login/', (route) => false);
+              Navigator.of(context).pushNamed('/register/');
             },
             child: const Text("ثبت‌نام نکرده‌اید؟ ایجاد حساب جدید"),
           ),

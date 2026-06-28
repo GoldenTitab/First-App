@@ -13,6 +13,12 @@ class _RegisterViewState extends State<RegisterView> {
   late final TextEditingController _email;
   late final TextEditingController _password;
 
+  void showError(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message), backgroundColor: Colors.red),
+    );
+  }
+
   @override
   void initState() {
     _email = TextEditingController();
@@ -55,8 +61,8 @@ class _RegisterViewState extends State<RegisterView> {
               try {
                 final userCredential = await FirebaseAuth.instance
                     .createUserWithEmailAndPassword(
-                      email: _email.text,
-                      password: _password.text,
+                      email: _email.text.trim(),
+                      password: _password.text.trim(),
                     );
                 await userCredential.user?.sendEmailVerification();
                 if (mounted) {
@@ -70,18 +76,20 @@ class _RegisterViewState extends State<RegisterView> {
                   Navigator.of(context).pop();
                 }
               } on FirebaseAuthException catch (e) {
-                print('Error: ${e.code}');
+                String errorMessage = "خطا در ثبت‌نام.";
+                if (e.code == 'weak-password') {
+                  errorMessage = 'رمز عبور بسیار ضعیف است.';
+                } else if (e.code == 'email-already-in-use') {
+                  errorMessage = 'این ایمیل قبلاً ثبت شده است.';
+                } else if (e.code == 'invalid-email') {
+                  errorMessage = 'ایمیل نامعتبر است.';
+                }
+                showError(errorMessage);
+              } catch (e) {
+                showError("خطا: ${e.toString()}");
               }
             },
             child: const Text("ثبت‌نام"),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(
-                context,
-              ).pushNamedAndRemoveUntil('/register/', (route) => false);
-            },
-            child: const Text("حساب دارید؟ ورود به سیستم"),
           ),
         ],
       ),
