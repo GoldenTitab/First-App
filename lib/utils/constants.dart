@@ -1,8 +1,6 @@
-// lib/utils/constants.dart
 class AppRoutes {
   static const String login = '/login';
   static const String register = '/register';
-  // در صورت نیاز مسیرهای دیگر
 }
 
 class AppStrings {
@@ -35,7 +33,11 @@ class AppStrings {
   static const String weakPassword = 'رمز عبور بسیار ضعیف است.';
   static const String emailInUse = 'این ایمیل قبلاً ثبت شده است.';
   static const String unknownError = 'خطای ناشناخته: ';
-  static const String registerError = 'خطا در ثبت‌نام.';
+  static const String networkError = 'اتصال اینترنت خود را بررسی کنید.';
+  static const String tooManyRequests =
+      'تلاش بیش از حد. لطفاً بعداً امتحان کنید.';
+  static const String formatError = 'قالب داده نامعتبر است.';
+  static const String timeoutError = 'زمان ارتباط به پایان رسید.';
 }
 
 class AppDurations {
