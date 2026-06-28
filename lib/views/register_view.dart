@@ -14,6 +14,7 @@ class _RegisterViewState extends State<RegisterView> {
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
   final AuthService _authService = AuthService();
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -30,6 +31,8 @@ class _RegisterViewState extends State<RegisterView> {
   }
 
   Future<void> _register() async {
+    if (_isLoading) return;
+    setState(() => _isLoading = true);
     try {
       final userCredential = await _authService.signUpWithEmailPassword(
         _emailController.text,
@@ -52,6 +55,8 @@ class _RegisterViewState extends State<RegisterView> {
       if (mounted) {
         await ExceptionHandler.showErrorDialog(context, e, onRetry: _register);
       }
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
     }
   }
 
@@ -83,10 +88,12 @@ class _RegisterViewState extends State<RegisterView> {
               decoration: InputDecoration(hintText: AppStrings.passwordHint),
             ),
             const SizedBox(height: 20),
-            TextButton(
-              onPressed: _register,
-              child: Text(AppStrings.registerButton),
-            ),
+            _isLoading
+                ? const CircularProgressIndicator()
+                : TextButton(
+                    onPressed: _register,
+                    child: Text(AppStrings.registerButton),
+                  ),
           ],
         ),
       ),

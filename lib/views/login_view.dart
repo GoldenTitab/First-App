@@ -14,6 +14,7 @@ class _LoginViewState extends State<LoginView> {
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
   final AuthService _authService = AuthService();
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -30,6 +31,8 @@ class _LoginViewState extends State<LoginView> {
   }
 
   Future<void> _login() async {
+    if (_isLoading) return;
+    setState(() => _isLoading = true);
     try {
       await _authService.signInWithEmailPassword(
         _emailController.text,
@@ -39,6 +42,8 @@ class _LoginViewState extends State<LoginView> {
       if (mounted) {
         await ExceptionHandler.showErrorDialog(context, e, onRetry: _login);
       }
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
     }
   }
 
@@ -70,11 +75,19 @@ class _LoginViewState extends State<LoginView> {
               decoration: InputDecoration(hintText: AppStrings.passwordHint),
             ),
             const SizedBox(height: 20),
-            TextButton(onPressed: _login, child: Text(AppStrings.loginButton)),
+            // دکمه ورود با نمایش لودینگ
+            _isLoading
+                ? const CircularProgressIndicator()
+                : TextButton(
+                    onPressed: _login,
+                    child: Text(AppStrings.loginButton),
+                  ),
             TextButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(AppRoutes.register);
-              },
+              onPressed: _isLoading
+                  ? null
+                  : () {
+                      Navigator.of(context).pushNamed(AppRoutes.register);
+                    },
               child: Text(AppStrings.goToRegister),
             ),
           ],
