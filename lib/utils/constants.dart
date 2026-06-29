@@ -9,7 +9,6 @@ class AppStrings {
   static const String registerTitle = 'صفحه ثبت‌نام';
   static const String verifyEmailTitle = 'تأیید ایمیل';
   static const String homeTitle = 'خانه';
-
   static const String emailHint = 'ایمیل خود را وارد کنید.';
   static const String passwordHint = 'رمز خود را وارد کنید.';
   static const String loginButton = 'ورود';
@@ -24,8 +23,6 @@ class AppStrings {
   static const String verifyEmailMessage = 'لطفاً ایمیل خود را تأیید کنید.';
   static const String emailVerificationSent =
       'ایمیل تأیید ارسال شد. لطفاً صندوق ورودی خود را چک کنید.';
-
-  // پیام‌های خطا
   static const String genericError = 'خطایی رخ داده است.';
   static const String userNotFound = 'کاربری با این ایمیل یافت نشد.';
   static const String wrongPassword = 'رمز عبور اشتباه است.';
