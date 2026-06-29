@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:first_app/views/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'services/auth_service.dart';
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
         appBarTheme: const AppBarTheme(backgroundColor: Colors.blueGrey),
       ),
       themeMode: ThemeMode.system,
-      home: const AuthWrapper(),
+      home: const SplashScreen(),
       routes: {
         AppRoutes.login: (context) => const LoginView(),
         AppRoutes.register: (context) => const RegisterView(),
