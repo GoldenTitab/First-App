@@ -40,7 +40,6 @@ class _HomePageState extends State<HomePage> {
       try {
         await _authService.signOut();
       } catch (e) {
-        // در صورت بروز خطا، می‌توانید پیام نمایش دهید
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('خطا در خروج: ${e.toString()}')),
@@ -59,10 +58,7 @@ class _HomePageState extends State<HomePage> {
         title: Text(AppStrings.homeTitle),
         actions: [
           IconButton(
-            icon: const RotatedBox(
-              quarterTurns: 2,
-              child: Icon(Icons.more_vert, color: Colors.black),
-            ),
+            icon: Icon(Icons.more_vert, color: Colors.black),
             onPressed: _isLoggingOut ? null : _showLogoutDialog,
           ),
         ],

@@ -75,7 +75,6 @@ class _LoginViewState extends State<LoginView> {
               decoration: InputDecoration(hintText: AppStrings.passwordHint),
             ),
             const SizedBox(height: 20),
-            // دکمه ورود با نمایش لودینگ
             _isLoading
                 ? const CircularProgressIndicator()
                 : TextButton(
