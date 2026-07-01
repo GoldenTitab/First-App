@@ -63,17 +63,6 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blue,
-        onPressed: () {},
-        child: Center(
-          child: const Text(
-            "+",
-            style: TextStyle(fontSize: 24, color: Colors.white),
-          ),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
       body: Stack(
         children: [
           Center(
@@ -95,6 +84,57 @@ class _HomePageState extends State<HomePage> {
               child: const Center(child: CircularProgressIndicator()),
             ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.blue,
+        onPressed: () {},
+        child: Center(
+          child: const Text(
+            "+",
+            style: TextStyle(fontSize: 24, color: Colors.white),
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+      drawer: Drawer(
+        backgroundColor: Colors.blue.shade100,
+        child: ListView(
+          children: [
+            SizedBox(
+              height: 80,
+              child: DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.blue.shade200,
+                  border: Border(
+                    bottom: BorderSide(color: Colors.blue.shade500, width: 2),
+                  ),
+                ),
+                child: Center(child: Text("منو")),
+              ),
+            ),
+            ListTile(
+              title: Text("لیست پخش"),
+              textColor: Colors.blue,
+              onTap: () {},
+            ),
+            ListTile(
+              title: Text("موردعلاقه"),
+              textColor: Colors.blue,
+              onTap: () {},
+            ),
+            ListTile(
+              title: Text("تنظیمات"),
+              textColor: Colors.blue,
+              onTap: () {},
+            ),
+            ListTile(
+              title: Text("درباره ما"),
+              textColor: Colors.blue,
+              onTap: () {},
+            ),
+            ListTile(title: Text("خانه"), textColor: Colors.blue, onTap: () {}),
+          ],
+        ),
       ),
     );
   }
