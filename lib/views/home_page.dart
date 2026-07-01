@@ -64,16 +64,27 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.blue,
         onPressed: () {},
-        child: const Text("+"),
+        child: Center(
+          child: const Text(
+            "+",
+            style: TextStyle(fontSize: 24, color: Colors.white),
+          ),
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
       body: Stack(
         children: [
-          const Center(child: Text(AppStrings.welcome)),
+          const Center(
+            child: Text(
+              AppStrings.welcome,
+              style: TextStyle(color: Colors.blueAccent),
+            ),
+          ),
           if (_isLoggingOut)
             Container(
-              color: Colors.black.withOpacity(0.3),
+              color: Colors.black.withValues(alpha: 0.3),
               child: const Center(child: CircularProgressIndicator()),
             ),
         ],
