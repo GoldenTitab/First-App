@@ -76,10 +76,17 @@ class _HomePageState extends State<HomePage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
       body: Stack(
         children: [
-          const Center(
-            child: Text(
-              AppStrings.welcome,
-              style: TextStyle(color: Colors.blueAccent),
+          Center(
+            child: Container(
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.blue.shade50,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: const Text(
+                AppStrings.welcome,
+                style: TextStyle(color: Colors.blueAccent, fontSize: 24),
+              ),
             ),
           ),
           if (_isLoggingOut)
