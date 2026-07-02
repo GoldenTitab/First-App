@@ -12,6 +12,14 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final AuthService _authService = AuthService();
   bool _isLoggingOut = false;
+  int currentIndex = 0;
+
+  final List<Widget> pages = [
+    const Center(child: Text("خانه")),
+    const Center(child: Text("کتابخانه")),
+    const Center(child: Text("علاقه‌مندی‌ها")),
+    const Center(child: Text("پروفایل")),
+  ];
 
   Future<void> _showLogoutDialog() async {
     if (_isLoggingOut) return;
@@ -85,6 +93,30 @@ class _HomePageState extends State<HomePage> {
             ),
         ],
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Colors.blue,
+        unselectedItemColor: Colors.blue.shade200,
+        backgroundColor: Colors.teal.shade50,
+        type: BottomNavigationBarType.fixed,
+        currentIndex: currentIndex,
+        onTap: (index) {
+          setState(() {
+            currentIndex = index;
+          });
+        },
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'خانه'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.library_music),
+            label: 'کتابخانه',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite),
+            label: 'علاقه‌مندی‌ها',
+          ),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'پروفایل'),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blue,
         onPressed: () {},
@@ -139,3 +171,5 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+class Final {}
