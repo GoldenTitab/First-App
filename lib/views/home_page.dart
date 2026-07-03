@@ -82,7 +82,7 @@ class _HomePageState extends State<HomePage> {
               ),
               child: const Text(
                 AppStrings.welcome,
-                style: TextStyle(color: Colors.blueAccent, fontSize: 24),
+                style: TextStyle(color: Colors.blue, fontSize: 24),
               ),
             ),
           ),
