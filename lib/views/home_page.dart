@@ -105,16 +105,22 @@ class _HomePageState extends State<HomePage> {
           });
         },
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'خانه'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: AppStrings.bottomNavigatorHome,
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.library_music),
-            label: 'کتابخانه',
+            label: AppStrings.bottomNavigatorLibrary,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite),
-            label: 'علاقه‌مندی‌ها',
+            label: AppStrings.bottomNavigatorFavorites,
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'پروفایل'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: AppStrings.bottomNavigatorProfile,
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
