@@ -35,6 +35,10 @@ class AppStrings {
       'تلاش بیش از حد. لطفاً بعداً امتحان کنید.';
   static const String formatError = 'قالب داده نامعتبر است.';
   static const String timeoutError = 'زمان ارتباط به پایان رسید.';
+  static const String bottomNavigatorHome = 'خانه';
+  static const String bottomNavigatorLibrary = 'کتابخانه';
+  static const String bottomNavigatorFavorites = 'علاقه‌مندی‌ها';
+  static const String bottomNavigatorProfile = 'پروفایل';
 }
 
 class AppDurations {
