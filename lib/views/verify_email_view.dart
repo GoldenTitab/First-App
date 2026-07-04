@@ -52,9 +52,9 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('خطا: ${e.toString()}')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('${AppStrings.error} ${e.toString()}')),
+        );
       }
     } finally {
       if (mounted) setState(() => _isResending = false);
@@ -80,7 +80,7 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
               ),
               const SizedBox(height: 20),
               Text(
-                'اگر ایمیلی دریافت نکرده‌اید، روی دکمه زیر کلیک کنید.',
+                AppStrings.emailNotSent,
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontSize: 14, color: Colors.grey),
               ),
@@ -89,14 +89,14 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
                   ? const CircularProgressIndicator()
                   : TextButton(
                       onPressed: _resendVerificationEmail,
-                      child: const Text('ارسال مجدد ایمیل تأیید'),
+                      child: const Text(AppStrings.emailResend),
                     ),
               const SizedBox(height: 20),
               TextButton(
                 onPressed: () async {
                   await _authService.signOut();
                 },
-                child: const Text('خروج از حساب'),
+                child: const Text(AppStrings.logOut),
               ),
             ],
           ),

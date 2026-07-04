@@ -15,10 +15,10 @@ class _HomePageState extends State<HomePage> {
   int currentIndex = 0;
 
   final List<Widget> pages = [
-    const Center(child: Text("خانه")),
-    const Center(child: Text("کتابخانه")),
-    const Center(child: Text("علاقه‌مندی‌ها")),
-    const Center(child: Text("پروفایل")),
+    const Center(child: Text(AppStrings.bottomNavigatorHome)),
+    const Center(child: Text(AppStrings.bottomNavigatorLibrary)),
+    const Center(child: Text(AppStrings.bottomNavigatorFavorites)),
+    const Center(child: Text(AppStrings.bottomNavigatorProfile)),
   ];
 
   Future<void> _showLogoutDialog() async {
@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
       } catch (e) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('خطا در خروج: ${e.toString()}')),
+            SnackBar(content: Text('${AppStrings.logOutError}${e.toString()}')),
           );
         }
       } finally {

@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'constants.dart';
@@ -20,12 +19,12 @@ class ExceptionHandler {
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
-        title: const Text('خطا'),
+        title: const Text(AppStrings.error),
         content: Text(message),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('باشه'),
+            child: const Text(AppStrings.okay),
           ),
           if (onRetry != null)
             TextButton(
@@ -33,7 +32,7 @@ class ExceptionHandler {
                 Navigator.of(context).pop();
                 onRetry();
               },
-              child: const Text('تلاش مجدد'),
+              child: const Text(AppStrings.retry),
             ),
         ],
       ),
@@ -67,7 +66,7 @@ class ExceptionHandler {
       case 'too-many-requests':
         return AppStrings.tooManyRequests;
       default:
-        return 'خطای احراز هویت: ${e.message ?? e.code}';
+        return '${AppStrings.authenticationError}${e.message ?? e.code}';
     }
   }
 
