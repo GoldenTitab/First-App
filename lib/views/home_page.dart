@@ -170,6 +170,14 @@ class _HomePageState extends State<HomePage> {
               textColor: Colors.blue,
               onTap: () {},
             ),
+            ListTile(
+              title: Text(
+                AppStrings.drawerLogOut,
+                style: TextStyle(color: Colors.red),
+              ),
+              textColor: Colors.blue,
+              onTap: () {},
+            ),
           ],
         ),
       ),
