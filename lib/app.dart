@@ -30,7 +30,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: "Vazir",
 
-        appBarTheme: const AppBarTheme(backgroundColor: Colors.blue),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.blue,
+          centerTitle: false,
+          elevation: 0,
+        ),
       ),
       darkTheme: ThemeData(
         useMaterial3: true,

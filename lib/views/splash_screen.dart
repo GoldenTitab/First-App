@@ -63,19 +63,16 @@ class _SplashScreenState extends State<SplashScreen>
               height: 150,
             ),
             const SizedBox(height: 20),
-            const Text(
+            Text(
               'Aurora',
-              style: TextStyle(
+              style: AppStyles.baseStyle.copyWith(
                 fontSize: 32,
                 fontWeight: FontWeight.bold,
                 color: Colors.blueGrey,
               ),
             ),
             const SizedBox(height: 8),
-            const Text(
-              AppStrings.splashScreen,
-              style: TextStyle(fontSize: 16, color: Colors.grey),
-            ),
+            const Text(AppStrings.splashScreen, style: AppStyles.baseStyle),
             const SizedBox(height: 40),
             Container(
               width: 200,
