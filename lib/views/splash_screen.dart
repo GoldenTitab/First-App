@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:first_app/app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../utils/constants.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -72,7 +73,7 @@ class _SplashScreenState extends State<SplashScreen>
             ),
             const SizedBox(height: 8),
             const Text(
-              'موزیک خودت، هر جا که باشی',
+              AppStrings.splashScreen,
               style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
             const SizedBox(height: 40),

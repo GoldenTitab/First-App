@@ -1,4 +1,3 @@
-// lib/utils/error_handler.dart
 import 'package:flutter/material.dart';
 
 class ErrorHandler {

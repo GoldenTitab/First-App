@@ -45,6 +45,16 @@ class AppStrings {
   static const String drawerSettings = 'تنظیمات';
   static const String drawerAbout = 'درباره ما';
   static const String drawerLogOut = 'خروج از حساب';
+  static const String splashScreen = 'به شفافیت آب، به درخشندگی شفق';
+  static const String emailNotSent =
+      'اگر ایمیلی دریافت نکرده‌اید\n روی دکمه زیر کلیک کنید.';
+  static const String emailResend = 'ارسال مجدد ایمیل تأیید';
+  static const String logOut = 'خروج از حساب';
+  static const String error = 'خطا: ';
+  static const String okay = 'باشه';
+  static const String retry = 'تلاش مجدد';
+  static const String authenticationError = 'خطای احراز هویت: ';
+  static const String logOutError = 'خطا در خروج: ';
 }
 
 class AppDurations {
