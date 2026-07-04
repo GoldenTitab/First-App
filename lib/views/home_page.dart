@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
 import '../utils/constants.dart';
+import 'package:flutter/gestures.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,10 +16,10 @@ class _HomePageState extends State<HomePage> {
   int currentIndex = 0;
 
   final List<Widget> pages = [
-    const Center(child: Text(AppStrings.bottomNavigatorHome)),
-    const Center(child: Text(AppStrings.bottomNavigatorLibrary)),
-    const Center(child: Text(AppStrings.bottomNavigatorFavorites)),
-    const Center(child: Text(AppStrings.bottomNavigatorProfile)),
+    const Text(AppStrings.bottomNavigatorHome),
+    const Text(AppStrings.bottomNavigatorLibrary),
+    const Text(AppStrings.bottomNavigatorFavorites),
+    const Text(AppStrings.bottomNavigatorProfile),
   ];
 
   Future<void> _showLogoutDialog() async {

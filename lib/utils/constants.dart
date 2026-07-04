@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class AppRoutes {
   static const String login = '/login';
   static const String register = '/register';
@@ -59,4 +61,8 @@ class AppStrings {
 
 class AppDurations {
   static const Duration emailVerificationCheck = Duration(seconds: 3);
+}
+
+class AppStyles {
+  static const baseStyle = TextStyle(color: Colors.blueGrey, fontSize: 16);
 }
