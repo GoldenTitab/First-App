@@ -39,6 +39,11 @@ class AppStrings {
   static const String bottomNavigatorLibrary = 'کتابخانه';
   static const String bottomNavigatorFavorites = 'علاقه‌مندی‌ها';
   static const String bottomNavigatorProfile = 'پروفایل';
+  static const String drawerMenu = 'منو';
+  static const String drawerList = 'لیست پخش';
+  static const String drawerFavorites = 'علاقه‌مندی‌ها';
+  static const String drawerSettings = 'تنظیمات';
+  static const String drawerAbout = 'درباره ما';
 }
 
 class AppDurations {
