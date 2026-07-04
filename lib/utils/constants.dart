@@ -44,6 +44,7 @@ class AppStrings {
   static const String drawerFavorites = 'علاقه‌مندی‌ها';
   static const String drawerSettings = 'تنظیمات';
   static const String drawerAbout = 'درباره ما';
+  static const String drawerLogOut = 'خروج از حساب';
 }
 
 class AppDurations {
