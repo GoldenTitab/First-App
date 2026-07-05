@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../utils/constants.dart';
+import '../utils/app_theme.dart';
 import 'auth_wrapper.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -15,6 +16,8 @@ class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
   late AnimationController _progressController;
   late Animation<double> _progressAnimation;
+  late AnimationController _fadeController;
+  late Animation<double> _fadeAnimation;
   Timer? _timer;
 
   @override
@@ -36,6 +39,17 @@ class _SplashScreenState extends State<SplashScreen>
 
     _progressController.forward();
 
+    _fadeController = AnimationController(
+      duration: const Duration(milliseconds: 800),
+      vsync: this,
+    );
+
+    _fadeAnimation = CurvedAnimation(
+      parent: _fadeController,
+      curve: Curves.easeIn,
+    );
+    _fadeController.forward();
+
     _timer = Timer(AppDurations.splashDuration, _navigateToMain);
   }
 
@@ -49,6 +63,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void dispose() {
     _progressController.dispose();
+    _fadeController.dispose();
     _timer?.cancel();
     SystemChrome.setEnabledSystemUIMode(
       SystemUiMode.manual,
@@ -65,22 +80,32 @@ class _SplashScreenState extends State<SplashScreen>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
-              'assets/images/SplashScreen.png',
-              width: 150,
-              height: 150,
-            ),
-            const SizedBox(height: 20),
-            Text(
-              'Aurora',
-              style: AppStyles.baseStyle.copyWith(
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-                color: Colors.blueGrey,
+            FadeTransition(
+              opacity: _fadeAnimation,
+              child: Column(
+                children: [
+                  Image.asset(
+                    'assets/images/SplashScreen.png',
+                    width: 150,
+                    height: 150,
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    'Aurora',
+                    style: AppStyles.baseStyle.copyWith(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blueGrey,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  const Text(
+                    AppStrings.splashScreen,
+                    style: AppStyles.baseStyle,
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 8),
-            const Text(AppStrings.splashScreen, style: AppStyles.baseStyle),
             const SizedBox(height: 40),
             Container(
               width: 200,
@@ -91,10 +116,10 @@ class _SplashScreenState extends State<SplashScreen>
               ),
               child: FractionallySizedBox(
                 widthFactor: _progressAnimation.value,
-                alignment: Alignment.centerLeft,
+                alignment: Alignment.centerRight,
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.blueGrey,
+                    color: AppTheme.primary,
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),

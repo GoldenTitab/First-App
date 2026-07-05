@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
 import '../utils/constants.dart';
+import '../utils/app_theme.dart';
 import 'auth_wrapper.dart';
 
 class VerifyEmailView extends StatefulWidget {
@@ -77,12 +78,16 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const CircularProgressIndicator(),
+              const Icon(
+                Icons.mark_email_unread_outlined,
+                size: 80,
+                color: AppTheme.primary,
+              ),
               const SizedBox(height: 20),
               const Text(
                 AppStrings.verifyEmailMessage,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
               ),
               const SizedBox(height: 20),
               const Text(
