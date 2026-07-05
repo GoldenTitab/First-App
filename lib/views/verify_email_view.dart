@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
 import '../utils/constants.dart';
+import 'auth_wrapper.dart';
 
 class VerifyEmailView extends StatefulWidget {
   const VerifyEmailView({super.key});
@@ -18,12 +19,17 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
   @override
   void initState() {
     super.initState();
-    _timer = Timer.periodic(AppDurations.emailVerificationCheck, (timer) async {
+    _timer = Timer.periodic(AppDurations.emailVerificationCheck, (_) async {
       await _authService.reloadUser();
       final user = _authService.currentUser;
+
       if (user?.emailVerified ?? false) {
-        timer.cancel();
-        if (mounted) setState(() {});
+        _timer?.cancel();
+        if (mounted) {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (_) => const AuthWrapper()),
+          );
+        }
       }
     });
   }
@@ -64,7 +70,7 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(AppStrings.verifyEmailTitle)),
+      appBar: AppBar(title: const Text(AppStrings.verifyEmailTitle)),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
@@ -73,24 +79,25 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
             children: [
               const CircularProgressIndicator(),
               const SizedBox(height: 20),
-              Text(
+              const Text(
                 AppStrings.verifyEmailMessage,
                 textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 16),
               ),
               const SizedBox(height: 20),
-              Text(
+              const Text(
                 AppStrings.emailNotSent,
                 textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 14, color: Colors.grey),
+                style: TextStyle(fontSize: 14, color: Colors.grey),
               ),
               const SizedBox(height: 12),
-              _isResending
-                  ? const CircularProgressIndicator()
-                  : TextButton(
-                      onPressed: _resendVerificationEmail,
-                      child: const Text(AppStrings.emailResend),
-                    ),
+              if (_isResending)
+                const CircularProgressIndicator()
+              else
+                TextButton(
+                  onPressed: _resendVerificationEmail,
+                  child: const Text(AppStrings.emailResend),
+                ),
               const SizedBox(height: 20),
               TextButton(
                 onPressed: () async {

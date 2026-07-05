@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
+import '../utils/app_routes.dart';
 import '../utils/constants.dart';
 import '../utils/exception_handler.dart';
 
@@ -50,10 +51,7 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(AppStrings.loginTitle),
-        actions: const [Icon(Icons.search)],
-      ),
+      appBar: AppBar(title: const Text(AppStrings.loginTitle)),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -64,7 +62,7 @@ class _LoginViewState extends State<LoginView> {
               keyboardType: TextInputType.emailAddress,
               enableSuggestions: false,
               autocorrect: false,
-              decoration: InputDecoration(hintText: AppStrings.emailHint),
+              decoration: const InputDecoration(hintText: AppStrings.emailHint),
             ),
             const SizedBox(height: 12),
             TextField(
@@ -72,22 +70,25 @@ class _LoginViewState extends State<LoginView> {
               obscureText: true,
               enableSuggestions: false,
               autocorrect: false,
-              decoration: InputDecoration(hintText: AppStrings.passwordHint),
+              decoration: const InputDecoration(
+                hintText: AppStrings.passwordHint,
+              ),
             ),
             const SizedBox(height: 20),
-            _isLoading
-                ? const CircularProgressIndicator()
-                : TextButton(
-                    onPressed: _login,
-                    child: Text(AppStrings.loginButton),
-                  ),
+            if (_isLoading)
+              const CircularProgressIndicator()
+            else
+              TextButton(
+                onPressed: _login,
+                child: const Text(AppStrings.loginButton),
+              ),
             TextButton(
               onPressed: _isLoading
                   ? null
                   : () {
                       Navigator.of(context).pushNamed(AppRoutes.register);
                     },
-              child: Text(AppStrings.goToRegister),
+              child: const Text(AppStrings.goToRegister),
             ),
           ],
         ),

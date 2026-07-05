@@ -12,50 +12,54 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final AuthService _authService = AuthService();
   bool _isLoggingOut = false;
-  int currentIndex = 0;
+  int _currentIndex = 0;
 
-  final List<Widget> pages = [
-    const Text(AppStrings.bottomNavigatorHome),
-    const Text(AppStrings.bottomNavigatorLibrary),
-    const Text(AppStrings.bottomNavigatorFavorites),
-    const Text(AppStrings.bottomNavigatorProfile),
+  static const List<Widget> _pages = [
+    Center(child: Text(AppStrings.bottomNavigatorHome)),
+    Center(child: Text(AppStrings.bottomNavigatorLibrary)),
+    Center(child: Text(AppStrings.bottomNavigatorFavorites)),
+    Center(child: Text(AppStrings.bottomNavigatorProfile)),
   ];
 
   Future<void> _showLogoutDialog() async {
     if (_isLoggingOut) return;
-    final shouldLogout = await showDialog<bool>(
+
+    final bool? shouldLogout = await showDialog<bool>(
       context: context,
       barrierDismissible: false,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(AppStrings.logoutDialogTitle),
-          content: Text(AppStrings.logoutDialogContent),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(false),
-              child: Text(AppStrings.cancel),
-            ),
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(true),
-              child: Text(AppStrings.logout),
-            ),
-          ],
-        );
-      },
+      builder: (context) => AlertDialog(
+        title: const Text(AppStrings.logoutDialogTitle),
+        content: const Text(AppStrings.logoutDialogContent),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text(AppStrings.cancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text(AppStrings.logout),
+          ),
+        ],
+      ),
     );
+
     if (shouldLogout ?? false) {
-      setState(() => _isLoggingOut = true);
-      try {
-        await _authService.signOut();
-      } catch (e) {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('${AppStrings.logOutError}${e.toString()}')),
-          );
-        }
-      } finally {
-        if (mounted) setState(() => _isLoggingOut = false);
+      await _performLogout();
+    }
+  }
+
+  Future<void> _performLogout() async {
+    setState(() => _isLoggingOut = true);
+    try {
+      await _authService.signOut();
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('${AppStrings.logOutError}${e.toString()}')),
+        );
       }
+    } finally {
+      if (mounted) setState(() => _isLoggingOut = false);
     }
   }
 
@@ -64,29 +68,17 @@ class _HomePageState extends State<HomePage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text(AppStrings.homeTitle),
+          title: const Text(AppStrings.homeTitle),
           actions: [
             IconButton(
-              icon: Icon(Icons.more_vert, color: Colors.black),
+              icon: const Icon(Icons.more_vert),
               onPressed: _isLoggingOut ? null : _showLogoutDialog,
             ),
           ],
         ),
         body: Stack(
           children: [
-            Center(
-              child: Container(
-                padding: EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.blue.shade50,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: const Text(
-                  AppStrings.welcome,
-                  style: TextStyle(color: Colors.blue, fontSize: 24),
-                ),
-              ),
-            ),
+            _pages[_currentIndex],
             if (_isLoggingOut)
               Container(
                 color: Colors.black.withValues(alpha: 0.3),
@@ -99,12 +91,8 @@ class _HomePageState extends State<HomePage> {
           unselectedItemColor: Colors.blue.shade200,
           backgroundColor: Colors.teal.shade50,
           type: BottomNavigationBarType.fixed,
-          currentIndex: currentIndex,
-          onTap: (index) {
-            setState(() {
-              currentIndex = index;
-            });
-          },
+          currentIndex: _currentIndex,
+          onTap: (index) => setState(() => _currentIndex = index),
           items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
@@ -127,11 +115,9 @@ class _HomePageState extends State<HomePage> {
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.blue,
           onPressed: () {},
-          child: Center(
-            child: const Text(
-              "+",
-              style: TextStyle(fontSize: 24, color: Colors.white),
-            ),
+          child: const Text(
+            '+',
+            style: TextStyle(fontSize: 24, color: Colors.white),
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
@@ -152,33 +138,36 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
-                    child: Center(child: Text(AppStrings.drawerMenu)),
+                    child: const Center(child: Text(AppStrings.drawerMenu)),
                   ),
                 ),
                 ListTile(
-                  title: Text(AppStrings.drawerList),
+                  title: const Text(AppStrings.drawerList),
                   textColor: Colors.blue,
-                  onTap: () {},
+                  onTap: () => Navigator.of(context).pop(),
                 ),
                 ListTile(
-                  title: Text(AppStrings.drawerFavorites),
+                  title: const Text(AppStrings.drawerFavorites),
                   textColor: Colors.blue,
-                  onTap: () {},
+                  onTap: () => Navigator.of(context).pop(),
                 ),
                 ListTile(
-                  title: Text(AppStrings.drawerSettings),
+                  title: const Text(AppStrings.drawerSettings),
                   textColor: Colors.blue,
-                  onTap: () {},
+                  onTap: () => Navigator.of(context).pop(),
                 ),
                 ListTile(
-                  title: Text(AppStrings.drawerAbout),
+                  title: const Text(AppStrings.drawerAbout),
                   textColor: Colors.blue,
-                  onTap: () {},
+                  onTap: () => Navigator.of(context).pop(),
                 ),
                 ListTile(
-                  title: Text(AppStrings.drawerLogOut),
+                  title: const Text(AppStrings.drawerLogOut),
                   textColor: Colors.red,
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    _showLogoutDialog();
+                  },
                 ),
               ],
             ),
