@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
 import '../utils/constants.dart';
 import '../utils/exception_handler.dart';
+import '../utils/app_theme.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -63,36 +64,73 @@ class _RegisterViewState extends State<RegisterView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(AppStrings.registerTitle)),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            const SizedBox(height: 48),
+            const Icon(
+              Icons.person_add_rounded,
+              size: 64,
+              color: AppTheme.primary,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              AppStrings.registerTitle,
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 32),
             TextField(
               controller: _emailController,
               keyboardType: TextInputType.emailAddress,
               enableSuggestions: false,
               autocorrect: false,
-              decoration: const InputDecoration(hintText: AppStrings.emailHint),
+              decoration: AppInputDecoration.base(
+                hint: AppStrings.emailHint,
+                prefixIcon: Icons.email_outlined,
+              ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 16),
             TextField(
               controller: _passwordController,
               obscureText: true,
               enableSuggestions: false,
               autocorrect: false,
-              decoration: const InputDecoration(
-                hintText: AppStrings.passwordHint,
+              decoration: AppInputDecoration.base(
+                hint: AppStrings.passwordHint,
+                prefixIcon: Icons.lock_outline,
               ),
             ),
-            const SizedBox(height: 20),
-            if (_isLoading)
-              const CircularProgressIndicator()
-            else
-              TextButton(
-                onPressed: _register,
-                child: Text(AppStrings.registerButton),
+            const SizedBox(height: 24),
+            SizedBox(
+              width: double.infinity,
+              height: 50,
+              child: ElevatedButton(
+                onPressed: _isLoading ? null : _register,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppTheme.primary,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: _isLoading
+                    ? const SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Colors.white,
+                        ),
+                      )
+                    : const Text(
+                        AppStrings.registerButton,
+                        style: TextStyle(fontSize: 16),
+                      ),
               ),
+            ),
           ],
         ),
       ),

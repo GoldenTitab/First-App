@@ -3,6 +3,7 @@ import '../services/auth_service.dart';
 import '../utils/app_routes.dart';
 import '../utils/constants.dart';
 import '../utils/exception_handler.dart';
+import '../utils/app_theme.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -52,36 +53,74 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text(AppStrings.loginTitle)),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            const SizedBox(height: 48),
+            const Icon(
+              Icons.music_note_rounded,
+              size: 64,
+              color: AppTheme.primary,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              AppStrings.loginTitle,
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 32),
             TextField(
               controller: _emailController,
               keyboardType: TextInputType.emailAddress,
               enableSuggestions: false,
               autocorrect: false,
-              decoration: const InputDecoration(hintText: AppStrings.emailHint),
+              decoration: AppInputDecoration.base(
+                hint: AppStrings.emailHint,
+                prefixIcon: Icons.email_outlined,
+              ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 16),
             TextField(
               controller: _passwordController,
               obscureText: true,
               enableSuggestions: false,
               autocorrect: false,
-              decoration: const InputDecoration(
-                hintText: AppStrings.passwordHint,
+              decoration: AppInputDecoration.base(
+                hint: AppStrings.passwordHint,
+                prefixIcon: Icons.lock_outline,
               ),
             ),
-            const SizedBox(height: 20),
-            if (_isLoading)
-              const CircularProgressIndicator()
-            else
-              TextButton(
-                onPressed: _login,
-                child: const Text(AppStrings.loginButton),
+            const SizedBox(height: 24),
+            SizedBox(
+              width: double.infinity,
+              height: 50,
+              child: ElevatedButton(
+                onPressed: _isLoading ? null : _login,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppTheme.primary,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: _isLoading
+                    ? const SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Colors.white,
+                        ),
+                      )
+                    : const Text(
+                        AppStrings.loginButton,
+                        style: TextStyle(fontSize: 16),
+                      ),
               ),
+            ),
+            const SizedBox(height: 12),
             TextButton(
               onPressed: _isLoading
                   ? null

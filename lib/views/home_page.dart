@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
 import '../utils/constants.dart';
+import '../utils/app_theme.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -65,6 +66,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -87,9 +90,9 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
-          selectedItemColor: Colors.blue,
-          unselectedItemColor: Colors.blue.shade200,
-          backgroundColor: Colors.teal.shade50,
+          selectedItemColor: colorScheme.primary,
+          unselectedItemColor: colorScheme.primary.withValues(alpha: 0.4),
+          backgroundColor: colorScheme.surface,
           type: BottomNavigationBarType.fixed,
           currentIndex: _currentIndex,
           onTap: (index) => setState(() => _currentIndex = index),
@@ -113,52 +116,43 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.blue,
+          backgroundColor: colorScheme.primary,
           onPressed: () {},
-          child: const Text(
-            '+',
-            style: TextStyle(fontSize: 24, color: Colors.white),
-          ),
+          child: const Icon(Icons.add, color: Colors.white),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
         drawer: SafeArea(
           child: Drawer(
-            backgroundColor: Colors.blue.shade100,
+            backgroundColor: colorScheme.primary.withValues(alpha: 0.1),
             child: ListView(
               children: [
-                SizedBox(
-                  height: 80,
-                  child: DrawerHeader(
-                    decoration: BoxDecoration(
-                      color: Colors.blue.shade200,
-                      border: Border(
-                        bottom: BorderSide(
-                          color: Colors.blue.shade500,
-                          width: 2,
-                        ),
-                      ),
+                DrawerHeader(
+                  decoration: BoxDecoration(color: colorScheme.primary),
+                  child: Center(
+                    child: Text(
+                      AppStrings.drawerMenu,
+                      style: const TextStyle(color: Colors.white, fontSize: 18),
                     ),
-                    child: const Center(child: Text(AppStrings.drawerMenu)),
                   ),
                 ),
                 ListTile(
                   title: const Text(AppStrings.drawerList),
-                  textColor: Colors.blue,
+                  textColor: colorScheme.primary,
                   onTap: () => Navigator.of(context).pop(),
                 ),
                 ListTile(
                   title: const Text(AppStrings.drawerFavorites),
-                  textColor: Colors.blue,
+                  textColor: colorScheme.primary,
                   onTap: () => Navigator.of(context).pop(),
                 ),
                 ListTile(
                   title: const Text(AppStrings.drawerSettings),
-                  textColor: Colors.blue,
+                  textColor: colorScheme.primary,
                   onTap: () => Navigator.of(context).pop(),
                 ),
                 ListTile(
                   title: const Text(AppStrings.drawerAbout),
-                  textColor: Colors.blue,
+                  textColor: colorScheme.primary,
                   onTap: () => Navigator.of(context).pop(),
                 ),
                 ListTile(
