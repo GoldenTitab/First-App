@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
 import '../utils/constants.dart';
-import '../utils/app_theme.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
