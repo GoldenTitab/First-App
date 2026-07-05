@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.light,
         primarySwatch: Colors.blue,
         fontFamily: "Vazir",
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
 
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.blue,
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
         primarySwatch: Colors.blue,
         fontFamily: "Vazir",
+
         appBarTheme: const AppBarTheme(backgroundColor: Colors.blue),
       ),
       themeMode: ThemeMode.system,
