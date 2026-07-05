@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'package:first_app/app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../utils/constants.dart';
+import 'auth_wrapper.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -21,36 +21,44 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     super.initState();
 
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+
     _progressController = AnimationController(
       duration: const Duration(seconds: 3),
       vsync: this,
     );
+
     _progressAnimation =
         Tween<double>(begin: 0.0, end: 1.0).animate(_progressController)
           ..addListener(() {
-            setState(() {});
+            if (mounted) setState(() {});
           });
 
     _progressController.forward();
 
-    _timer = Timer(const Duration(seconds: 3), () {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const AuthWrapper()),
-      );
-    });
+    _timer = Timer(AppDurations.splashDuration, _navigateToMain);
+  }
+
+  void _navigateToMain() {
+    if (!mounted) return;
+    Navigator.of(
+      context,
+    ).pushReplacement(MaterialPageRoute(builder: (_) => const AuthWrapper()));
   }
 
   @override
   void dispose() {
     _progressController.dispose();
     _timer?.cancel();
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: SystemUiOverlay.values,
+    );
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
@@ -83,6 +91,7 @@ class _SplashScreenState extends State<SplashScreen>
               ),
               child: FractionallySizedBox(
                 widthFactor: _progressAnimation.value,
+                alignment: Alignment.centerLeft,
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.blueGrey,

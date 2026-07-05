@@ -1,6 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
+  AuthService._internal();
+  static final AuthService _instance = AuthService._internal();
+  factory AuthService() => _instance;
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Stream<User?> get authStateChanges => _auth.authStateChanges();
@@ -32,7 +36,7 @@ class AuthService {
   }
 
   Future<void> reloadUser() async {
-    await currentUser?.reload();
+    await _auth.currentUser?.reload();
   }
 
   Future<void> signOut() async {

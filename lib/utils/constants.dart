@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 
-class AppRoutes {
-  static const String login = '/login';
-  static const String register = '/register';
-}
-
 class AppStrings {
+  AppStrings._();
+
   static const String appTitle = 'Aurora';
   static const String loginTitle = 'ورود';
   static const String registerTitle = 'ثبت‌نام';
@@ -60,9 +57,17 @@ class AppStrings {
 }
 
 class AppDurations {
+  AppDurations._();
+
+  static const Duration splashDuration = Duration(seconds: 3);
   static const Duration emailVerificationCheck = Duration(seconds: 3);
 }
 
 class AppStyles {
-  static const baseStyle = TextStyle(color: Colors.blueGrey, fontSize: 16);
+  AppStyles._();
+
+  static const TextStyle baseStyle = TextStyle(
+    color: Colors.blueGrey,
+    fontSize: 16,
+  );
 }

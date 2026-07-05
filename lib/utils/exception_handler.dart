@@ -4,16 +4,17 @@ import 'package:flutter/material.dart';
 import 'constants.dart';
 
 class ExceptionHandler {
+  ExceptionHandler._();
+
   static Future<void> showErrorDialog(
     BuildContext context,
     dynamic error, {
     String? customMessage,
     VoidCallback? onRetry,
   }) async {
-    String message = _getUserFriendlyMessage(error);
-    if (customMessage != null && customMessage.isNotEmpty) {
-      message = customMessage;
-    }
+    final String message = customMessage?.isNotEmpty == true
+        ? customMessage!
+        : _getUserFriendlyMessage(error);
 
     await showDialog(
       context: context,
@@ -46,7 +47,15 @@ class ExceptionHandler {
     if (error is Exception) {
       return _getGenericExceptionMessage(error);
     }
-    return AppStrings.unknownError + error.toString();
+    final String raw = error.toString();
+    if (raw.contains('403') || raw.contains('Forbidden')) {
+      return AppStrings.networkError;
+    }
+    if (raw.contains('<!DOCTYPE') || raw.contains('<html')) {
+      return AppStrings.genericError;
+    }
+
+    return '${AppStrings.unknownError}$raw';
   }
 
   static String _getFirebaseAuthMessage(FirebaseAuthException e) {

@@ -48,7 +48,6 @@ class _RegisterViewState extends State<RegisterView> {
               backgroundColor: Colors.green,
             ),
           );
-          Navigator.of(context).pop();
         }
       }
     } catch (e) {
@@ -63,10 +62,7 @@ class _RegisterViewState extends State<RegisterView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(AppStrings.registerTitle),
-        actions: const [Icon(Icons.search)],
-      ),
+      appBar: AppBar(title: Text(AppStrings.registerTitle)),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -77,7 +73,7 @@ class _RegisterViewState extends State<RegisterView> {
               keyboardType: TextInputType.emailAddress,
               enableSuggestions: false,
               autocorrect: false,
-              decoration: InputDecoration(hintText: AppStrings.emailHint),
+              decoration: const InputDecoration(hintText: AppStrings.emailHint),
             ),
             const SizedBox(height: 12),
             TextField(
@@ -85,15 +81,18 @@ class _RegisterViewState extends State<RegisterView> {
               obscureText: true,
               enableSuggestions: false,
               autocorrect: false,
-              decoration: InputDecoration(hintText: AppStrings.passwordHint),
+              decoration: const InputDecoration(
+                hintText: AppStrings.passwordHint,
+              ),
             ),
             const SizedBox(height: 20),
-            _isLoading
-                ? const CircularProgressIndicator()
-                : TextButton(
-                    onPressed: _register,
-                    child: Text(AppStrings.registerButton),
-                  ),
+            if (_isLoading)
+              const CircularProgressIndicator()
+            else
+              TextButton(
+                onPressed: _register,
+                child: Text(AppStrings.registerButton),
+              ),
           ],
         ),
       ),
