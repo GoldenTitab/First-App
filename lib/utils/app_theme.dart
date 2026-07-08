@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
+  // i have to edit colors and sizes base on my figma prototype
   AppTheme._();
 
   static const Color primary = Color(0xFF3D7BF4);
