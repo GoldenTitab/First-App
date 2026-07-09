@@ -1,8 +1,10 @@
+import 'package:first_app/utils/app_theme.dart';
 import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
 import '../utils/constants.dart';
 import '../utils/exception_handler.dart';
-import '../utils/app_theme.dart';
+import '../widgets/custom_elevated_button.dart';
+import '../widgets/custom_text_field.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -82,54 +84,24 @@ class _RegisterViewState extends State<RegisterView> {
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 32),
-            TextField(
+            CustomTextField(
               controller: _emailController,
+              hint: AppStrings.emailHint,
+              prefixIcon: Icons.email_outlined,
               keyboardType: TextInputType.emailAddress,
-              enableSuggestions: false,
-              autocorrect: false,
-              decoration: AppInputDecoration.base(
-                hint: AppStrings.emailHint,
-                prefixIcon: Icons.email_outlined,
-              ),
             ),
             const SizedBox(height: 16),
-            TextField(
+            CustomTextField(
               controller: _passwordController,
+              hint: AppStrings.passwordHint,
+              prefixIcon: Icons.lock_outline,
               obscureText: true,
-              enableSuggestions: false,
-              autocorrect: false,
-              decoration: AppInputDecoration.base(
-                hint: AppStrings.passwordHint,
-                prefixIcon: Icons.lock_outline,
-              ),
             ),
             const SizedBox(height: 24),
-            SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: ElevatedButton(
-                onPressed: _isLoading ? null : _register,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppTheme.primary,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                child: _isLoading
-                    ? const SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: Colors.white,
-                        ),
-                      )
-                    : const Text(
-                        AppStrings.registerButton,
-                        style: TextStyle(fontSize: 16),
-                      ),
-              ),
+            CustomElevatedButton(
+              label: AppStrings.registerButton,
+              onPressed: _register,
+              isLoading: _isLoading,
             ),
           ],
         ),

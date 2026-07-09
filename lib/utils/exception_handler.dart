@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'constants.dart';
+import '../widgets/custom_dialog.dart';
 
 class ExceptionHandler {
   ExceptionHandler._();
@@ -15,29 +16,7 @@ class ExceptionHandler {
     final String message = customMessage?.isNotEmpty == true
         ? customMessage!
         : _getUserFriendlyMessage(error);
-
-    await showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => AlertDialog(
-        title: const Text(AppStrings.error),
-        content: Text(message),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text(AppStrings.okay),
-          ),
-          if (onRetry != null)
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                onRetry();
-              },
-              child: const Text(AppStrings.retry),
-            ),
-        ],
-      ),
-    );
+    await CustomDialog.showError(context, message, onRetry: onRetry);
   }
 
   static String _getUserFriendlyMessage(dynamic error) {
