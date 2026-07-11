@@ -1,10 +1,10 @@
-// lib/services/song_service.dart
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../models/song.dart';
 
 class SongService {
   static const String baseUrl = 'https://goldentitab.github.io/songs.json';
+
   Future<List<Song>> fetchSongs() async {
     try {
       final response = await http.get(Uri.parse(baseUrl));

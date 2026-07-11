@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:audioplayers/audioplayers.dart';
 import '../services/auth_service.dart';
 import '../services/song_service.dart';
 import '../models/song.dart';
@@ -7,6 +8,7 @@ import '../widgets/custom_bottom_navigation_bar.dart';
 import '../widgets/custom_drawer.dart';
 import '../widgets/custom_dialog.dart';
 import '../widgets/loading_overlay.dart';
+import '../widgets/song/song_list_view.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -18,6 +20,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final AuthService _authService = AuthService();
   final SongService _songService = SongService();
+  final AudioPlayer _audioPlayer = AudioPlayer();
+
   bool _isLoggingOut = false;
   int _currentIndex = 0;
 
@@ -25,10 +29,42 @@ class _HomePageState extends State<HomePage> {
   bool _isLoadingSongs = true;
   String? _errorMessage;
 
+  Song? _currentSong;
+  bool _isPlaying = false;
+  Duration _currentPosition = Duration.zero;
+  Duration _totalDuration = Duration.zero;
+
   @override
   void initState() {
     super.initState();
     _fetchSongs();
+    _initAudioPlayerListeners();
+  }
+
+  void _initAudioPlayerListeners() {
+    _audioPlayer.onPlayerStateChanged.listen((state) {
+      if (mounted) setState(() => _isPlaying = state == PlayerState.playing);
+    });
+    _audioPlayer.onPositionChanged.listen((position) {
+      if (mounted) setState(() => _currentPosition = position);
+    });
+    _audioPlayer.onDurationChanged.listen((duration) {
+      if (mounted) setState(() => _totalDuration = duration);
+    });
+    _audioPlayer.onPlayerComplete.listen((_) {
+      if (mounted) {
+        setState(() {
+          _isPlaying = false;
+          _currentPosition = Duration.zero;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _audioPlayer.dispose();
+    super.dispose();
   }
 
   Future<void> _fetchSongs() async {
@@ -50,81 +86,129 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Widget _buildHomePage() {
-    if (_isLoadingSongs) {
-      return const Center(child: CircularProgressIndicator());
-    }
-    if (_errorMessage != null) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('خطا: $_errorMessage'),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: _fetchSongs,
-              child: const Text('تلاش مجدد'),
-            ),
-          ],
-        ),
-      );
-    }
-    if (_songs.isEmpty) {
-      return const Center(child: Text('هیچ آهنگی یافت نشد.'));
-    }
-    return ListView.builder(
-      padding: const EdgeInsets.all(16),
-      itemCount: _songs.length,
-      itemBuilder: (context, index) {
-        final song = _songs[index];
-        return Card(
-          margin: const EdgeInsets.only(bottom: 12),
-          child: ListTile(
-            leading: ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Image.network(
-                song.coverUrl,
-                width: 50,
-                height: 50,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) =>
-                    const Icon(Icons.music_note, size: 50),
-              ),
-            ),
-            title: Text(song.title),
-            subtitle: Text('${song.artist} - ${song.album}'),
-            trailing: Text(
-              '${(song.duration ~/ 60)}:${(song.duration % 60).toString().padLeft(2, '0')}',
-            ),
-            onTap: () {
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(SnackBar(content: Text('پخش: ${song.title}')));
-            },
+  void _playOrPause(Song song) async {
+    try {
+      if (_currentSong != song) {
+        await _audioPlayer.play(UrlSource(song.audioUrl));
+        setState(() {
+          _currentSong = song;
+          _isPlaying = true;
+          _currentPosition = Duration.zero;
+        });
+      } else {
+        if (_isPlaying) {
+          await _audioPlayer.pause();
+        } else {
+          await _audioPlayer.resume();
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('خطا در پخش: $e'),
+            backgroundColor: Colors.red,
           ),
         );
-      },
+      }
+    }
+  }
+
+  void _stopPlayback() {
+    _audioPlayer.stop();
+    setState(() {
+      _currentSong = null;
+      _isPlaying = false;
+      _currentPosition = Duration.zero;
+    });
+  }
+
+  Widget _buildHomeTab() {
+    return SongListView(
+      songs: _songs,
+      isLoading: _isLoadingSongs,
+      errorMessage: _errorMessage,
+      onRetry: _fetchSongs,
+      currentSong: _currentSong,
+      isPlaying: _isPlaying,
+      currentPosition: _currentPosition,
+      totalDuration: _totalDuration,
+      onPlayPause: _playOrPause,
     );
   }
+
+  Widget _buildLibraryTab() => const Center(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(Icons.library_music, size: 64, color: Colors.grey),
+        SizedBox(height: 16),
+        Text('کتابخانه موسیقی'),
+      ],
+    ),
+  );
+
+  Widget _buildFavoritesTab() => const Center(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(Icons.favorite, size: 64, color: Colors.red),
+        SizedBox(height: 16),
+        Text('علاقه‌مندی‌ها'),
+      ],
+    ),
+  );
+
+  Widget _buildProfileTab() => Center(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        CircleAvatar(
+          radius: 40,
+          backgroundColor: Theme.of(context).primaryColor,
+          child: const Icon(Icons.person, size: 40, color: Colors.white),
+        ),
+        const SizedBox(height: 16),
+        Text(
+          _authService.currentUser?.email ?? 'کاربر',
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          'وضعیت: ${_authService.currentUser?.emailVerified == true ? "تأیید شده" : "تأیید نشده"}',
+          style: const TextStyle(color: Colors.grey),
+        ),
+        const SizedBox(height: 24),
+        ElevatedButton.icon(
+          onPressed: _stopPlayback,
+          icon: const Icon(Icons.stop),
+          label: const Text('توقف پخش'),
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+        ),
+      ],
+    ),
+  );
 
   Future<void> _showLogoutDialog() async {
     if (_isLoggingOut) return;
     final bool? shouldLogout = await CustomDialog.showLogoutConfirmation(
       context,
     );
-    if (shouldLogout ?? false) {
-      await _performLogout();
-    }
+    if (shouldLogout ?? false) await _performLogout();
   }
 
   Future<void> _performLogout() async {
     setState(() => _isLoggingOut = true);
     try {
+      await _audioPlayer.stop();
       await _authService.signOut();
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${AppStrings.logOutError}${e.toString()}')),
+          SnackBar(
+            content: Text('${AppStrings.logOutError}${e.toString()}'),
+            backgroundColor: Colors.red,
+          ),
         );
       }
     } finally {
@@ -135,11 +219,12 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final List<Widget> _pages = [
-      _buildHomePage(),
-      const Center(child: Text(AppStrings.bottomNavigatorLibrary)),
-      const Center(child: Text(AppStrings.bottomNavigatorFavorites)),
-      const Center(child: Text(AppStrings.bottomNavigatorProfile)),
+
+    final pages = [
+      _buildHomeTab(),
+      _buildLibraryTab(),
+      _buildFavoritesTab(),
+      _buildProfileTab(),
     ];
 
     return SafeArea(
@@ -155,15 +240,34 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           ),
-          body: _pages[_currentIndex],
+          body: pages[_currentIndex],
           bottomNavigationBar: CustomBottomNavigationBar(
             currentIndex: _currentIndex,
             onTap: (index) => setState(() => _currentIndex = index),
           ),
           floatingActionButton: FloatingActionButton(
             backgroundColor: colorScheme.primary,
-            onPressed: () => showText(context, "Kir Mikham"),
-            child: const Icon(Icons.add, color: Colors.white),
+            onPressed: () {
+              if (_currentSong != null) {
+                _stopPlayback();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('پخش متوقف شد'),
+                    backgroundColor: Colors.orange,
+                  ),
+                );
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('هیچ آهنگی در حال پخش نیست')),
+                );
+              }
+            },
+            child: Icon(
+              _currentSong != null && _isPlaying
+                  ? Icons.stop
+                  : Icons.music_note,
+              color: Colors.white,
+            ),
           ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.miniEndFloat,
@@ -172,10 +276,4 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-}
-
-void showText(BuildContext context, String msg) {
-  ScaffoldMessenger.of(
-    context,
-  ).showSnackBar(SnackBar(content: Text(msg), backgroundColor: Colors.red));
 }
