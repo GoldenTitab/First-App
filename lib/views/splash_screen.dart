@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import '../utils/constants.dart';
-import '../utils/app_theme.dart';
-import 'auth_wrapper.dart';
+import '../utils/app_routes.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -24,40 +24,34 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     super.initState();
 
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
 
     _progressController = AnimationController(
-      duration: const Duration(seconds: 3),
+      duration: AppDurations.splashDuration,
       vsync: this,
+    )..forward();
+
+    _progressAnimation = CurvedAnimation(
+      parent: _progressController,
+      curve: Curves.easeInOut,
     );
-
-    _progressAnimation =
-        Tween<double>(begin: 0.0, end: 1.0).animate(_progressController)
-          ..addListener(() {
-            if (mounted) setState(() {});
-          });
-
-    _progressController.forward();
 
     _fadeController = AnimationController(
       duration: const Duration(milliseconds: 800),
       vsync: this,
-    );
+    )..forward();
 
     _fadeAnimation = CurvedAnimation(
       parent: _fadeController,
       curve: Curves.easeIn,
     );
-    _fadeController.forward();
 
     _timer = Timer(AppDurations.splashDuration, _navigateToMain);
   }
 
   void _navigateToMain() {
     if (!mounted) return;
-    Navigator.of(
-      context,
-    ).pushReplacement(MaterialPageRoute(builder: (_) => const AuthWrapper()));
+    context.go(AppRoutes.home); // GoRouter redirect handles auth check
   }
 
   @override
@@ -74,8 +68,10 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: colorScheme.surface,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -88,39 +84,44 @@ class _SplashScreenState extends State<SplashScreen>
                     'assets/images/SplashScreen.png',
                     width: 150,
                     height: 150,
+                    errorBuilder: (_, _, _) => Icon(
+                      Icons.music_note_rounded,
+                      size: 100,
+                      color: colorScheme.primary,
+                    ),
                   ),
                   const SizedBox(height: 20),
                   Text(
-                    'Aurora',
+                    AppStrings.appTitle,
                     style: AppStyles.baseStyle.copyWith(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
-                      color: Colors.blueGrey,
+                      color: colorScheme.primary,
                     ),
                   ),
                   const SizedBox(height: 8),
-                  const Text(
+                  Text(
                     AppStrings.splashScreen,
-                    style: AppStyles.baseStyle,
+                    style: AppStyles.baseStyle.copyWith(
+                      color: colorScheme.onSurface.withValues(alpha: 0.6),
+                    ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 40),
-            Container(
-              width: 200,
-              height: 4,
-              decoration: BoxDecoration(
-                color: Colors.grey[300],
-                borderRadius: BorderRadius.circular(2),
-              ),
-              child: FractionallySizedBox(
-                widthFactor: _progressAnimation.value,
-                alignment: Alignment.centerRight,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: AppTheme.primary,
-                    borderRadius: BorderRadius.circular(2),
+            const SizedBox(height: 48),
+            Directionality(
+              textDirection: TextDirection.ltr,
+              child: AnimatedBuilder(
+                animation: _progressAnimation,
+                builder: (_, _) => SizedBox(
+                  width: 200,
+                  child: LinearProgressIndicator(
+                    value: _progressAnimation.value,
+                    backgroundColor: colorScheme.surfaceContainerHighest,
+                    color: colorScheme.primary,
+                    borderRadius: BorderRadius.circular(4),
+                    minHeight: 4,
                   ),
                 ),
               ),

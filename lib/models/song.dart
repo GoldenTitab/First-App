@@ -1,4 +1,6 @@
-class Song {
+import 'package:equatable/equatable.dart';
+
+class Song extends Equatable {
   final int id;
   final String title;
   final String artist;
@@ -9,7 +11,7 @@ class Song {
   final String coverUrl;
   final String audioUrl;
 
-  Song({
+  const Song({
     required this.id,
     required this.title,
     required this.artist,
@@ -23,15 +25,15 @@ class Song {
 
   factory Song.fromJson(Map<String, dynamic> json) {
     return Song(
-      id: json['id'],
-      title: json['title'],
-      artist: json['artist'],
-      album: json['album'],
-      genre: json['genre'],
-      duration: json['duration'],
-      releaseYear: json['releaseYear'],
-      coverUrl: json['coverUrl'],
-      audioUrl: json['audioUrl'],
+      id: (json['id'] as num).toInt(),
+      title: (json['title'] as String?) ?? '',
+      artist: (json['artist'] as String?) ?? '',
+      album: (json['album'] as String?) ?? '',
+      genre: (json['genre'] as String?) ?? '',
+      duration: (json['duration'] as num?)?.toInt() ?? 0,
+      releaseYear: (json['releaseYear'] as num?)?.toInt() ?? 0,
+      coverUrl: (json['coverUrl'] as String?) ?? '',
+      audioUrl: (json['audioUrl'] as String?) ?? '',
     );
   }
 
@@ -49,11 +51,36 @@ class Song {
     };
   }
 
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is Song && runtimeType == other.runtimeType && id == other.id;
+  Song copyWith({
+    int? id,
+    String? title,
+    String? artist,
+    String? album,
+    String? genre,
+    int? duration,
+    int? releaseYear,
+    String? coverUrl,
+    String? audioUrl,
+  }) {
+    return Song(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      artist: artist ?? this.artist,
+      album: album ?? this.album,
+      genre: genre ?? this.genre,
+      duration: duration ?? this.duration,
+      releaseYear: releaseYear ?? this.releaseYear,
+      coverUrl: coverUrl ?? this.coverUrl,
+      audioUrl: audioUrl ?? this.audioUrl,
+    );
+  }
+
+  String get formattedDuration {
+    final minutes = duration ~/ 60;
+    final seconds = (duration % 60).toString().padLeft(2, '0');
+    return '$minutes:$seconds';
+  }
 
   @override
-  int get hashCode => id.hashCode;
+  List<Object?> get props => [id];
 }

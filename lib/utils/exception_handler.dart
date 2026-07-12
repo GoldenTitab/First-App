@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:first_app/services/song_service.dart';
 import 'package:flutter/material.dart';
 import 'constants.dart';
 import '../widgets/custom_dialog.dart';
@@ -25,6 +26,9 @@ class ExceptionHandler {
     }
     if (error is Exception) {
       return _getGenericExceptionMessage(error);
+    }
+    if (error is SongServiceException) {
+      return error.message;
     }
     final String raw = error.toString();
     if (raw.contains('403') || raw.contains('Forbidden')) {

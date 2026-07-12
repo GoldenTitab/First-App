@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import '../utils/app_theme.dart';
 
-class CustomTextField extends StatelessWidget {
+class CustomTextField extends StatefulWidget {
   final TextEditingController controller;
   final String hint;
   final IconData prefixIcon;
   final bool obscureText;
   final TextInputType keyboardType;
+  final String? Function(String?)? validator;
+  final TextInputAction textInputAction;
+  final VoidCallback? onEditingComplete;
 
   const CustomTextField({
     super.key,
@@ -15,17 +17,48 @@ class CustomTextField extends StatelessWidget {
     required this.prefixIcon,
     this.obscureText = false,
     this.keyboardType = TextInputType.text,
+    this.validator,
+    this.textInputAction = TextInputAction.next,
+    this.onEditingComplete,
   });
 
   @override
+  State<CustomTextField> createState() => _CustomTextFieldState();
+}
+
+class _CustomTextFieldState extends State<CustomTextField> {
+  late bool _obscureText;
+
+  @override
+  void initState() {
+    super.initState();
+    _obscureText = widget.obscureText;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: controller,
-      obscureText: obscureText,
-      keyboardType: keyboardType,
-      enableSuggestions: false,
+    return TextFormField(
+      controller: widget.controller,
+      obscureText: _obscureText,
+      keyboardType: widget.keyboardType,
+      enableSuggestions: !widget.obscureText,
       autocorrect: false,
-      decoration: AppInputDecoration.base(hint: hint, prefixIcon: prefixIcon),
+      textInputAction: widget.textInputAction,
+      onEditingComplete: widget.onEditingComplete,
+      validator: widget.validator,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      decoration: InputDecoration(
+        hintText: widget.hint,
+        prefixIcon: Icon(widget.prefixIcon),
+        suffixIcon: widget.obscureText
+            ? IconButton(
+                icon: Icon(
+                  _obscureText ? Icons.visibility_off : Icons.visibility,
+                ),
+                onPressed: () => setState(() => _obscureText = !_obscureText),
+              )
+            : null,
+      ),
     );
   }
 }
