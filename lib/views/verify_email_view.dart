@@ -2,8 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
 import '../utils/constants.dart';
-import '../utils/app_theme.dart';
-import 'auth_wrapper.dart';
+import '../utils/app_routes.dart';
+import 'package:go_router/go_router.dart';
 
 class VerifyEmailView extends StatefulWidget {
   const VerifyEmailView({super.key});
@@ -20,17 +20,16 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
   @override
   void initState() {
     super.initState();
+    _startVerificationTimer();
+  }
+
+  void _startVerificationTimer() {
     _timer = Timer.periodic(AppDurations.emailVerificationCheck, (_) async {
       await _authService.reloadUser();
       final user = _authService.currentUser;
-
       if (user?.emailVerified ?? false) {
         _timer?.cancel();
-        if (mounted) {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (_) => const AuthWrapper()),
-          );
-        }
+        if (mounted) context.go(AppRoutes.home);
       }
     });
   }
@@ -53,6 +52,7 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
             const SnackBar(
               content: Text(AppStrings.emailVerificationSent),
               backgroundColor: Colors.green,
+              duration: AppDurations.snackBarDuration,
             ),
           );
         }
@@ -60,7 +60,10 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${AppStrings.error} ${e.toString()}')),
+          SnackBar(
+            content: Text('${AppStrings.error}: ${e.toString()}'),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ),
         );
       }
     } finally {
@@ -70,45 +73,66 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
       appBar: AppBar(title: const Text(AppStrings.verifyEmailTitle)),
-      body: Center(
+      body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(
+              Icon(
                 Icons.mark_email_unread_outlined,
                 size: 80,
-                color: AppTheme.primary,
+                color: colorScheme.primary,
               ),
-              const SizedBox(height: 20),
-              const Text(
+              const SizedBox(height: 24),
+              Text(
+                AppStrings.verifyEmailTitle,
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(
                 AppStrings.verifyEmailMessage,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: colorScheme.onSurface.withValues(alpha: 0.7),
+                  height: 1.6,
+                ),
               ),
-              const SizedBox(height: 20),
-              const Text(
+              const SizedBox(height: 32),
+              Text(
                 AppStrings.emailNotSent,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 14, color: Colors.grey),
+                style: TextStyle(
+                  fontSize: 14,
+                  color: colorScheme.onSurface.withValues(alpha: 0.5),
+                ),
               ),
               const SizedBox(height: 12),
               if (_isResending)
-                const CircularProgressIndicator()
+                CircularProgressIndicator(color: colorScheme.primary)
               else
-                TextButton(
+                OutlinedButton.icon(
                   onPressed: _resendVerificationEmail,
-                  child: const Text(AppStrings.emailResend),
+                  icon: const Icon(Icons.send),
+                  label: const Text(AppStrings.emailResend),
                 ),
-              const SizedBox(height: 20),
-              TextButton(
+              const SizedBox(height: 24),
+              TextButton.icon(
                 onPressed: () async {
+                  _timer?.cancel();
                   await _authService.signOut();
                 },
-                child: const Text(AppStrings.logOut),
+                icon: const Icon(Icons.logout, color: Colors.red),
+                label: const Text(
+                  AppStrings.logOut,
+                  style: TextStyle(color: Colors.red),
+                ),
               ),
             ],
           ),

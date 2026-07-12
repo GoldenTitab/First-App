@@ -1,5 +1,6 @@
-import 'package:first_app/utils/app_theme.dart';
+import 'package:first_app/utils/app_routes.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../services/auth_service.dart';
 import '../utils/constants.dart';
 import '../utils/exception_handler.dart';
@@ -14,8 +15,10 @@ class RegisterView extends StatefulWidget {
 }
 
 class _RegisterViewState extends State<RegisterView> {
+  final _formKey = GlobalKey<FormState>();
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
+  late final TextEditingController _confirmPasswordController;
   final AuthService _authService = AuthService();
   bool _isLoading = false;
 
@@ -24,17 +27,21 @@ class _RegisterViewState extends State<RegisterView> {
     super.initState();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
+    _confirmPasswordController = TextEditingController();
   }
 
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
   }
 
   Future<void> _register() async {
+    if (!(_formKey.currentState?.validate() ?? false)) return;
     if (_isLoading) return;
+
     setState(() => _isLoading = true);
     try {
       final userCredential = await _authService.signUpWithEmailPassword(
@@ -49,8 +56,10 @@ class _RegisterViewState extends State<RegisterView> {
             const SnackBar(
               content: Text(AppStrings.emailVerificationSent),
               backgroundColor: Colors.green,
+              duration: AppDurations.snackBarDuration,
             ),
           );
+          context.go(AppRoutes.home);
         }
       }
     } catch (e) {
@@ -64,46 +73,73 @@ class _RegisterViewState extends State<RegisterView> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
-      appBar: AppBar(title: Text(AppStrings.registerTitle)),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const SizedBox(height: 48),
-            const Icon(
-              Icons.person_add_rounded,
-              size: 64,
-              color: AppTheme.primary,
+      appBar: AppBar(title: const Text(AppStrings.registerTitle)),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: 32),
+                Icon(
+                  Icons.person_add_rounded,
+                  size: 64,
+                  color: theme.colorScheme.primary,
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  AppStrings.registerTitle,
+                  textAlign: TextAlign.center,
+                  style: theme.textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 32),
+                CustomTextField(
+                  controller: _emailController,
+                  hint: AppStrings.emailHint,
+                  prefixIcon: Icons.email_outlined,
+                  keyboardType: TextInputType.emailAddress,
+                  validator: AppValidators.email,
+                ),
+                const SizedBox(height: 16),
+                CustomTextField(
+                  controller: _passwordController,
+                  hint: AppStrings.passwordHint,
+                  prefixIcon: Icons.lock_outline,
+                  obscureText: true,
+                  validator: AppValidators.password,
+                ),
+                const SizedBox(height: 16),
+                CustomTextField(
+                  controller: _confirmPasswordController,
+                  hint: 'تکرار رمز عبور',
+                  prefixIcon: Icons.lock_outline,
+                  obscureText: true,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return AppStrings.fieldRequired;
+                    }
+                    if (value != _passwordController.text) {
+                      return 'رمز عبور با تکرار آن مطابقت ندارد.';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 24),
+                CustomElevatedButton(
+                  label: AppStrings.registerButton,
+                  onPressed: _register,
+                  isLoading: _isLoading,
+                ),
+              ],
             ),
-            const SizedBox(height: 16),
-            Text(
-              AppStrings.registerTitle,
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 32),
-            CustomTextField(
-              controller: _emailController,
-              hint: AppStrings.emailHint,
-              prefixIcon: Icons.email_outlined,
-              keyboardType: TextInputType.emailAddress,
-            ),
-            const SizedBox(height: 16),
-            CustomTextField(
-              controller: _passwordController,
-              hint: AppStrings.passwordHint,
-              prefixIcon: Icons.lock_outline,
-              obscureText: true,
-            ),
-            const SizedBox(height: 24),
-            CustomElevatedButton(
-              label: AppStrings.registerButton,
-              onPressed: _register,
-              isLoading: _isLoading,
-            ),
-          ],
+          ),
         ),
       ),
     );

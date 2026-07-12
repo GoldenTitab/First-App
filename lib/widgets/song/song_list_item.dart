@@ -23,87 +23,111 @@ class SongListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final isActive = isCurrentSong && isPlaying;
 
     return Card(
-      margin: const EdgeInsets.only(bottom: 12),
-      elevation: isCurrentSong && isPlaying ? 4 : 1,
+      margin: const EdgeInsets.only(bottom: 10),
+      elevation: isActive ? 3 : 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: isCurrentSong && isPlaying
-            ? BorderSide(color: colorScheme.primary, width: 2)
-            : BorderSide.none,
+        side: isCurrentSong
+            ? BorderSide(color: colorScheme.primary, width: 1.5)
+            : BorderSide(color: colorScheme.outlineVariant),
       ),
-      child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-        leading: ClipRRect(
-          borderRadius: BorderRadius.circular(8),
-          child: Image.network(
-            song.coverUrl,
-            width: 50,
-            height: 50,
-            fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) => Container(
-              width: 50,
-              height: 50,
-              color: Colors.grey[300],
-              child: const Icon(Icons.music_note, size: 30),
-            ),
-          ),
-        ),
-        title: Text(
-          song.title,
-          style: TextStyle(
-            fontWeight: isCurrentSong && isPlaying
-                ? FontWeight.bold
-                : FontWeight.normal,
-            color: isCurrentSong && isPlaying ? colorScheme.primary : null,
-          ),
-        ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '${song.artist} - ${song.album}',
-              style: TextStyle(
-                color: isCurrentSong && isPlaying
-                    ? colorScheme.primary.withValues(alpha: 0.7)
-                    : null,
+      child: InkWell(
+        onTap: onPlayPause,
+        borderRadius: BorderRadius.circular(12),
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Row(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.network(
+                  song.coverUrl,
+                  width: 52,
+                  height: 52,
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, _, _) => Container(
+                    width: 52,
+                    height: 52,
+                    decoration: BoxDecoration(
+                      color: colorScheme.surfaceContainerHighest,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Icon(
+                      Icons.music_note,
+                      size: 28,
+                      color: colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ),
               ),
-            ),
-            if (isCurrentSong && isPlaying) ...[
-              const SizedBox(height: 4),
-              SongProgressIndicator(
-                currentPosition: currentPosition,
-                totalDuration: totalDuration,
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      song.title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                        color: isCurrentSong
+                            ? colorScheme.primary
+                            : colorScheme.onSurface,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      '${song.artist} • ${song.album}',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: isCurrentSong
+                            ? colorScheme.primary.withValues(alpha: 0.7)
+                            : colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                    if (isCurrentSong) ...[
+                      const SizedBox(height: 6),
+                      SongProgressIndicator(
+                        currentPosition: currentPosition,
+                        totalDuration: totalDuration,
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+              const SizedBox(width: 8),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    song.formattedDuration,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Icon(
+                    isActive
+                        ? Icons.pause_circle_filled
+                        : Icons.play_circle_filled,
+                    color: isCurrentSong
+                        ? colorScheme.primary
+                        : colorScheme.onSurfaceVariant,
+                    size: 36,
+                  ),
+                ],
               ),
             ],
-          ],
+          ),
         ),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              '${(song.duration ~/ 60)}:${(song.duration % 60).toString().padLeft(2, '0')}',
-              style: const TextStyle(fontSize: 12, color: Colors.grey),
-            ),
-            const SizedBox(width: 4),
-            IconButton(
-              icon: Icon(
-                isCurrentSong && isPlaying
-                    ? Icons.pause_circle_filled
-                    : Icons.play_circle_filled,
-                color: isCurrentSong && isPlaying
-                    ? colorScheme.primary
-                    : Colors.grey[600],
-                size: 36,
-              ),
-              onPressed: onPlayPause,
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints(),
-            ),
-          ],
-        ),
-        onTap: onPlayPause,
       ),
     );
   }
