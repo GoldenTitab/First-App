@@ -51,3 +51,16 @@ pubspec.lock
 # Symbolication & Obfuscation
 app.*.symbols
 app.*.map.json
+
+# Firebase
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+
+# Keystore
+*.jks
+*.keystore
+android/key.properties
+
+# Environment variables
+.env
+.env.*
