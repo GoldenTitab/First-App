@@ -4,7 +4,7 @@ class AppStrings {
   AppStrings._();
 
   static const String appTitle = 'Aurora';
-  static const String loginTitle = 'ورود';
+  static const String loginTitle = 'ورود به حساب';
   static const String registerTitle = 'ثبت‌نام';
   static const String verifyEmailTitle = 'تأیید ایمیل';
   static const String homeTitle = 'خانه';

@@ -70,57 +70,57 @@ class _LoginViewState extends State<LoginView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const SizedBox(height: 48),
-                Icon(
-                  Icons.music_note_rounded,
-                  size: 72,
-                  color: theme.colorScheme.primary,
+                const SizedBox(height: 59),
+                Image.asset(
+                  'assets/images/SplashScreen.png',
+                  width: 100,
+                  height: 100,
                 ),
-                const SizedBox(height: 16),
-                Text(
-                  AppStrings.appTitle,
-                  textAlign: TextAlign.center,
-                  style: theme.textTheme.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: theme.colorScheme.primary,
+                const SizedBox(height: 32),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 2),
+                    borderRadius: BorderRadius.circular(16),
                   ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  AppStrings.loginTitle,
-                  textAlign: TextAlign.center,
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                  child: Column(
+                    children: [
+                      Text(AppStrings.loginTitle),
+
+                      const SizedBox(height: 80),
+
+                      CustomTextField(
+                        controller: _emailController,
+                        hint: AppStrings.emailHint,
+                        prefixIcon: Icons.email_outlined,
+                      ),
+
+                      const SizedBox(height: 8),
+
+                      CustomTextField(
+                        controller: _passwordController,
+                        hint: AppStrings.passwordHint,
+                        prefixIcon: Icons.lock_outline,
+                        obscureText: true,
+                      ),
+
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                          onPressed: () {},
+                          child: const Text('رمز خود را فراموش کرده‌اید؟'),
+                        ),
+                      ),
+
+                      const SizedBox(height: 24),
+
+                      CustomElevatedButton(
+                        label: AppStrings.loginButton,
+                        onPressed: _login,
+                        isLoading: _isLoading,
+                      ),
+                    ],
                   ),
-                ),
-                const SizedBox(height: 40),
-                CustomTextField(
-                  controller: _emailController,
-                  hint: AppStrings.emailHint,
-                  prefixIcon: Icons.email_outlined,
-                  keyboardType: TextInputType.emailAddress,
-                  validator: AppValidators.email,
-                ),
-                const SizedBox(height: 16),
-                CustomTextField(
-                  controller: _passwordController,
-                  hint: AppStrings.passwordHint,
-                  prefixIcon: Icons.lock_outline,
-                  obscureText: true,
-                  validator: AppValidators.password,
-                ),
-                const SizedBox(height: 24),
-                CustomElevatedButton(
-                  label: AppStrings.loginButton,
-                  onPressed: _login,
-                  isLoading: _isLoading,
-                ),
-                const SizedBox(height: 12),
-                TextButton(
-                  onPressed: _isLoading
-                      ? null
-                      : () => context.go(AppRoutes.register),
-                  child: const Text(AppStrings.goToRegister),
                 ),
               ],
             ),
