@@ -44,12 +44,13 @@ A modern, cross-platform music player built with Flutter — focused on clean ar
 
 ## 📸 Screenshots
 
-> Screenshots will be added after the first stable release.
+| Splash | Home | Login | Register |
+|--------|------|------|---------|
+| <img src="screenshots/splash.png" width="200"/> | <img src="screenshots/home.png" width="200"/> | <img src="screenshots/login.png" width="200"/> | <img src="screenshots/register.png" width="200"/> |
 
-| Splash | Login | Home | Player |
-|--------|-------|------|--------|
-| — | — | — | — |
-
+| Profile | Menu | Logout-Dialog | Library |
+|---------|-----|------------|---------|
+| <img src="screenshots/profile.png" width="200"/> | <img src="screenshots/drawer.png" width="200"/> | <img src="screenshots/logout_dialog.png" width="200"/> | <img src="screenshots/library.png" width="200"/> |
 ---
 
 ## 🛠 Tech Stack
