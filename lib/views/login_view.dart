@@ -63,157 +63,154 @@ class _LoginViewState extends State<LoginView> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const SizedBox(height: 24),
-                Image.asset(
-                  'assets/images/SplashScreen.png',
-                  width: 80,
-                  height: 80,
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(height: 32),
+              Image.asset(
+                'assets/images/SplashScreen.png',
+                width: 80,
+                height: 80,
+              ),
+              const SizedBox(height: 32),
+              Container(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    width: 2,
+                    color: theme.colorScheme.primary,
+                  ),
+                  borderRadius: BorderRadius.circular(16),
                 ),
-                const SizedBox(height: 24),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 2,
-                      color: theme.colorScheme.primary,
+                child: Column(
+                  children: [
+                    Text(
+                      AppStrings.loginTitle,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: theme.colorScheme.secondary,
+                      ),
                     ),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Column(
-                    children: [
-                      Text(
-                        AppStrings.loginTitle,
-                        style: TextStyle(fontSize: 16),
+
+                    const SizedBox(height: 8),
+
+                    CustomTextField(
+                      controller: _emailController,
+                      hint: AppStrings.emailHint,
+                      prefixIcon: Icons.email_outlined,
+                    ),
+
+                    const SizedBox(height: 8),
+
+                    CustomTextField(
+                      controller: _passwordController,
+                      hint: AppStrings.passwordHint,
+                      prefixIcon: Icons.lock_outline,
+                      obscureText: true,
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        onPressed: () {},
+                        child: const Text('رمز خود را فراموش کرده‌اید؟'),
                       ),
+                    ),
 
-                      const SizedBox(height: 8),
+                    const SizedBox(height: 8),
 
-                      CustomTextField(
-                        controller: _emailController,
-                        hint: AppStrings.emailHint,
-                        prefixIcon: Icons.email_outlined,
-                      ),
+                    CustomElevatedButton(
+                      label: AppStrings.login,
+                      onPressed: _login,
+                      isLoading: _isLoading,
+                    ),
+                    const SizedBox(height: 64),
 
-                      const SizedBox(height: 8),
-
-                      CustomTextField(
-                        controller: _passwordController,
-                        hint: AppStrings.passwordHint,
-                        prefixIcon: Icons.lock_outline,
-                        obscureText: true,
-                      ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: TextButton(
-                          onPressed: () {},
-                          child: const Text('رمز خود را فراموش کرده‌اید؟'),
+                    Text(
+                      "با استفاده از روش‌های دیگر وارد شوید",
+                      style: TextStyle(color: theme.colorScheme.secondary),
+                    ),
+                    Center(
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: const Divider(
+                          color: Colors.black,
+                          thickness: 1,
+                          height: 16,
                         ),
                       ),
-
-                      const SizedBox(height: 8),
-
-                      CustomElevatedButton(
-                        label: AppStrings.login,
-                        onPressed: _login,
-                        isLoading: _isLoading,
-                      ),
-                      const SizedBox(height: 64),
-
-                      Text("با استفاده از روش‌های دیگر وارد شوید"),
-                      Center(
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: const Divider(
-                            color: Colors.black,
-                            thickness: 1,
-                            height: 16,
+                    ),
+                    Center(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            onPressed: () {},
+                            icon: Text(
+                              String.fromCharCode(
+                                FontAwesomeIcons.spotify.codePoint,
+                              ),
+                              style: TextStyle(
+                                fontFamily: FontAwesomeIcons.spotify.fontFamily,
+                                package: FontAwesomeIcons.spotify.fontPackage,
+                                fontSize: 24,
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1.2
+                                  ..color = Colors.black,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      Center(
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            IconButton(
-                              onPressed: () {},
-                              icon: Text(
-                                String.fromCharCode(
-                                  FontAwesomeIcons.spotify.codePoint,
-                                ),
-                                style: TextStyle(
-                                  fontFamily:
-                                      FontAwesomeIcons.spotify.fontFamily,
-                                  package: FontAwesomeIcons.spotify.fontPackage,
-                                  fontSize: 24,
-                                  foreground: Paint()
-                                    ..style = PaintingStyle.stroke
-                                    ..strokeWidth = 1.2
-                                    ..color = Colors.black,
-                                ),
-                              ),
-                            ),
 
-                            IconButton(
-                              onPressed: () {},
-                              icon: Text(
-                                String.fromCharCode(
-                                  FontAwesomeIcons.apple.codePoint,
-                                ),
-                                style: TextStyle(
-                                  fontFamily: FontAwesomeIcons.apple.fontFamily,
-                                  package: FontAwesomeIcons.apple.fontPackage,
-                                  fontSize: 24,
-                                  foreground: Paint()
-                                    ..style = PaintingStyle.stroke
-                                    ..strokeWidth = 1.2
-                                    ..color = Colors.black,
-                                ),
+                          IconButton(
+                            onPressed: () {},
+                            icon: Text(
+                              String.fromCharCode(
+                                FontAwesomeIcons.apple.codePoint,
+                              ),
+                              style: TextStyle(
+                                fontFamily: FontAwesomeIcons.apple.fontFamily,
+                                package: FontAwesomeIcons.apple.fontPackage,
+                                fontSize: 24,
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1.2
+                                  ..color = Colors.black,
                               ),
                             ),
-                            IconButton(
-                              onPressed: () {},
-                              icon: Text(
-                                String.fromCharCode(
-                                  FontAwesomeIcons.google.codePoint,
-                                ),
-                                style: TextStyle(
-                                  fontFamily:
-                                      FontAwesomeIcons.google.fontFamily,
-                                  package: FontAwesomeIcons.google.fontPackage,
-                                  fontSize: 24,
-                                  foreground: Paint()
-                                    ..style = PaintingStyle.stroke
-                                    ..strokeWidth = 1.2
-                                    ..color = Colors.black,
-                                ),
+                          ),
+                          IconButton(
+                            onPressed: () {},
+                            icon: Text(
+                              String.fromCharCode(
+                                FontAwesomeIcons.google.codePoint,
+                              ),
+                              style: TextStyle(
+                                fontFamily: FontAwesomeIcons.google.fontFamily,
+                                package: FontAwesomeIcons.google.fontPackage,
+                                fontSize: 24,
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1.2
+                                  ..color = Colors.black,
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                SizedBox(height: 24),
-                TextButton(
-                  onPressed: () {},
-                  child: const Text('حساب ندارید؟ همین حالا بسازید...'),
-                ),
-                CustomElevatedButton(
-                  label: AppStrings.register,
-                  onPressed: () => context.go(AppRoutes.register),
-                  isLoading: _isLoading,
-                ),
-              ],
-            ),
+              ),
+              SizedBox(height: 80),
+              TextButton(
+                onPressed: () => context.go(AppRoutes.register),
+                child: const Text('حساب ندارید؟ همین حالا بسازید...'),
+              ),
+            ],
           ),
         ),
       ),

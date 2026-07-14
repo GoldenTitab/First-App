@@ -15,7 +15,6 @@ class PlayerService extends ChangeNotifier {
   Duration _totalDuration = Duration.zero;
   String? _error;
 
-  // ← guard جلوی register شدن چند listener رو میگیره
   bool _initialized = false;
 
   Song? get currentSong => _currentSong;
@@ -25,7 +24,7 @@ class PlayerService extends ChangeNotifier {
   String? get error => _error;
 
   void init() {
-    if (_initialized) return; // ← اگه قبلاً init شده، کاری نکن
+    if (_initialized) return;
     _initialized = true;
 
     _audioPlayer.onPlayerStateChanged.listen((state) {

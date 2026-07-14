@@ -51,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   void _navigateToMain() {
     if (!mounted) return;
-    context.go(AppRoutes.home); // GoRouter redirect handles auth check
+    context.go(AppRoutes.home);
   }
 
   @override
