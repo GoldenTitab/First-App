@@ -16,7 +16,8 @@ class AppRoutes {
   static const String home = '/home';
   static const String verifyEmail = '/verify-email';
 
-  static GoRouter get router => GoRouter(
+  // ← static final: یه بار ساخته میشه، هر بار get صدا زده نمیشه
+  static final GoRouter router = GoRouter(
     initialLocation: splash,
     redirect: _globalRedirect,
     routes: [

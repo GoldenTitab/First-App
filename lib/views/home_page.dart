@@ -36,17 +36,12 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _playerService.init();
-    _playerService.addListener(_onPlayerStateChanged);
     _fetchSongs();
-  }
-
-  void _onPlayerStateChanged() {
-    if (mounted) setState(() {});
+    // ← addListener حذف شد؛ ListenableBuilder جاش رو گرفته
   }
 
   @override
   void dispose() {
-    _playerService.removeListener(_onPlayerStateChanged);
     super.dispose();
   }
 
@@ -57,29 +52,37 @@ class _HomePageState extends State<HomePage> {
     });
     try {
       final songs = await _songService.fetchSongs(forceRefresh: forceRefresh);
-      setState(() {
-        _songs = songs;
-        _isLoadingSongs = false;
-      });
+      if (mounted) {
+        setState(() {
+          _songs = songs;
+          _isLoadingSongs = false;
+        });
+      }
     } catch (e) {
-      setState(() {
-        _errorMessage = e.toString();
-        _isLoadingSongs = false;
-      });
+      if (mounted) {
+        setState(() {
+          _errorMessage = e.toString();
+          _isLoadingSongs = false;
+        });
+      }
     }
   }
 
+  // HomeTab با ListenableBuilder - فقط این بخش با پلیر rebuild میشه
   Widget _buildHomeTab() {
-    return SongListView(
-      songs: _songs,
-      isLoading: _isLoadingSongs,
-      errorMessage: _errorMessage,
-      onRetry: () => _fetchSongs(forceRefresh: true),
-      currentSong: _playerService.currentSong,
-      isPlaying: _playerService.isPlaying,
-      currentPosition: _playerService.currentPosition,
-      totalDuration: _playerService.totalDuration,
-      onPlayPause: _playerService.playOrPause,
+    return ListenableBuilder(
+      listenable: _playerService,
+      builder: (context, _) => SongListView(
+        songs: _songs,
+        isLoading: _isLoadingSongs,
+        errorMessage: _errorMessage,
+        onRetry: () => _fetchSongs(forceRefresh: true),
+        currentSong: _playerService.currentSong,
+        isPlaying: _playerService.isPlaying,
+        currentPosition: _playerService.currentPosition,
+        totalDuration: _playerService.totalDuration,
+        onPlayPause: _playerService.playOrPause,
+      ),
     );
   }
 
@@ -169,7 +172,6 @@ class _HomePageState extends State<HomePage> {
     try {
       await _playerService.stop();
       await _authService.signOut();
-      // GoRouter redirect handles navigation
       if (mounted) {
         context.go(AppRoutes.login);
       }
@@ -189,6 +191,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    // صفحات static هر بار rebuild نمیشن (به جز HomeTab که ListenableBuilder داره)
     final pages = [
       _buildHomeTab(),
       _buildLibraryTab(),
@@ -212,16 +215,21 @@ class _HomePageState extends State<HomePage> {
         body: Column(
           children: [
             Expanded(child: pages[_currentIndex]),
-            SongPlayerControls(
-              currentSong: _playerService.currentSong,
-              isPlaying: _playerService.isPlaying,
-              currentPosition: _playerService.currentPosition,
-              totalDuration: _playerService.totalDuration,
-              onPlayPause: _playerService.currentSong != null
-                  ? () =>
-                        _playerService.playOrPause(_playerService.currentSong!)
-                  : () {},
-              onStop: _playerService.stop,
+            // فقط SongPlayerControls با پلیر rebuild میشه
+            ListenableBuilder(
+              listenable: _playerService,
+              builder: (context, _) => SongPlayerControls(
+                currentSong: _playerService.currentSong,
+                isPlaying: _playerService.isPlaying,
+                currentPosition: _playerService.currentPosition,
+                totalDuration: _playerService.totalDuration,
+                onPlayPause: _playerService.currentSong != null
+                    ? () => _playerService.playOrPause(
+                        _playerService.currentSong!,
+                      )
+                    : () {},
+                onStop: _playerService.stop,
+              ),
             ),
           ],
         ),
