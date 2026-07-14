@@ -123,7 +123,7 @@ class _RegisterViewState extends State<RegisterView> {
                   obscureText: true,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return AppStrings.fieldRequired;
+                      return AppStrings.requiredField;
                     }
                     if (value != _passwordController.text) {
                       return 'رمز عبور با تکرار آن مطابقت ندارد.';
@@ -133,7 +133,7 @@ class _RegisterViewState extends State<RegisterView> {
                 ),
                 const SizedBox(height: 24),
                 CustomElevatedButton(
-                  label: AppStrings.registerButton,
+                  label: AppStrings.register,
                   onPressed: _register,
                   isLoading: _isLoading,
                 ),

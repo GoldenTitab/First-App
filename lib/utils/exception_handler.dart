@@ -52,7 +52,7 @@ class ExceptionHandler {
       case 'weak-password':
         return AppStrings.weakPassword;
       case 'email-already-in-use':
-        return AppStrings.emailInUse;
+        return AppStrings.emailAlreadyExists;
       case 'network-request-failed':
         return AppStrings.networkError;
       case 'too-many-requests':
@@ -64,7 +64,7 @@ class ExceptionHandler {
 
   static String _getGenericExceptionMessage(Exception e) {
     if (e is FormatException) {
-      return AppStrings.formatError;
+      return AppStrings.invalidFormat;
     }
     if (e is TimeoutException) {
       return AppStrings.timeoutError;

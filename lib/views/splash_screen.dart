@@ -101,7 +101,7 @@ class _SplashScreenState extends State<SplashScreen>
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    AppStrings.splashScreen,
+                    AppStrings.splashMessage,
                     style: AppStyles.baseStyle.copyWith(
                       color: colorScheme.onSurface.withValues(alpha: 0.6),
                     ),
