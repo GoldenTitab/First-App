@@ -1,28 +1,167 @@
 import 'package:flutter/material.dart';
 
+class AppColors {
+  AppColors._();
+
+  // ── Primary — Deep Blue #1D2780 ──────────────────────────────────────────
+  static const Color primary900 = Color(0xFF0A0E36);
+  static const Color primary800 = Color(0xFF111752);
+  static const Color primary700 = Color(0xFF161E6A);
+  static const Color primary600 = Color(0xFF1A2375);
+  static const Color primary500 = Color(0xFF1D2780); // main
+  static const Color primary400 = Color(0xFF4A52A0);
+  static const Color primary300 = Color(0xFF7880BF);
+  static const Color primary200 = Color(0xFFABB0D9);
+  static const Color primary100 = Color(0xFFD5D8EE);
+  static const Color primary50 = Color(0xFFEAEBF7);
+
+  // ── Secondary — Medium Purple #6765B2 ───────────────────────────────────
+  static const Color secondary900 = Color(0xFF211F4A);
+  static const Color secondary800 = Color(0xFF363472);
+  static const Color secondary700 = Color(0xFF4A4892);
+  static const Color secondary600 = Color(0xFF5856A2);
+  static const Color secondary500 = Color(0xFF6765B2); // main
+  static const Color secondary400 = Color(0xFF8A89C5);
+  static const Color secondary300 = Color(0xFFABABD7);
+  static const Color secondary200 = Color(0xFFCCCBE8);
+  static const Color secondary100 = Color(0xFFE5E5F4);
+  static const Color secondary50 = Color(0xFFF2F2FA);
+
+  // ── Accent1 — Amber #F5A623 ──────────────────────────────────────────────
+  static const Color accent1_900 = Color(0xFF5C3800);
+  static const Color accent1_800 = Color(0xFF8A5400);
+  static const Color accent1_700 = Color(0xFFAD6B00);
+  static const Color accent1_600 = Color(0xFFCC8800);
+  static const Color accent1_500 = Color(0xFFF5A623); // main
+  static const Color accent1_400 = Color(0xFFF7B94E);
+  static const Color accent1_300 = Color(0xFFFACB7A);
+  static const Color accent1_200 = Color(0xFFFCDDA8);
+  static const Color accent1_100 = Color(0xFFFEEDD2);
+  static const Color accent1_50 = Color(0xFFFFF6EC);
+
+  // ── Accent2 — Red #E74C3C ────────────────────────────────────────────────
+  static const Color accent2_900 = Color(0xFF4A0D08);
+  static const Color accent2_800 = Color(0xFF7A1812);
+  static const Color accent2_700 = Color(0xFF9E251B);
+  static const Color accent2_600 = Color(0xFFC03529);
+  static const Color accent2_500 = Color(0xFFE74C3C); // main
+  static const Color accent2_400 = Color(0xFFED7268);
+  static const Color accent2_300 = Color(0xFFF39C95);
+  static const Color accent2_200 = Color(0xFFF8C3BF);
+  static const Color accent2_100 = Color(0xFFFCE1DF);
+  static const Color accent2_50 = Color(0xFFFEF0EF);
+
+  // ── Neutral — Dark Gray #343A40 ──────────────────────────────────────────
+  static const Color neutral900 = Color(0xFF111316);
+  static const Color neutral800 = Color(0xFF212529);
+  static const Color neutral700 = Color(0xFF343A40); // main
+  static const Color neutral600 = Color(0xFF495057);
+  static const Color neutral500 = Color(0xFF6C757D);
+  static const Color neutral400 = Color(0xFFADB5BD);
+  static const Color neutral300 = Color(0xFFCED4DA);
+  static const Color neutral200 = Color(0xFFDEE2E6);
+  static const Color neutral100 = Color(0xFFF1F3F5);
+  static const Color neutral50 = Color(0xFFF8F9FA);
+
+  // ── Success — Green #27AE60 ──────────────────────────────────────────────
+  static const Color success900 = Color(0xFF0B3D22);
+  static const Color success800 = Color(0xFF145E34);
+  static const Color success700 = Color(0xFF1C7D45);
+  static const Color success600 = Color(0xFF219A52);
+  static const Color success500 = Color(0xFF27AE60); // main
+  static const Color success400 = Color(0xFF52C07D);
+  static const Color success300 = Color(0xFF80D09F);
+  static const Color success200 = Color(0xFFAEE2C3);
+  static const Color success100 = Color(0xFFD4F0E0);
+  static const Color success50 = Color(0xFFEAF8F0);
+
+  // ── Error — Red #E74C3C ──────────────────────────────────────────────────
+  static const Color error900 = Color(0xFF4A0D08);
+  static const Color error800 = Color(0xFF7A1812);
+  static const Color error700 = Color(0xFF9E251B);
+  static const Color error600 = Color(0xFFC03529);
+  static const Color error500 = Color(0xFFE74C3C); // main
+  static const Color error400 = Color(0xFFED7268);
+  static const Color error300 = Color(0xFFF39C95);
+  static const Color error200 = Color(0xFFF8C3BF);
+  static const Color error100 = Color(0xFFFCE1DF);
+  static const Color error50 = Color(0xFFFEF0EF);
+
+  // ── Warning — Orange #F39C12 ─────────────────────────────────────────────
+  static const Color warning900 = Color(0xFF4F3000);
+  static const Color warning800 = Color(0xFF7A4A00);
+  static const Color warning700 = Color(0xFF9E6200);
+  static const Color warning600 = Color(0xFFBF7B00);
+  static const Color warning500 = Color(0xFFF39C12); // main
+  static const Color warning400 = Color(0xFFF6B240);
+  static const Color warning300 = Color(0xFFF9C870);
+  static const Color warning200 = Color(0xFFFBDCA6);
+  static const Color warning100 = Color(0xFFFDEDD2);
+  static const Color warning50 = Color(0xFFFEF6EC);
+
+  // ── Info — Sky Blue #3498DB ──────────────────────────────────────────────
+  static const Color info900 = Color(0xFF0D3050);
+  static const Color info800 = Color(0xFF164D7E);
+  static const Color info700 = Color(0xFF1E65A4);
+  static const Color info600 = Color(0xFF267EC0);
+  static const Color info500 = Color(0xFF3498DB); // main
+  static const Color info400 = Color(0xFF5DB0E4);
+  static const Color info300 = Color(0xFF8AC8ED);
+  static const Color info200 = Color(0xFFB7DDF5);
+  static const Color info100 = Color(0xFFD9EEF9);
+  static const Color info50 = Color(0xFFECF6FD);
+}
+
 class AppTheme {
   AppTheme._();
 
-  static const Color primary = Color(0xFF3D7BF4);
-  static const Color secondary = Color(0xFF6EC6CA);
-  static const Color surface = Color(0xFFF5F7FF);
-  static const Color darkSurface = Color(0xFF1A1F2E);
-  static const Color darkBackground = Color(0xFF12151F);
-  static const Color error = Color(0xFFE53935);
+  // Semantic aliases
+  static const Color primary = AppColors.primary500; // #1D2780
+  static const Color secondary = AppColors.secondary500; // #6765B2
+  static const Color info = AppColors.info500; // #3498DB
+  static const Color warning = AppColors.warning500; // #F39C12
+  static const Color error = AppColors.error500; // #E74C3C
+  static const Color success = AppColors.success500; // #27AE60
+  static const Color accent1 = AppColors.accent1_500; // #F5A623
+  static const Color accent2 = AppColors.accent2_500; // #E74C3C
 
+  // Surfaces
+  static const Color surface = Color(0xFFF4F5FA);
+  static const Color darkSurface = Color(0xFF1C1E2E);
+  static const Color darkBackground = Color(0xFF12131F);
+
+  // ── LIGHT THEME ─────────────────────────────────────────────────────────────
   static ThemeData get light => ThemeData(
     useMaterial3: true,
     fontFamily: 'Vazir',
-    colorScheme: ColorScheme.fromSeed(
-      seedColor: primary,
-      primary: primary,
-      secondary: secondary,
-      surface: surface,
-      error: error,
-      onPrimary: Colors.white,
-      onSurface: const Color(0xFF1A1F2E),
-      onError: Colors.white,
+    colorScheme: ColorScheme(
       brightness: Brightness.light,
+      primary: primary,
+      onPrimary: Colors.white,
+      primaryContainer: AppColors.primary100,
+      onPrimaryContainer: AppColors.primary900,
+      secondary: secondary,
+      onSecondary: Colors.white,
+      secondaryContainer: AppColors.secondary100,
+      onSecondaryContainer: AppColors.secondary900,
+      tertiary: accent1,
+      onTertiary: Colors.white,
+      tertiaryContainer: AppColors.accent1_100,
+      onTertiaryContainer: AppColors.accent1_900,
+      error: error,
+      onError: Colors.white,
+      errorContainer: AppColors.error100,
+      onErrorContainer: AppColors.error900,
+      surface: surface,
+      onSurface: AppColors.neutral900,
+      surfaceContainerHighest: AppColors.neutral100,
+      outline: AppColors.neutral300,
+      outlineVariant: AppColors.neutral200,
+      shadow: Colors.black,
+      scrim: Colors.black,
+      inverseSurface: AppColors.neutral900,
+      onInverseSurface: AppColors.neutral50,
+      inversePrimary: AppColors.primary200,
     ),
     scaffoldBackgroundColor: surface,
     appBarTheme: const AppBarTheme(
@@ -58,14 +197,14 @@ class AppTheme {
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: const Color(0xFFF0F2FA),
+      fillColor: AppColors.neutral50,
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
         borderSide: BorderSide.none,
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: Color(0xFFDDE0F0)),
+        borderSide: const BorderSide(color: AppColors.neutral200),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
@@ -73,14 +212,17 @@ class AppTheme {
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: error),
+        borderSide: const BorderSide(color: error),
       ),
       focusedErrorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: error, width: 1.5),
+        borderSide: const BorderSide(color: error, width: 1.5),
       ),
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-      hintStyle: const TextStyle(color: Color(0xFF9E9E9E), fontFamily: 'Vazir'),
+      hintStyle: const TextStyle(
+        color: AppColors.neutral400,
+        fontFamily: 'Vazir',
+      ),
     ),
     cardTheme: CardThemeData(
       elevation: 1,
@@ -90,43 +232,79 @@ class AppTheme {
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       backgroundColor: Colors.white,
       selectedItemColor: primary,
-      unselectedItemColor: Color(0xFFBDBDBD),
+      unselectedItemColor: AppColors.neutral300,
       type: BottomNavigationBarType.fixed,
       elevation: 8,
     ),
+    chipTheme: ChipThemeData(
+      backgroundColor: AppColors.primary100,
+      labelStyle: const TextStyle(
+        color: AppColors.primary700,
+        fontFamily: 'Vazir',
+      ),
+      side: BorderSide.none,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+    ),
+    dividerTheme: const DividerThemeData(
+      color: AppColors.neutral100,
+      thickness: 1,
+    ),
+    badgeTheme: const BadgeThemeData(
+      backgroundColor: error,
+      textColor: Colors.white,
+    ),
   );
 
+  // ── DARK THEME ──────────────────────────────────────────────────────────────
   static ThemeData get dark => ThemeData(
     useMaterial3: true,
     fontFamily: 'Vazir',
-    colorScheme: ColorScheme.fromSeed(
-      seedColor: primary,
-      primary: const Color(0xFF7AAAF8),
-      secondary: secondary,
-      surface: darkSurface,
-      error: const Color(0xFFEF9A9A),
-      onPrimary: const Color(0xFF003258),
-      onSurface: const Color(0xFFE0E4F4),
-      onError: const Color(0xFF5C0000),
+    colorScheme: ColorScheme(
       brightness: Brightness.dark,
+      primary: AppColors.primary300,
+      onPrimary: AppColors.primary900,
+      primaryContainer: AppColors.primary800,
+      onPrimaryContainer: AppColors.primary100,
+      secondary: AppColors.secondary300,
+      onSecondary: AppColors.secondary900,
+      secondaryContainer: AppColors.secondary800,
+      onSecondaryContainer: AppColors.secondary100,
+      tertiary: AppColors.accent1_300,
+      onTertiary: AppColors.accent1_900,
+      tertiaryContainer: AppColors.accent1_800,
+      onTertiaryContainer: AppColors.accent1_100,
+      error: AppColors.error300,
+      onError: AppColors.error900,
+      errorContainer: AppColors.error800,
+      onErrorContainer: AppColors.error100,
+      surface: darkSurface,
+      onSurface: AppColors.neutral100,
+      surfaceContainerHighest: const Color(0xFF2A2C50),
+      outline: const Color(0xFF3A3D6A),
+      outlineVariant: const Color(0xFF2E3058),
+      shadow: Colors.black,
+      scrim: Colors.black,
+      inverseSurface: AppColors.neutral100,
+      onInverseSurface: AppColors.neutral900,
+      inversePrimary: AppColors.primary600,
     ),
     scaffoldBackgroundColor: darkBackground,
     appBarTheme: const AppBarTheme(
       backgroundColor: darkSurface,
-      foregroundColor: Color(0xFFE0E4F4),
+      foregroundColor: AppColors.neutral100,
       centerTitle: true,
       elevation: 0,
       titleTextStyle: TextStyle(
         fontFamily: 'Vazir',
         fontSize: 18,
         fontWeight: FontWeight.bold,
-        color: Color(0xFFE0E4F4),
+        color: AppColors.neutral100,
       ),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0xFF7AAAF8),
-        foregroundColor: const Color(0xFF003258),
+        backgroundColor: AppColors.primary400,
+        foregroundColor: AppColors.primary900,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         minimumSize: const Size(double.infinity, 50),
         textStyle: const TextStyle(
@@ -138,43 +316,94 @@ class AppTheme {
     ),
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
-        foregroundColor: const Color(0xFF7AAAF8),
+        foregroundColor: AppColors.primary300,
         textStyle: const TextStyle(fontFamily: 'Vazir', fontSize: 14),
       ),
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: const Color(0xFF252B3D),
+      fillColor: const Color(0xFF252848),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
         borderSide: BorderSide.none,
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: Color(0xFF3A4260)),
+        borderSide: const BorderSide(color: Color(0xFF3A3D6A)),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: Color(0xFF7AAAF8), width: 1.5),
+        borderSide: const BorderSide(color: AppColors.primary300, width: 1.5),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(color: AppColors.error300),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(color: AppColors.error300, width: 1.5),
       ),
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-      hintStyle: const TextStyle(color: Color(0xFF6B7290), fontFamily: 'Vazir'),
+      hintStyle: const TextStyle(
+        color: AppColors.neutral600,
+        fontFamily: 'Vazir',
+      ),
     ),
     cardTheme: CardThemeData(
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: const BorderSide(color: Color(0xFF2A3050)),
+        side: const BorderSide(color: Color(0xFF2E3058)),
       ),
       color: darkSurface,
     ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       backgroundColor: darkSurface,
-      selectedItemColor: Color(0xFF7AAAF8),
-      unselectedItemColor: Color(0xFF4A5270),
+      selectedItemColor: AppColors.primary300,
+      unselectedItemColor: AppColors.neutral600,
       type: BottomNavigationBarType.fixed,
     ),
+    chipTheme: ChipThemeData(
+      backgroundColor: AppColors.primary800,
+      labelStyle: const TextStyle(
+        color: AppColors.primary200,
+        fontFamily: 'Vazir',
+      ),
+      side: BorderSide.none,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+    ),
+    dividerTheme: const DividerThemeData(
+      color: Color(0xFF2E3058),
+      thickness: 1,
+    ),
+    badgeTheme: const BadgeThemeData(
+      backgroundColor: AppColors.error400,
+      textColor: Colors.white,
+    ),
   );
+}
+
+// ── Helper extension for semantic colors not in ColorScheme ──────────────────
+extension AppColorsExtension on BuildContext {
+  Color get successColor => Theme.of(this).brightness == Brightness.dark
+      ? AppColors.success300
+      : AppColors.success500;
+
+  Color get warningColor => Theme.of(this).brightness == Brightness.dark
+      ? AppColors.warning300
+      : AppColors.warning500;
+
+  Color get infoColor => Theme.of(this).brightness == Brightness.dark
+      ? AppColors.info300
+      : AppColors.info500;
+
+  Color get accent1Color => Theme.of(this).brightness == Brightness.dark
+      ? AppColors.accent1_300
+      : AppColors.accent1_500;
+
+  Color get accent2Color => Theme.of(this).brightness == Brightness.dark
+      ? AppColors.accent2_300
+      : AppColors.accent2_500;
 }
 
 class AppInputDecoration {

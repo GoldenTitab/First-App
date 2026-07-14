@@ -10,7 +10,6 @@ class CustomDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    // ← SafeArea باید داخل Drawer باشه، نه بیرونش
     return Drawer(
       width: 250,
       child: SafeArea(

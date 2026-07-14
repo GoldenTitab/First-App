@@ -37,7 +37,6 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     _playerService.init();
     _fetchSongs();
-    // ← addListener حذف شد؛ ListenableBuilder جاش رو گرفته
   }
 
   @override
@@ -213,7 +212,6 @@ class _HomePageState extends State<HomePage> {
         body: Column(
           children: [
             Expanded(child: pages[_currentIndex]),
-            // فقط SongPlayerControls با پلیر rebuild میشه
             ListenableBuilder(
               listenable: _playerService,
               builder: (context, _) => SongPlayerControls(
