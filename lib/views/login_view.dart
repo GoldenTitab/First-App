@@ -6,6 +6,7 @@ import '../utils/constants.dart';
 import '../utils/exception_handler.dart';
 import '../widgets/custom_elevated_button.dart';
 import '../widgets/custom_text_field.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -64,30 +65,36 @@ class _LoginViewState extends State<LoginView> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Form(
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const SizedBox(height: 59),
+                const SizedBox(height: 24),
                 Image.asset(
                   'assets/images/SplashScreen.png',
-                  width: 100,
-                  height: 100,
+                  width: 80,
+                  height: 80,
                 ),
-                const SizedBox(height: 32),
+                const SizedBox(height: 24),
                 Container(
                   padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
                   decoration: BoxDecoration(
-                    border: Border.all(width: 2),
+                    border: Border.all(
+                      width: 2,
+                      color: theme.colorScheme.primary,
+                    ),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Column(
                     children: [
-                      Text(AppStrings.loginTitle),
+                      Text(
+                        AppStrings.loginTitle,
+                        style: TextStyle(fontSize: 16),
+                      ),
 
-                      const SizedBox(height: 80),
+                      const SizedBox(height: 8),
 
                       CustomTextField(
                         controller: _emailController,
@@ -103,7 +110,6 @@ class _LoginViewState extends State<LoginView> {
                         prefixIcon: Icons.lock_outline,
                         obscureText: true,
                       ),
-
                       Align(
                         alignment: Alignment.centerRight,
                         child: TextButton(
@@ -112,15 +118,99 @@ class _LoginViewState extends State<LoginView> {
                         ),
                       ),
 
-                      const SizedBox(height: 24),
+                      const SizedBox(height: 8),
 
                       CustomElevatedButton(
                         label: AppStrings.loginButton,
                         onPressed: _login,
                         isLoading: _isLoading,
                       ),
+                      const SizedBox(height: 64),
+
+                      Text("با استفاده از روش‌های دیگر وارد شوید"),
+                      Center(
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: const Divider(
+                            color: Colors.black,
+                            thickness: 1,
+                            height: 16,
+                          ),
+                        ),
+                      ),
+                      Center(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              onPressed: () {},
+                              icon: Text(
+                                String.fromCharCode(
+                                  FontAwesomeIcons.spotify.codePoint,
+                                ),
+                                style: TextStyle(
+                                  fontFamily:
+                                      FontAwesomeIcons.spotify.fontFamily,
+                                  package: FontAwesomeIcons.spotify.fontPackage,
+                                  fontSize: 24,
+                                  foreground: Paint()
+                                    ..style = PaintingStyle.stroke
+                                    ..strokeWidth = 1.2
+                                    ..color = Colors.black,
+                                ),
+                              ),
+                            ),
+
+                            IconButton(
+                              onPressed: () {},
+                              icon: Text(
+                                String.fromCharCode(
+                                  FontAwesomeIcons.apple.codePoint,
+                                ),
+                                style: TextStyle(
+                                  fontFamily: FontAwesomeIcons.apple.fontFamily,
+                                  package: FontAwesomeIcons.apple.fontPackage,
+                                  fontSize: 24,
+                                  foreground: Paint()
+                                    ..style = PaintingStyle.stroke
+                                    ..strokeWidth = 1.2
+                                    ..color = Colors.black,
+                                ),
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {},
+                              icon: Text(
+                                String.fromCharCode(
+                                  FontAwesomeIcons.google.codePoint,
+                                ),
+                                style: TextStyle(
+                                  fontFamily:
+                                      FontAwesomeIcons.google.fontFamily,
+                                  package: FontAwesomeIcons.google.fontPackage,
+                                  fontSize: 24,
+                                  foreground: Paint()
+                                    ..style = PaintingStyle.stroke
+                                    ..strokeWidth = 1.2
+                                    ..color = Colors.black,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
+                ),
+                SizedBox(height: 24),
+                TextButton(
+                  onPressed: () {},
+                  child: const Text('حساب ندارید؟ همین حالا بسازید...'),
+                ),
+                CustomElevatedButton(
+                  label: AppStrings.registerButton,
+                  onPressed: () => context.go(AppRoutes.register),
+                  isLoading: _isLoading,
                 ),
               ],
             ),
