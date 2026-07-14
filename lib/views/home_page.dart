@@ -68,7 +68,6 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  // HomeTab با ListenableBuilder - فقط این بخش با پلیر rebuild میشه
   Widget _buildHomeTab() {
     return ListenableBuilder(
       listenable: _playerService,
@@ -92,7 +91,7 @@ class _HomePageState extends State<HomePage> {
       children: [
         Icon(Icons.library_music, size: 64, color: Colors.grey),
         SizedBox(height: 16),
-        Text(AppStrings.bottomNavigatorLibrary),
+        Text(AppStrings.library),
       ],
     ),
   );
@@ -103,7 +102,7 @@ class _HomePageState extends State<HomePage> {
       children: [
         Icon(Icons.favorite, size: 64, color: Colors.grey),
         SizedBox(height: 16),
-        Text(AppStrings.bottomNavigatorFavorites),
+        Text(AppStrings.favorites),
       ],
     ),
   );
@@ -127,7 +126,7 @@ class _HomePageState extends State<HomePage> {
           ),
           const SizedBox(height: 16),
           Text(
-            user?.email ?? AppStrings.bottomNavigatorProfile,
+            user?.email ?? AppStrings.profile,
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
@@ -179,7 +178,7 @@ class _HomePageState extends State<HomePage> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('${AppStrings.logOutError}${e.toString()}'),
+            content: Text('${AppStrings.logoutError}${e.toString()}'),
             backgroundColor: Theme.of(context).colorScheme.error,
           ),
         );
@@ -191,7 +190,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // صفحات static هر بار rebuild نمیشن (به جز HomeTab که ListenableBuilder داره)
     final pages = [
       _buildHomeTab(),
       _buildLibraryTab(),
@@ -203,7 +201,7 @@ class _HomePageState extends State<HomePage> {
       isLoading: _isLoggingOut,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text(AppStrings.homeTitle),
+          title: const Text(AppStrings.home),
           actions: [
             IconButton(
               icon: const Icon(Icons.more_vert),

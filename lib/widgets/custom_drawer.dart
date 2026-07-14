@@ -31,34 +31,34 @@ class CustomDrawer extends StatelessWidget {
                   decoration: BoxDecoration(color: colorScheme.primary),
                   child: const Center(
                     child: Text(
-                      AppStrings.drawerMenu,
+                      AppStrings.menu,
                       style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
                   ),
                 ),
               ),
               ListTile(
-                title: const Text(AppStrings.drawerList),
+                title: const Text(AppStrings.playlist),
                 textColor: Colors.white,
                 onTap: () => Navigator.of(context).pop(),
               ),
               ListTile(
-                title: const Text(AppStrings.drawerFavorites),
+                title: const Text(AppStrings.favorites),
                 textColor: Colors.white,
                 onTap: () => Navigator.of(context).pop(),
               ),
               ListTile(
-                title: const Text(AppStrings.drawerSettings),
+                title: const Text(AppStrings.settings),
                 textColor: Colors.white,
                 onTap: () => Navigator.of(context).pop(),
               ),
               ListTile(
-                title: const Text(AppStrings.drawerAbout),
+                title: const Text(AppStrings.about),
                 textColor: Colors.white,
                 onTap: () => Navigator.of(context).pop(),
               ),
               ListTile(
-                title: const Text(AppStrings.drawerLogOut),
+                title: const Text(AppStrings.logout),
                 textColor: Colors.red[200],
                 onTap: () {
                   Navigator.of(context).pop();

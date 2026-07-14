@@ -22,21 +22,18 @@ class CustomBottomNavigationBar extends StatelessWidget {
       currentIndex: currentIndex,
       onTap: onTap,
       items: const [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: AppStrings.bottomNavigatorHome,
-        ),
+        BottomNavigationBarItem(icon: Icon(Icons.home), label: AppStrings.home),
         BottomNavigationBarItem(
           icon: Icon(Icons.library_music),
-          label: AppStrings.bottomNavigatorLibrary,
+          label: AppStrings.library,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.favorite),
-          label: AppStrings.bottomNavigatorFavorites,
+          label: AppStrings.favorites,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person),
-          label: AppStrings.bottomNavigatorProfile,
+          label: AppStrings.profile,
         ),
       ],
     );

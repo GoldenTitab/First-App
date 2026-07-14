@@ -106,7 +106,7 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
               ),
               const SizedBox(height: 32),
               Text(
-                AppStrings.emailNotSent,
+                AppStrings.emailNotReceived,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 14,
@@ -120,7 +120,7 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
                 OutlinedButton.icon(
                   onPressed: _resendVerificationEmail,
                   icon: const Icon(Icons.send),
-                  label: const Text(AppStrings.emailResend),
+                  label: const Text(AppStrings.resendEmail),
                 ),
               const SizedBox(height: 24),
               TextButton.icon(
@@ -130,7 +130,7 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
                 },
                 icon: const Icon(Icons.logout, color: Colors.red),
                 label: const Text(
-                  AppStrings.logOut,
+                  AppStrings.logout,
                   style: TextStyle(color: Colors.red),
                 ),
               ),

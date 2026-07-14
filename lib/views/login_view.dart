@@ -121,7 +121,7 @@ class _LoginViewState extends State<LoginView> {
                       const SizedBox(height: 8),
 
                       CustomElevatedButton(
-                        label: AppStrings.loginButton,
+                        label: AppStrings.login,
                         onPressed: _login,
                         isLoading: _isLoading,
                       ),
@@ -208,7 +208,7 @@ class _LoginViewState extends State<LoginView> {
                   child: const Text('حساب ندارید؟ همین حالا بسازید...'),
                 ),
                 CustomElevatedButton(
-                  label: AppStrings.registerButton,
+                  label: AppStrings.register,
                   onPressed: () => context.go(AppRoutes.register),
                   isLoading: _isLoading,
                 ),
