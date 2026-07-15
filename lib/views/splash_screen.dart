@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import '../utils/constants.dart';
 import '../utils/app_routes.dart';
+import '../services/auth_service.dart';
+import '../services/onboarding_service.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -49,9 +51,29 @@ class _SplashScreenState extends State<SplashScreen>
     _timer = Timer(AppDurations.splashDuration, _navigateToMain);
   }
 
-  void _navigateToMain() {
+  Future<void> _navigateToMain() async {
     if (!mounted) return;
-    context.go(AppRoutes.home);
+
+    final user = AuthService().currentUser;
+
+    if (user != null) {
+      if (user.emailVerified) {
+        context.go(AppRoutes.home);
+      } else {
+        context.go(AppRoutes.verifyEmail);
+      }
+      return;
+    }
+
+    final hasSeenWelcome = await OnboardingService().hasSeenWelcome;
+
+    if (!mounted) return;
+
+    if (hasSeenWelcome) {
+      context.go(AppRoutes.login);
+    } else {
+      context.go(AppRoutes.welcome);
+    }
   }
 
   @override

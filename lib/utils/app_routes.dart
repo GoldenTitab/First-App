@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../services/auth_service.dart';
+import '../services/onboarding_service.dart';
 import '../views/splash_screen.dart';
+import '../views/welcome_view.dart';
 import '../views/login_view.dart';
 import '../views/register_view.dart';
 import '../views/home_page.dart';
@@ -11,6 +13,7 @@ class AppRoutes {
   AppRoutes._();
 
   static const String splash = '/';
+  static const String welcome = '/welcome';
   static const String login = '/login';
   static const String register = '/login/register';
   static const String home = '/home';
@@ -21,6 +24,7 @@ class AppRoutes {
     redirect: _globalRedirect,
     routes: [
       GoRoute(path: splash, builder: (_, _) => const SplashScreen()),
+      GoRoute(path: welcome, builder: (_, _) => const WelcomeView()),
       GoRoute(
         path: login,
         builder: (_, _) => const LoginView(),
@@ -33,24 +37,32 @@ class AppRoutes {
     ],
   );
 
-  static String? _globalRedirect(BuildContext context, GoRouterState state) {
+  static Future<String?> _globalRedirect(
+    BuildContext context,
+    GoRouterState state,
+  ) async {
     final user = AuthService().currentUser;
-    final isOnSplash = state.matchedLocation == splash;
-    final isOnAuth =
-        state.matchedLocation == login ||
-        state.matchedLocation == '$login/register';
+    final location = state.matchedLocation;
 
-    if (isOnSplash) return null;
-
+    if (location == splash) return null;
     if (user == null) {
-      return isOnAuth ? null : login;
+      final isOnAuth = location == login || location == '$login/register';
+      final isOnWelcome = location == welcome;
+
+      if (isOnAuth || isOnWelcome) return null;
+
+      final hasSeenWelcome = await OnboardingService().hasSeenWelcome;
+      return hasSeenWelcome ? login : welcome;
     }
 
     if (!user.emailVerified) {
-      return state.matchedLocation == verifyEmail ? null : verifyEmail;
+      return location == verifyEmail ? null : verifyEmail;
     }
 
-    if (isOnAuth || state.matchedLocation == verifyEmail) {
+    if (location == login ||
+        location == '$login/register' ||
+        location == welcome ||
+        location == verifyEmail) {
       return home;
     }
 
