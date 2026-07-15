@@ -4,7 +4,12 @@ class AppStrings {
   AppStrings._();
 
   static const String appTitle = 'Aurora';
-  static const String welcome = 'به Aurora خوش آمدید';
+  static const String welcomeMessage = 'به Aurora خوش آمدید';
+  static const String welcomeSubtitle =
+      'موسیقی را با شفافیت و زیبایی تجربه کنید';
+  static const String getStarted = 'شروع کنید';
+  static const String next = 'بعدی';
+
   static const String splashMessage = 'به شفافیت آب، به درخشندگی شفق';
   static const String loginTitle = 'ورود به حساب';
   static const String registerTitle = 'ثبت‌نام';
