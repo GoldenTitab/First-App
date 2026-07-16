@@ -116,7 +116,7 @@ class _LoginViewState extends State<LoginView> {
                       alignment: Alignment.centerRight,
                       child: TextButton(
                         onPressed: () {},
-                        child: const Text('رمز خود را فراموش کرده‌اید؟'),
+                        child: const Text(AppStrings.forgotPassword),
                       ),
                     ),
 
@@ -130,7 +130,7 @@ class _LoginViewState extends State<LoginView> {
                     const SizedBox(height: 64),
 
                     Text(
-                      "با استفاده از روش‌های دیگر وارد شوید",
+                      AppStrings.loginWaysText,
                       style: TextStyle(color: theme.colorScheme.secondary),
                     ),
                     Center(
@@ -208,7 +208,7 @@ class _LoginViewState extends State<LoginView> {
               SizedBox(height: 80),
               TextButton(
                 onPressed: () => context.go(AppRoutes.register),
-                child: const Text('حساب ندارید؟ همین حالا بسازید...'),
+                child: const Text(AppStrings.dontHaveAnAccount),
               ),
             ],
           ),

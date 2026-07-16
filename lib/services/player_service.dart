@@ -1,6 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/foundation.dart';
 import '../models/song.dart';
+import '../utils/constants.dart';
 
 class PlayerService extends ChangeNotifier {
   PlayerService._internal();
@@ -63,7 +64,7 @@ class PlayerService extends ChangeNotifier {
       }
       notifyListeners();
     } catch (e) {
-      _error = 'خطا در پخش: ${e.toString()}';
+      _error = '${AppStrings.playError} ${e.toString()}';
       notifyListeners();
     }
   }

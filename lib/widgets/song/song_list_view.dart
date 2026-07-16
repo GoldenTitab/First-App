@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/song.dart';
 import 'song_list_item.dart';
+import '../../utils/constants.dart';
 
 class SongListView extends StatelessWidget {
   final List<Song> songs;
@@ -42,7 +43,7 @@ class SongListView extends StatelessWidget {
               Icon(Icons.error_outline, size: 64, color: Colors.red[300]),
               const SizedBox(height: 16),
               const Text(
-                'خطا در دریافت لیست آهنگ‌ها',
+                AppStrings.getMusicListError,
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
@@ -55,7 +56,7 @@ class SongListView extends StatelessWidget {
               ElevatedButton.icon(
                 onPressed: onRetry,
                 icon: const Icon(Icons.refresh),
-                label: const Text('تلاش مجدد'),
+                label: const Text(AppStrings.retry),
               ),
             ],
           ),
@@ -70,7 +71,7 @@ class SongListView extends StatelessWidget {
           children: [
             Icon(Icons.music_off, size: 64, color: Colors.grey),
             SizedBox(height: 16),
-            Text('هیچ آهنگی یافت نشد.'),
+            Text(AppStrings.musicNotFounded),
           ],
         ),
       );

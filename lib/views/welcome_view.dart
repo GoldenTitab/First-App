@@ -71,7 +71,7 @@ class _WelcomeViewState extends State<WelcomeView>
                       width: size.width * 0.65,
                       height: size.width * 0.65,
                       fit: BoxFit.cover,
-                      errorBuilder: (_, __, ___) => Icon(
+                      errorBuilder: (_, _, _) => Icon(
                         Icons.music_note_rounded,
                         size: 120,
                         color: colorScheme.primary,

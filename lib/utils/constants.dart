@@ -33,6 +33,10 @@ class AppStrings {
   static const String error = 'خطا';
   static const String genericError = 'خطایی رخ داده است.';
   static const String unknownError = 'خطای ناشناخته: ';
+  static const String playError = 'خطا در پخش: ';
+  static const String getMusicListErrorReturnCode =
+      'دریافت لیست آهنگ‌ها ناموفق بود (کد:';
+  static const String getMusicError = 'خطا در دریافت آهنگ‌ها:';
   static const String retry = 'تلاش مجدد';
   static const String okay = 'باشه';
   static const String userNotFound = 'کاربری با این ایمیل یافت نشد.';
@@ -60,6 +64,16 @@ class AppStrings {
   static const String nowPlaying = 'در حال پخش';
   static const String noSongPlaying = 'آهنگی در حال پخش نیست';
   static const String songsLoadError = 'خطا در دریافت لیست آهنگ‌ها';
+  static const String approved = 'تأیید شده';
+  static const String notApproved = 'تأیید نشده';
+  static const String forgotPassword = 'رمز خود را فراموش کرده‌اید؟';
+  static const String loginWaysText = 'با استفاده از روش‌های دیگر وارد شوید';
+  static const String dontHaveAnAccount = 'حساب ندارید؟ همین حالا بسازید...';
+  static const String repeatPasswordHint = 'تکرار رمز عبور';
+  static const String repeatedPasswordDifferentError =
+      'رمز عبور با تکرار آن مطابقت ندارد.';
+  static const String getMusicListError = 'خطا در دریافت لیست آهنگ‌ها';
+  static const String musicNotFounded = 'هیچ آهنگی یافت نشد.';
 }
 
 class AppDurations {

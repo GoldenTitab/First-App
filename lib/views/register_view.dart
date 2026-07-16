@@ -118,7 +118,7 @@ class _RegisterViewState extends State<RegisterView> {
                 const SizedBox(height: 16),
                 CustomTextField(
                   controller: _confirmPasswordController,
-                  hint: 'تکرار رمز عبور',
+                  hint: AppStrings.repeatPasswordHint,
                   prefixIcon: Icons.lock_outline,
                   obscureText: true,
                   validator: (value) {
@@ -126,7 +126,7 @@ class _RegisterViewState extends State<RegisterView> {
                       return AppStrings.requiredField;
                     }
                     if (value != _passwordController.text) {
-                      return 'رمز عبور با تکرار آن مطابقت ندارد.';
+                      return AppStrings.repeatedPasswordDifferentError;
                     }
                     return null;
                   },

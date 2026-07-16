@@ -143,7 +143,9 @@ class _HomePageState extends State<HomePage> {
               ),
               const SizedBox(width: 4),
               Text(
-                user?.emailVerified == true ? 'تأیید شده' : 'تأیید نشده',
+                user?.emailVerified == true
+                    ? AppStrings.approved
+                    : AppStrings.notApproved,
                 style: TextStyle(
                   color: user?.emailVerified == true
                       ? Colors.green
