@@ -1,6 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../models/song.dart';
+import '../utils/constants.dart';
 
 class SongService {
   SongService._internal();
@@ -39,13 +40,13 @@ class SongService {
         return songs;
       } else {
         throw SongServiceException(
-          'دریافت لیست آهنگ‌ها ناموفق بود (کد: ${response.statusCode})',
+          '${AppStrings.getMusicListErrorReturnCode} ${response.statusCode})',
         );
       }
     } on SongServiceException {
       rethrow;
     } catch (e) {
-      throw SongServiceException('خطا در دریافت آهنگ‌ها: ${e.toString()}');
+      throw SongServiceException('${AppStrings.getMusicError} ${e.toString()}');
     }
   }
 
