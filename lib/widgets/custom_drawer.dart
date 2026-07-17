@@ -14,13 +14,7 @@ class CustomDrawer extends StatelessWidget {
       width: 250,
       child: SafeArea(
         child: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [colorScheme.primary, colorScheme.secondary],
-            ),
-          ),
+          color: colorScheme.surface,
           child: ListView(
             padding: EdgeInsets.zero,
             children: [
@@ -37,27 +31,33 @@ class CustomDrawer extends StatelessWidget {
                 ),
               ),
               ListTile(
-                title: const Text(AppStrings.playlist),
-                textColor: colorScheme.onPrimary,
+                leading: Icon(Icons.playlist_play, color: colorScheme.primary),
+                title: Text(AppStrings.playlist),
+                textColor: colorScheme.onSurface,
                 onTap: () => Navigator.of(context).pop(),
               ),
               ListTile(
-                title: const Text(AppStrings.favorites),
-                textColor: colorScheme.onPrimary,
+                leading: Icon(Icons.favorite, color: colorScheme.primary),
+                title: Text(AppStrings.favorites),
+                textColor: colorScheme.onSurface,
                 onTap: () => Navigator.of(context).pop(),
               ),
               ListTile(
-                title: const Text(AppStrings.settings),
-                textColor: colorScheme.onPrimary,
+                leading: Icon(Icons.settings, color: colorScheme.primary),
+                title: Text(AppStrings.settings),
+                textColor: colorScheme.onSurface,
                 onTap: () => Navigator.of(context).pop(),
               ),
               ListTile(
-                title: const Text(AppStrings.about),
-                textColor: colorScheme.onPrimary,
+                leading: Icon(Icons.info, color: colorScheme.primary),
+                title: Text(AppStrings.about),
+                textColor: colorScheme.onSurface,
                 onTap: () => Navigator.of(context).pop(),
               ),
+              const Divider(),
               ListTile(
-                title: const Text(AppStrings.logout),
+                leading: Icon(Icons.logout, color: colorScheme.error),
+                title: Text(AppStrings.logout),
                 textColor: colorScheme.error,
                 onTap: () {
                   Navigator.of(context).pop();

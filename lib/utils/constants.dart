@@ -3,14 +3,18 @@ import 'package:flutter/material.dart';
 class AppStrings {
   AppStrings._();
 
+  // App Info
   static const String appTitle = 'Aurora';
+
+  // Onboarding & Splash
   static const String welcomeMessage = 'به Aurora خوش آمدید';
   static const String welcomeSubtitle =
       'موسیقی را با شفافیت و زیبایی تجربه کنید';
   static const String getStarted = 'شروع کنید';
   static const String next = 'بعدی';
-
   static const String splashMessage = 'به شفافیت آب، به درخشندگی شفق';
+
+  // Auth
   static const String loginTitle = 'ورود به حساب';
   static const String registerTitle = 'ثبت‌نام';
   static const String verifyEmailTitle = 'تأیید ایمیل';
@@ -20,25 +24,39 @@ class AppStrings {
   static const String register = 'ثبت‌نام';
   static const String logout = 'خروج';
   static const String resendEmail = 'ارسال مجدد ایمیل تأیید';
-  static const String goToRegister = 'حساب ندارید؟ ثبت‌نام کنید';
+  static const String forgotPassword = 'رمز خود را فراموش کرده‌اید؟';
+  static const String dontHaveAnAccount = 'حساب ندارید؟ همین حالا بسازید';
+  static const String repeatPasswordHint = 'تکرار رمز عبور';
+  static const String repeatedPasswordDifferentError =
+      'رمز عبور با تکرار آن مطابقت ندارد.';
+
+  // Email Verification
   static const String verifyEmailMessage =
       'یک ایمیل تأیید به آدرس شما ارسال شده است.\nلطفاً صندوق ورودی خود را بررسی کنید.';
   static const String emailVerificationSent =
       'ایمیل تأیید ارسال شد.\nلطفاً صندوق ورودی خود را چک کنید.';
   static const String emailNotReceived = 'ایمیل دریافت نکرده‌اید؟';
+
+  // Dialogs
   static const String logoutDialogTitle = 'خروج از حساب';
   static const String logoutDialogContent =
       'آیا مطمئن هستید که می‌خواهید خارج شوید؟';
   static const String cancel = 'لغو';
+  static const String retry = 'تلاش مجدد';
+  static const String okay = 'باشه';
+
+  // Errors
   static const String error = 'خطا';
   static const String genericError = 'خطایی رخ داده است.';
   static const String unknownError = 'خطای ناشناخته: ';
-  static const String playError = 'خطا در پخش: ';
-  static const String getMusicListErrorReturnCode =
+  static const String playbackError = 'خطا در پخش: ';
+  static const String fetchSongsErrorWithCode =
       'دریافت لیست آهنگ‌ها ناموفق بود (کد:';
-  static const String getMusicError = 'خطا در دریافت آهنگ‌ها:';
-  static const String retry = 'تلاش مجدد';
-  static const String okay = 'باشه';
+  static const String fetchSongsError = 'خطا در دریافت آهنگ‌ها:';
+  static const String fetchSongsListError = 'خطا در دریافت لیست آهنگ‌ها';
+  static const String musicNotFound = 'هیچ آهنگی یافت نشد.';
+
+  // Auth Errors
   static const String userNotFound = 'کاربری با این ایمیل یافت نشد.';
   static const String wrongPassword = 'رمز عبور اشتباه است.';
   static const String invalidEmail = 'ایمیل معتبر وارد کنید.';
@@ -53,6 +71,8 @@ class AppStrings {
       'تلاش بیش از حد. لطفاً چند دقیقه صبر کنید.';
   static const String requiredField = 'این فیلد الزامی است.';
   static const String invalidFormat = 'قالب داده نامعتبر است.';
+
+  // Navigation
   static const String home = 'خانه';
   static const String library = 'کتابخانه';
   static const String favorites = 'علاقه‌مندی‌ها';
@@ -63,17 +83,14 @@ class AppStrings {
   static const String about = 'درباره ما';
   static const String nowPlaying = 'در حال پخش';
   static const String noSongPlaying = 'آهنگی در حال پخش نیست';
-  static const String songsLoadError = 'خطا در دریافت لیست آهنگ‌ها';
+
+  // Status
   static const String approved = 'تأیید شده';
   static const String notApproved = 'تأیید نشده';
-  static const String forgotPassword = 'رمز خود را فراموش کرده‌اید؟';
+
+  // Social Login
   static const String loginWaysText = 'با استفاده از روش‌های دیگر وارد شوید';
-  static const String dontHaveAnAccount = 'حساب ندارید؟ همین حالا بسازید...';
-  static const String repeatPasswordHint = 'تکرار رمز عبور';
-  static const String repeatedPasswordDifferentError =
-      'رمز عبور با تکرار آن مطابقت ندارد.';
-  static const String getMusicListError = 'خطا در دریافت لیست آهنگ‌ها';
-  static const String musicNotFounded = 'هیچ آهنگی یافت نشد.';
+  static const String goToRegister = 'حساب ندارید؟ ثبت‌نام کنید';
 }
 
 class AppDurations {
@@ -87,8 +104,8 @@ class AppDurations {
 class AppStyles {
   AppStyles._();
 
-  static const TextStyle baseStyle = TextStyle(
-    color: Color(0xFF607D8B),
+  static TextStyle baseStyle(BuildContext context) => TextStyle(
+    color: Theme.of(context).colorScheme.onSurfaceVariant,
     fontSize: 16,
     fontFamily: 'Vazir',
   );
@@ -114,6 +131,13 @@ class AppValidators {
     }
     if (value.length < 6) {
       return AppStrings.weakPassword;
+    }
+    return null;
+  }
+
+  static String? required(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return AppStrings.requiredField;
     }
     return null;
   }

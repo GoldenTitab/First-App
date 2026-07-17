@@ -43,9 +43,12 @@ class SongListView extends StatelessWidget {
             children: [
               Icon(Icons.error_outline, size: 64, color: colorScheme.error),
               const SizedBox(height: 16),
-              const Text(
-                AppStrings.getMusicListError,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              Text(
+                AppStrings.fetchSongsListError,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: 8),
               Text(
@@ -79,7 +82,7 @@ class SongListView extends StatelessWidget {
               color: colorScheme.onSurface.withValues(alpha: 0.5),
             ),
             const SizedBox(height: 16),
-            Text(AppStrings.musicNotFounded),
+            Text(AppStrings.musicNotFound),
           ],
         ),
       );

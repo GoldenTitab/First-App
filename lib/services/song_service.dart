@@ -40,13 +40,15 @@ class SongService {
         return songs;
       } else {
         throw SongServiceException(
-          '${AppStrings.getMusicListErrorReturnCode} ${response.statusCode})',
+          '${AppStrings.fetchSongsErrorWithCode} ${response.statusCode})',
         );
       }
     } on SongServiceException {
       rethrow;
     } catch (e) {
-      throw SongServiceException('${AppStrings.getMusicError} ${e.toString()}');
+      throw SongServiceException(
+        '${AppStrings.fetchSongsError} ${e.toString()}',
+      );
     }
   }
 

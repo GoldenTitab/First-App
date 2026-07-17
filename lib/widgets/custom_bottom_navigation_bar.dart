@@ -16,7 +16,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     return BottomNavigationBar(
       selectedItemColor: colorScheme.primary,
-      unselectedItemColor: colorScheme.primary.withValues(alpha: 0.4),
+      unselectedItemColor: colorScheme.onSurfaceVariant,
       backgroundColor: colorScheme.surface,
       type: BottomNavigationBarType.fixed,
       currentIndex: currentIndex,

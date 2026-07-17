@@ -41,6 +41,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void dispose() {
+    _playerService.dispose();
     super.dispose();
   }
 
@@ -84,27 +85,43 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildLibraryTab() => const Center(
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(Icons.library_music, size: 64, color: Colors.grey),
-        SizedBox(height: 16),
-        Text(AppStrings.library),
-      ],
-    ),
-  );
+  Widget _buildLibraryTab() {
+    final colorScheme = Theme.of(context).colorScheme;
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.library_music,
+            size: 64,
+            color: colorScheme.onSurfaceVariant,
+          ),
+          const SizedBox(height: 16),
+          Text(
+            AppStrings.library,
+            style: TextStyle(color: colorScheme.onSurfaceVariant),
+          ),
+        ],
+      ),
+    );
+  }
 
-  Widget _buildFavoritesTab() => const Center(
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(Icons.favorite, size: 64, color: Colors.grey),
-        SizedBox(height: 16),
-        Text(AppStrings.favorites),
-      ],
-    ),
-  );
+  Widget _buildFavoritesTab() {
+    final colorScheme = Theme.of(context).colorScheme;
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.favorite, size: 64, color: colorScheme.onSurfaceVariant),
+          const SizedBox(height: 16),
+          Text(
+            AppStrings.favorites,
+            style: TextStyle(color: colorScheme.onSurfaceVariant),
+          ),
+        ],
+      ),
+    );
+  }
 
   Widget _buildProfileTab() {
     final user = _authService.currentUser;
@@ -138,8 +155,8 @@ class _HomePageState extends State<HomePage> {
                     : Icons.warning_amber,
                 size: 16,
                 color: user?.emailVerified == true
-                    ? Colors.green
-                    : Colors.orange,
+                    ? colorScheme.primary
+                    : colorScheme.error,
               ),
               const SizedBox(width: 4),
               Text(
@@ -148,8 +165,8 @@ class _HomePageState extends State<HomePage> {
                     : AppStrings.notApproved,
                 style: TextStyle(
                   color: user?.emailVerified == true
-                      ? Colors.green
-                      : Colors.orange,
+                      ? colorScheme.primary
+                      : colorScheme.error,
                 ),
               ),
             ],
@@ -205,7 +222,7 @@ class _HomePageState extends State<HomePage> {
           title: const Text(AppStrings.home),
           actions: [
             IconButton(
-              icon: const Icon(Icons.more_vert),
+              icon: const Icon(Icons.logout),
               tooltip: AppStrings.logoutDialogTitle,
               onPressed: _isLoggingOut ? null : _showLogoutDialog,
             ),

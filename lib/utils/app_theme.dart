@@ -3,53 +3,58 @@ import 'package:flutter/material.dart';
 class AppColors {
   AppColors._();
 
+  // Primary
   static const Color primary900 = Color(0xFF0A0E36);
   static const Color primary800 = Color(0xFF111752);
   static const Color primary700 = Color(0xFF161E6A);
   static const Color primary600 = Color(0xFF1A2375);
-  static const Color primary500 = Color(0xFF1D2780); // main
+  static const Color primary500 = Color(0xFF1D2780);
   static const Color primary400 = Color(0xFF4A52A0);
   static const Color primary300 = Color(0xFF7880BF);
   static const Color primary200 = Color(0xFFABB0D9);
   static const Color primary100 = Color(0xFFD5D8EE);
   static const Color primary50 = Color(0xFFEAEBF7);
 
+  // Secondary
   static const Color secondary900 = Color(0xFF211F4A);
   static const Color secondary800 = Color(0xFF363472);
   static const Color secondary700 = Color(0xFF4A4892);
   static const Color secondary600 = Color(0xFF5856A2);
-  static const Color secondary500 = Color(0xFF6765B2); // main
+  static const Color secondary500 = Color(0xFF6765B2);
   static const Color secondary400 = Color(0xFF8A89C5);
   static const Color secondary300 = Color(0xFFABABD7);
   static const Color secondary200 = Color(0xFFCCCBE8);
   static const Color secondary100 = Color(0xFFE5E5F4);
   static const Color secondary50 = Color(0xFFF2F2FA);
 
+  // Accent 1 (Gold/Orange)
   static const Color accent1_900 = Color(0xFF5C3800);
   static const Color accent1_800 = Color(0xFF8A5400);
   static const Color accent1_700 = Color(0xFFAD6B00);
   static const Color accent1_600 = Color(0xFFCC8800);
-  static const Color accent1_500 = Color(0xFFF5A623); // main
+  static const Color accent1_500 = Color(0xFFF5A623);
   static const Color accent1_400 = Color(0xFFF7B94E);
   static const Color accent1_300 = Color(0xFFFACB7A);
   static const Color accent1_200 = Color(0xFFFCDDA8);
   static const Color accent1_100 = Color(0xFFFEEDD2);
   static const Color accent1_50 = Color(0xFFFFF6EC);
 
+  // Accent 2 (Red)
   static const Color accent2_900 = Color(0xFF4A0D08);
   static const Color accent2_800 = Color(0xFF7A1812);
   static const Color accent2_700 = Color(0xFF9E251B);
   static const Color accent2_600 = Color(0xFFC03529);
-  static const Color accent2_500 = Color(0xFFE74C3C); // main
+  static const Color accent2_500 = Color(0xFFE74C3C);
   static const Color accent2_400 = Color(0xFFED7268);
   static const Color accent2_300 = Color(0xFFF39C95);
   static const Color accent2_200 = Color(0xFFF8C3BF);
   static const Color accent2_100 = Color(0xFFFCE1DF);
   static const Color accent2_50 = Color(0xFFFEF0EF);
 
+  // Neutral
   static const Color neutral900 = Color(0xFF111316);
   static const Color neutral800 = Color(0xFF212529);
-  static const Color neutral700 = Color(0xFF343A40); // main
+  static const Color neutral700 = Color(0xFF343A40);
   static const Color neutral600 = Color(0xFF495057);
   static const Color neutral500 = Color(0xFF6C757D);
   static const Color neutral400 = Color(0xFFADB5BD);
@@ -58,62 +63,74 @@ class AppColors {
   static const Color neutral100 = Color(0xFFF1F3F5);
   static const Color neutral50 = Color(0xFFF8F9FA);
 
+  // Success
   static const Color success900 = Color(0xFF0B3D22);
   static const Color success800 = Color(0xFF145E34);
   static const Color success700 = Color(0xFF1C7D45);
   static const Color success600 = Color(0xFF219A52);
-  static const Color success500 = Color(0xFF27AE60); // main
+  static const Color success500 = Color(0xFF27AE60);
   static const Color success400 = Color(0xFF52C07D);
   static const Color success300 = Color(0xFF80D09F);
   static const Color success200 = Color(0xFFAEE2C3);
   static const Color success100 = Color(0xFFD4F0E0);
   static const Color success50 = Color(0xFFEAF8F0);
 
+  // Error
   static const Color error900 = Color(0xFF4A0D08);
   static const Color error800 = Color(0xFF7A1812);
   static const Color error700 = Color(0xFF9E251B);
   static const Color error600 = Color(0xFFC03529);
-  static const Color error500 = Color(0xFFE74C3C); // main
+  static const Color error500 = Color(0xFFE74C3C);
   static const Color error400 = Color(0xFFED7268);
   static const Color error300 = Color(0xFFF39C95);
   static const Color error200 = Color(0xFFF8C3BF);
   static const Color error100 = Color(0xFFFCE1DF);
   static const Color error50 = Color(0xFFFEF0EF);
 
+  // Warning
   static const Color warning900 = Color(0xFF4F3000);
   static const Color warning800 = Color(0xFF7A4A00);
   static const Color warning700 = Color(0xFF9E6200);
   static const Color warning600 = Color(0xFFBF7B00);
-  static const Color warning500 = Color(0xFFF39C12); // main
+  static const Color warning500 = Color(0xFFF39C12);
   static const Color warning400 = Color(0xFFF6B240);
   static const Color warning300 = Color(0xFFF9C870);
   static const Color warning200 = Color(0xFFFBDCA6);
   static const Color warning100 = Color(0xFFFDEDD2);
   static const Color warning50 = Color(0xFFFEF6EC);
 
+  // Info
   static const Color info900 = Color(0xFF0D3050);
   static const Color info800 = Color(0xFF164D7E);
   static const Color info700 = Color(0xFF1E65A4);
   static const Color info600 = Color(0xFF267EC0);
-  static const Color info500 = Color(0xFF3498DB); // main
+  static const Color info500 = Color(0xFF3498DB);
   static const Color info400 = Color(0xFF5DB0E4);
   static const Color info300 = Color(0xFF8AC8ED);
   static const Color info200 = Color(0xFFB7DDF5);
   static const Color info100 = Color(0xFFD9EEF9);
   static const Color info50 = Color(0xFFECF6FD);
+
+  // Dark Theme Specific Colors
+  static const Color darkInputFill = Color(0xFF252848);
+  static const Color darkInputBorder = Color(0xFF3A3D6A);
+  static const Color darkCardBorder = Color(0xFF2E3058);
+  static const Color darkSurfaceContainerHighest = Color(0xFF2A2C50);
+  static const Color darkOutline = Color(0xFF3A3D6A);
+  static const Color darkOutlineVariant = Color(0xFF2E3058);
 }
 
 class AppTheme {
   AppTheme._();
 
-  static const Color primary = AppColors.primary500; // #1D2780
-  static const Color secondary = AppColors.secondary500; // #6765B2
-  static const Color info = AppColors.info500; // #3498DB
-  static const Color warning = AppColors.warning500; // #F39C12
-  static const Color error = AppColors.error500; // #E74C3C
-  static const Color success = AppColors.success500; // #27AE60
-  static const Color accent1 = AppColors.accent1_500; // #F5A623
-  static const Color accent2 = AppColors.accent2_500; // #E74C3C
+  static const Color primary = AppColors.primary500;
+  static const Color secondary = AppColors.secondary500;
+  static const Color info = AppColors.info500;
+  static const Color warning = AppColors.warning500;
+  static const Color error = AppColors.error500;
+  static const Color success = AppColors.success500;
+  static const Color accent1 = AppColors.accent1_500;
+  static const Color accent2 = AppColors.accent2_500;
 
   static const Color surface = Color(0xFFF4F5FA);
   static const Color darkSurface = Color(0xFF1C1E2E);
@@ -122,7 +139,7 @@ class AppTheme {
   static ThemeData get light => ThemeData(
     useMaterial3: true,
     fontFamily: 'Vazir',
-    colorScheme: ColorScheme(
+    colorScheme: const ColorScheme(
       brightness: Brightness.light,
       primary: primary,
       onPrimary: Colors.white,
@@ -246,7 +263,7 @@ class AppTheme {
   static ThemeData get dark => ThemeData(
     useMaterial3: true,
     fontFamily: 'Vazir',
-    colorScheme: ColorScheme(
+    colorScheme: const ColorScheme(
       brightness: Brightness.dark,
       primary: AppColors.primary300,
       onPrimary: AppColors.primary900,
@@ -266,9 +283,9 @@ class AppTheme {
       onErrorContainer: AppColors.error100,
       surface: darkSurface,
       onSurface: AppColors.neutral100,
-      surfaceContainerHighest: const Color(0xFF2A2C50),
-      outline: const Color(0xFF3A3D6A),
-      outlineVariant: const Color(0xFF2E3058),
+      surfaceContainerHighest: AppColors.darkSurfaceContainerHighest,
+      outline: AppColors.darkOutline,
+      outlineVariant: AppColors.darkOutlineVariant,
       shadow: Colors.black,
       scrim: Colors.black,
       inverseSurface: AppColors.neutral100,
@@ -309,14 +326,14 @@ class AppTheme {
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: const Color(0xFF252848),
+      fillColor: AppColors.darkInputFill,
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
         borderSide: BorderSide.none,
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: Color(0xFF3A3D6A)),
+        borderSide: const BorderSide(color: AppColors.darkInputBorder),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
@@ -340,7 +357,7 @@ class AppTheme {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: const BorderSide(color: Color(0xFF2E3058)),
+        side: const BorderSide(color: AppColors.darkCardBorder),
       ),
       color: darkSurface,
     ),
@@ -360,7 +377,7 @@ class AppTheme {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
     ),
     dividerTheme: const DividerThemeData(
-      color: Color(0xFF2E3058),
+      color: AppColors.darkCardBorder,
       thickness: 1,
     ),
     badgeTheme: const BadgeThemeData(
@@ -368,35 +385,4 @@ class AppTheme {
       textColor: Colors.white,
     ),
   );
-}
-
-extension AppColorsExtension on BuildContext {
-  Color get successColor => Theme.of(this).brightness == Brightness.dark
-      ? AppColors.success300
-      : AppColors.success500;
-
-  Color get warningColor => Theme.of(this).brightness == Brightness.dark
-      ? AppColors.warning300
-      : AppColors.warning500;
-
-  Color get infoColor => Theme.of(this).brightness == Brightness.dark
-      ? AppColors.info300
-      : AppColors.info500;
-
-  Color get accent1Color => Theme.of(this).brightness == Brightness.dark
-      ? AppColors.accent1_300
-      : AppColors.accent1_500;
-
-  Color get accent2Color => Theme.of(this).brightness == Brightness.dark
-      ? AppColors.accent2_300
-      : AppColors.accent2_500;
-}
-
-class AppInputDecoration {
-  static InputDecoration base({required String hint, IconData? prefixIcon}) {
-    return InputDecoration(
-      hintText: hint,
-      prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
-    );
-  }
 }

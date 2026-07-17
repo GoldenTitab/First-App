@@ -64,7 +64,7 @@ class PlayerService extends ChangeNotifier {
       }
       notifyListeners();
     } catch (e) {
-      _error = '${AppStrings.playError} ${e.toString()}';
+      _error = '${AppStrings.playbackError} ${e.toString()}';
       notifyListeners();
     }
   }
@@ -84,6 +84,7 @@ class PlayerService extends ChangeNotifier {
   @override
   void dispose() {
     _audioPlayer.dispose();
+    _initialized = false;
     super.dispose();
   }
 }

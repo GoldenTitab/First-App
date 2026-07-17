@@ -1,7 +1,7 @@
+import 'package:first_app/utils/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../services/auth_service.dart';
-import '../utils/app_routes.dart';
 import '../utils/constants.dart';
 import '../utils/exception_handler.dart';
 import '../widgets/custom_elevated_button.dart';
@@ -61,6 +61,7 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -70,9 +71,9 @@ class _LoginViewState extends State<LoginView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(height: 32),
+              const SizedBox(height: 32),
               Image.asset(
-                'assets/images/SplashScreen.png',
+                'assets/images/splash_logo.png',
                 width: 80,
                 height: 80,
               ),
@@ -80,10 +81,7 @@ class _LoginViewState extends State<LoginView> {
               Container(
                 padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
                 decoration: BoxDecoration(
-                  border: Border.all(
-                    width: 2,
-                    color: theme.colorScheme.primary,
-                  ),
+                  border: Border.all(width: 2, color: colorScheme.primary),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Column(
@@ -92,25 +90,24 @@ class _LoginViewState extends State<LoginView> {
                       AppStrings.loginTitle,
                       style: TextStyle(
                         fontSize: 16,
-                        color: theme.colorScheme.secondary,
+                        color: colorScheme.secondary,
                       ),
                     ),
-
                     const SizedBox(height: 8),
-
                     CustomTextField(
                       controller: _emailController,
                       hint: AppStrings.emailHint,
                       prefixIcon: Icons.email_outlined,
+                      keyboardType: TextInputType.emailAddress,
+                      validator: AppValidators.email,
                     ),
-
                     const SizedBox(height: 8),
-
                     CustomTextField(
                       controller: _passwordController,
                       hint: AppStrings.passwordHint,
                       prefixIcon: Icons.lock_outline,
                       obscureText: true,
+                      validator: AppValidators.password,
                     ),
                     Align(
                       alignment: Alignment.centerRight,
@@ -119,27 +116,22 @@ class _LoginViewState extends State<LoginView> {
                         child: const Text(AppStrings.forgotPassword),
                       ),
                     ),
-
                     const SizedBox(height: 8),
-
                     CustomElevatedButton(
                       label: AppStrings.login,
                       onPressed: _login,
                       isLoading: _isLoading,
                     ),
                     const SizedBox(height: 64),
-
                     Text(
                       AppStrings.loginWaysText,
-                      style: TextStyle(color: theme.colorScheme.secondary),
+                      style: TextStyle(color: colorScheme.secondary),
                     ),
                     Center(
                       child: SizedBox(
                         width: double.infinity,
                         child: Divider(
-                          color: theme.colorScheme.onSurface.withValues(
-                            alpha: 0.2,
-                          ),
+                          color: colorScheme.onSurface.withValues(alpha: 0.2),
                           thickness: 1,
                           height: 16,
                         ),
@@ -162,11 +154,10 @@ class _LoginViewState extends State<LoginView> {
                                 foreground: Paint()
                                   ..style = PaintingStyle.stroke
                                   ..strokeWidth = 1.2
-                                  ..color = theme.colorScheme.onSurface,
+                                  ..color = colorScheme.onSurface,
                               ),
                             ),
                           ),
-
                           IconButton(
                             onPressed: () {},
                             icon: Text(
@@ -180,7 +171,7 @@ class _LoginViewState extends State<LoginView> {
                                 foreground: Paint()
                                   ..style = PaintingStyle.stroke
                                   ..strokeWidth = 1.2
-                                  ..color = theme.colorScheme.onSurface,
+                                  ..color = colorScheme.onSurface,
                               ),
                             ),
                           ),
@@ -197,7 +188,7 @@ class _LoginViewState extends State<LoginView> {
                                 foreground: Paint()
                                   ..style = PaintingStyle.stroke
                                   ..strokeWidth = 1.2
-                                  ..color = theme.colorScheme.onSurface,
+                                  ..color = colorScheme.onSurface,
                               ),
                             ),
                           ),
@@ -207,7 +198,7 @@ class _LoginViewState extends State<LoginView> {
                   ],
                 ),
               ),
-              SizedBox(height: 80),
+              const SizedBox(height: 80),
               TextButton(
                 onPressed: () => context.go(AppRoutes.register),
                 child: const Text(AppStrings.dontHaveAnAccount),
