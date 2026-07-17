@@ -115,7 +115,7 @@ class _WelcomeViewState extends State<WelcomeView>
                   height: 56,
                   child: FilledButton.icon(
                     onPressed: _onGetStarted,
-                    icon: const Icon(Icons.arrow_forward_rounded),
+                    icon: const Icon(Icons.arrow_back_rounded),
                     label: Text(
                       AppStrings.getStarted,
                       style: AppStyles.baseStyle(context).copyWith(
