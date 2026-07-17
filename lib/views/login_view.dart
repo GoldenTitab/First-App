@@ -136,8 +136,10 @@ class _LoginViewState extends State<LoginView> {
                     Center(
                       child: SizedBox(
                         width: double.infinity,
-                        child: const Divider(
-                          color: Colors.black,
+                        child: Divider(
+                          color: theme.colorScheme.onSurface.withValues(
+                            alpha: 0.2,
+                          ),
                           thickness: 1,
                           height: 16,
                         ),
@@ -160,7 +162,7 @@ class _LoginViewState extends State<LoginView> {
                                 foreground: Paint()
                                   ..style = PaintingStyle.stroke
                                   ..strokeWidth = 1.2
-                                  ..color = Colors.black,
+                                  ..color = theme.colorScheme.onSurface,
                               ),
                             ),
                           ),
@@ -178,7 +180,7 @@ class _LoginViewState extends State<LoginView> {
                                 foreground: Paint()
                                   ..style = PaintingStyle.stroke
                                   ..strokeWidth = 1.2
-                                  ..color = Colors.black,
+                                  ..color = theme.colorScheme.onSurface,
                               ),
                             ),
                           ),
@@ -195,7 +197,7 @@ class _LoginViewState extends State<LoginView> {
                                 foreground: Paint()
                                   ..style = PaintingStyle.stroke
                                   ..strokeWidth = 1.2
-                                  ..color = Colors.black,
+                                  ..color = theme.colorScheme.onSurface,
                               ),
                             ),
                           ),

@@ -14,11 +14,11 @@ class CustomDrawer extends StatelessWidget {
       width: 250,
       child: SafeArea(
         child: Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [Colors.blue, Colors.lightBlueAccent],
+              colors: [colorScheme.primary, colorScheme.secondary],
             ),
           ),
           child: ListView(
@@ -38,27 +38,27 @@ class CustomDrawer extends StatelessWidget {
               ),
               ListTile(
                 title: const Text(AppStrings.playlist),
-                textColor: Colors.white,
+                textColor: colorScheme.onPrimary,
                 onTap: () => Navigator.of(context).pop(),
               ),
               ListTile(
                 title: const Text(AppStrings.favorites),
-                textColor: Colors.white,
+                textColor: colorScheme.onPrimary,
                 onTap: () => Navigator.of(context).pop(),
               ),
               ListTile(
                 title: const Text(AppStrings.settings),
-                textColor: Colors.white,
+                textColor: colorScheme.onPrimary,
                 onTap: () => Navigator.of(context).pop(),
               ),
               ListTile(
                 title: const Text(AppStrings.about),
-                textColor: Colors.white,
+                textColor: colorScheme.onPrimary,
                 onTap: () => Navigator.of(context).pop(),
               ),
               ListTile(
                 title: const Text(AppStrings.logout),
-                textColor: Colors.red[200],
+                textColor: colorScheme.error,
                 onTap: () {
                   Navigator.of(context).pop();
                   onLogout();
