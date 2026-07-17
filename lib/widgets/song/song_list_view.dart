@@ -34,13 +34,14 @@ class SongListView extends StatelessWidget {
     }
 
     if (errorMessage != null) {
+      final colorScheme = Theme.of(context).colorScheme;
       return Center(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.error_outline, size: 64, color: Colors.red[300]),
+              Icon(Icons.error_outline, size: 64, color: colorScheme.error),
               const SizedBox(height: 16),
               const Text(
                 AppStrings.getMusicListError,
@@ -50,7 +51,9 @@ class SongListView extends StatelessWidget {
               Text(
                 errorMessage!,
                 textAlign: TextAlign.center,
-                style: const TextStyle(color: Colors.grey),
+                style: TextStyle(
+                  color: colorScheme.onSurface.withValues(alpha: 0.7),
+                ),
               ),
               const SizedBox(height: 24),
               ElevatedButton.icon(
@@ -65,12 +68,17 @@ class SongListView extends StatelessWidget {
     }
 
     if (songs.isEmpty) {
-      return const Center(
+      final colorScheme = Theme.of(context).colorScheme;
+      return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.music_off, size: 64, color: Colors.grey),
-            SizedBox(height: 16),
+            Icon(
+              Icons.music_off,
+              size: 64,
+              color: colorScheme.onSurface.withValues(alpha: 0.5),
+            ),
+            const SizedBox(height: 16),
             Text(AppStrings.musicNotFounded),
           ],
         ),

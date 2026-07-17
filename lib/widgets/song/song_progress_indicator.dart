@@ -18,8 +18,8 @@ class SongProgressIndicator extends StatelessWidget {
 
     return LinearProgressIndicator(
       value: progress,
-      backgroundColor: Colors.grey[300],
-      color: Theme.of(context).primaryColor,
+      backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+      color: Theme.of(context).colorScheme.primary,
       minHeight: 3,
     );
   }
