@@ -67,7 +67,7 @@ class _WelcomeViewState extends State<WelcomeView>
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(32),
                     child: Image.asset(
-                      'assets/images/download.png',
+                      'assets/images/welcome_illustration.png',
                       width: size.width * 0.65,
                       height: size.width * 0.65,
                       fit: BoxFit.cover,
@@ -87,7 +87,7 @@ class _WelcomeViewState extends State<WelcomeView>
                   children: [
                     Text(
                       AppStrings.welcomeMessage,
-                      style: AppStyles.baseStyle.copyWith(
+                      style: AppStyles.baseStyle(context).copyWith(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
                         color: colorScheme.onSurface,
@@ -97,7 +97,7 @@ class _WelcomeViewState extends State<WelcomeView>
                     const SizedBox(height: 16),
                     Text(
                       AppStrings.welcomeSubtitle,
-                      style: AppStyles.baseStyle.copyWith(
+                      style: AppStyles.baseStyle(context).copyWith(
                         fontSize: 16,
                         color: colorScheme.onSurface.withValues(alpha: 0.7),
                         height: 1.6,
@@ -118,7 +118,7 @@ class _WelcomeViewState extends State<WelcomeView>
                     icon: const Icon(Icons.arrow_forward_rounded),
                     label: Text(
                       AppStrings.getStarted,
-                      style: AppStyles.baseStyle.copyWith(
+                      style: AppStyles.baseStyle(context).copyWith(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                         color: colorScheme.onPrimary,

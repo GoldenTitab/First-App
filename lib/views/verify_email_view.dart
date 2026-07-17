@@ -49,8 +49,8 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
         await _authService.sendEmailVerification(user);
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text(AppStrings.emailVerificationSent),
+            SnackBar(
+              content: const Text(AppStrings.emailVerificationSent),
               backgroundColor: Colors.green,
               duration: AppDurations.snackBarDuration,
             ),
@@ -69,6 +69,12 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
     } finally {
       if (mounted) setState(() => _isResending = false);
     }
+  }
+
+  Future<void> _signOut() async {
+    _timer?.cancel();
+    await _authService.signOut();
+    if (mounted) context.go(AppRoutes.login);
   }
 
   @override
@@ -124,14 +130,11 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
                 ),
               const SizedBox(height: 24),
               TextButton.icon(
-                onPressed: () async {
-                  _timer?.cancel();
-                  await _authService.signOut();
-                },
-                icon: const Icon(Icons.logout, color: Colors.red),
-                label: const Text(
+                onPressed: _signOut,
+                icon: Icon(Icons.logout, color: colorScheme.error),
+                label: Text(
                   AppStrings.logout,
-                  style: TextStyle(color: Colors.red),
+                  style: TextStyle(color: colorScheme.error),
                 ),
               ),
             ],

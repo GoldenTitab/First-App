@@ -103,7 +103,7 @@ class _SplashScreenState extends State<SplashScreen>
               child: Column(
                 children: [
                   Image.asset(
-                    'assets/images/SplashScreen.png',
+                    'assets/images/splash_logo.png',
                     width: 150,
                     height: 150,
                     errorBuilder: (_, _, _) => Icon(
@@ -115,7 +115,7 @@ class _SplashScreenState extends State<SplashScreen>
                   const SizedBox(height: 20),
                   Text(
                     AppStrings.appTitle,
-                    style: AppStyles.baseStyle.copyWith(
+                    style: AppStyles.baseStyle(context).copyWith(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
                       color: colorScheme.primary,
@@ -124,7 +124,7 @@ class _SplashScreenState extends State<SplashScreen>
                   const SizedBox(height: 8),
                   Text(
                     AppStrings.splashMessage,
-                    style: AppStyles.baseStyle.copyWith(
+                    style: AppStyles.baseStyle(context).copyWith(
                       color: colorScheme.onSurface.withValues(alpha: 0.6),
                     ),
                   ),

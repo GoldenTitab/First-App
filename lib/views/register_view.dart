@@ -59,7 +59,7 @@ class _RegisterViewState extends State<RegisterView> {
               duration: AppDurations.snackBarDuration,
             ),
           );
-          context.go(AppRoutes.home);
+          context.go(AppRoutes.verifyEmail);
         }
       }
     } catch (e) {
