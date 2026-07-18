@@ -126,7 +126,6 @@ class _HomePageState extends State<HomePage> {
   Widget _buildProfileTab() {
     final user = _authService.currentUser;
     final colorScheme = Theme.of(context).colorScheme;
-
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
