@@ -153,7 +153,7 @@ class _LoginViewState extends State<LoginView> {
                                 fontSize: 24,
                                 foreground: Paint()
                                   ..style = PaintingStyle.stroke
-                                  ..strokeWidth = 1.2
+                                  ..strokeWidth = 1.4
                                   ..color = colorScheme.onSurface,
                               ),
                             ),
