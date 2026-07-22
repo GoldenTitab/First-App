@@ -90,7 +90,7 @@ class AppStrings {
 
   // Social Login
   static const String loginWaysText = 'با استفاده از روش‌های دیگر وارد شوید';
-  static const String goToRegister = 'حساب ندارید؟ ثبت‌نام کنید';
+  static const String goToRegister = 'حساب ندارید؟ ثبت‌نام کنید...';
 }
 
 class AppDurations {
