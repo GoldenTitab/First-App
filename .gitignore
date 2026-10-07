@@ -28,39 +28,39 @@ migrate_working_dir/
 /build/
 /coverage/
 doc/api/
-pubspec.lock
+# NOTE: pubspec.lock is intentionally COMMITTED (this is an app, not a package)
 
 # Android related
 /android/app/debug
 /android/app/profile
 /android/app/release
+/android/.gradle/
+/android/local.properties
 
-# Firebase / Env / Security
-.env*
-*.json
-!firebase.json
+# iOS / macOS related
+**/Pods/
+**/ios/Flutter/ephemeral/
 
-# Web related
-*.dart.js
-*.info.json
-*.js
-*.js_
-*.js.deps
-*.js.map
-
-# Symbolication & Obfuscation
-app.*.symbols
-app.*.map.json
-
-# Firebase
+# Firebase / secrets  (never commit tokens or per-machine tool config)
+.env
+.env.*
+.config/
+.firebase/
+firebase-debug.log
+firebase-debug.*.log
 android/app/google-services.json
 ios/Runner/GoogleService-Info.plist
+macos/Runner/GoogleService-Info.plist
 
-# Keystore
+# Keystore / signing
 *.jks
 *.keystore
 android/key.properties
 
-# Environment variables
-.env
-.env.*
+# Web related
+*.js.deps
+*.js.map
+
+# Symbolication & obfuscation
+app.*.symbols
+app.*.map.json

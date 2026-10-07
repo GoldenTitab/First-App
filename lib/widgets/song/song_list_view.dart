@@ -1,7 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
 import '../../models/song.dart';
-import 'song_list_item.dart';
 import '../../utils/constants.dart';
+import 'song_list_item.dart';
 
 class SongListView extends StatelessWidget {
   final List<Song> songs;
@@ -10,9 +12,18 @@ class SongListView extends StatelessWidget {
   final VoidCallback onRetry;
   final Song? currentSong;
   final bool isPlaying;
-  final Duration currentPosition;
-  final Duration totalDuration;
-  final Function(Song) onPlayPause;
+  final ValueListenable<Duration> position;
+  final ValueListenable<Duration> duration;
+  final Set<int> favoriteIds;
+  final ValueChanged<Song> onPlayPause;
+  final ValueChanged<Song> onToggleFavorite;
+
+  /// Pull-to-refresh handler (optional).
+  final Future<void> Function()? onRefresh;
+
+  /// Shown when [songs] is empty (defaults to "no songs found").
+  final String emptyMessage;
+  final IconData emptyIcon;
 
   const SongListView({
     super.key,
@@ -22,19 +33,25 @@ class SongListView extends StatelessWidget {
     required this.onRetry,
     this.currentSong,
     required this.isPlaying,
-    required this.currentPosition,
-    required this.totalDuration,
+    required this.position,
+    required this.duration,
+    required this.favoriteIds,
     required this.onPlayPause,
+    required this.onToggleFavorite,
+    this.onRefresh,
+    this.emptyMessage = AppStrings.musicNotFound,
+    this.emptyIcon = Icons.music_off,
   });
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     if (isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
 
     if (errorMessage != null) {
-      final colorScheme = Theme.of(context).colorScheme;
       return Center(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
@@ -43,12 +60,9 @@ class SongListView extends StatelessWidget {
             children: [
               Icon(Icons.error_outline, size: 64, color: colorScheme.error),
               const SizedBox(height: 16),
-              Text(
+              const Text(
                 AppStrings.fetchSongsListError,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
               Text(
@@ -71,39 +85,48 @@ class SongListView extends StatelessWidget {
     }
 
     if (songs.isEmpty) {
-      final colorScheme = Theme.of(context).colorScheme;
       return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.music_off,
-              size: 64,
-              color: colorScheme.onSurface.withValues(alpha: 0.5),
-            ),
-            const SizedBox(height: 16),
-            Text(AppStrings.musicNotFound),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                emptyIcon,
+                size: 64,
+                color: colorScheme.onSurface.withValues(alpha: 0.5),
+              ),
+              const SizedBox(height: 16),
+              Text(emptyMessage, textAlign: TextAlign.center),
+            ],
+          ),
         ),
       );
     }
 
-    return ListView.builder(
+    final list = ListView.builder(
+      physics: const AlwaysScrollableScrollPhysics(),
       padding: const EdgeInsets.all(16),
       itemCount: songs.length,
       itemBuilder: (context, index) {
         final song = songs[index];
-        final bool isCurrentSong = currentSong == song;
-
         return SongListItem(
+          key: ValueKey(song.id),
           song: song,
           isPlaying: isPlaying,
-          isCurrentSong: isCurrentSong,
-          currentPosition: currentPosition,
-          totalDuration: totalDuration,
+          isCurrentSong: currentSong == song,
+          isFavorite: favoriteIds.contains(song.id),
+          position: position,
+          duration: duration,
           onPlayPause: () => onPlayPause(song),
+          onToggleFavorite: () => onToggleFavorite(song),
         );
       },
     );
+
+    final refresh = onRefresh;
+    return refresh == null
+        ? list
+        : RefreshIndicator(onRefresh: refresh, child: list);
   }
 }

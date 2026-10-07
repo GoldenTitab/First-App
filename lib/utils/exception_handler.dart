@@ -1,48 +1,65 @@
 import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:first_app/services/song_service.dart';
 import 'package:flutter/material.dart';
-import 'constants.dart';
+
+import '../services/song_service.dart';
 import '../widgets/custom_dialog.dart';
+import 'constants.dart';
 
 class ExceptionHandler {
   ExceptionHandler._();
 
   static Future<void> showErrorDialog(
     BuildContext context,
-    dynamic error, {
+    Object error, {
     String? customMessage,
     VoidCallback? onRetry,
   }) async {
     final String message = customMessage?.isNotEmpty == true
         ? customMessage!
-        : _getUserFriendlyMessage(error);
+        : messageFor(error);
     await CustomDialog.showError(context, message, onRetry: onRetry);
   }
 
-  static String _getUserFriendlyMessage(dynamic error) {
+  /// Converts any error into a short, user-friendly Persian message.
+  /// Raw exception text is never shown to the user.
+  static String messageFor(Object error) {
+    // Order matters: the most specific types first.
     if (error is FirebaseAuthException) {
-      return _getFirebaseAuthMessage(error);
-    }
-    if (error is Exception) {
-      return _getGenericExceptionMessage(error);
+      return _firebaseAuthMessage(error);
     }
     if (error is SongServiceException) {
       return error.message;
     }
+    if (error is TimeoutException) {
+      return AppStrings.timeoutError;
+    }
+    if (error is FormatException) {
+      return AppStrings.invalidFormat;
+    }
+
     final String raw = error.toString();
+    if (raw.contains('SocketException') ||
+        raw.contains('ClientException') ||
+        raw.contains('Failed host lookup')) {
+      return AppStrings.networkError;
+    }
     if (raw.contains('403') || raw.contains('Forbidden')) {
       return AppStrings.networkError;
     }
-    if (raw.contains('<!DOCTYPE') || raw.contains('<html')) {
-      return AppStrings.genericError;
-    }
-
-    return '${AppStrings.unknownError}$raw';
+    // Never leak HTML error pages or stack traces into the UI.
+    return AppStrings.genericError;
   }
 
-  static String _getFirebaseAuthMessage(FirebaseAuthException e) {
+  static String _firebaseAuthMessage(FirebaseAuthException e) {
     switch (e.code) {
+      // Firebase now reports a single `invalid-credential` for both an unknown
+      // e-mail and a wrong password (email-enumeration protection), but the
+      // legacy codes are still handled for older projects.
+      case 'invalid-credential':
+      case 'invalid-login-credentials':
+        return AppStrings.wrongCredentials;
       case 'user-not-found':
         return AppStrings.userNotFound;
       case 'wrong-password':
@@ -53,22 +70,14 @@ class ExceptionHandler {
         return AppStrings.weakPassword;
       case 'email-already-in-use':
         return AppStrings.emailAlreadyExists;
+      case 'user-disabled':
+        return AppStrings.userDisabled;
       case 'network-request-failed':
         return AppStrings.networkError;
       case 'too-many-requests':
         return AppStrings.tooManyRequests;
       default:
-        return '${AppStrings.authenticationError}${e.message ?? e.code}';
+        return AppStrings.genericError;
     }
-  }
-
-  static String _getGenericExceptionMessage(Exception e) {
-    if (e is FormatException) {
-      return AppStrings.invalidFormat;
-    }
-    if (e is TimeoutException) {
-      return AppStrings.timeoutError;
-    }
-    return '${AppStrings.unknownError}${e.toString()}';
   }
 }

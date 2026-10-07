@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
 import '../utils/constants.dart';
 import '../utils/app_routes.dart';
+import '../utils/exception_handler.dart';
 import 'package:go_router/go_router.dart';
 
 class VerifyEmailView extends StatefulWidget {
@@ -25,7 +26,14 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
 
   void _startVerificationTimer() {
     _timer = Timer.periodic(AppDurations.emailVerificationCheck, (_) async {
-      await _authService.reloadUser();
+      try {
+        await _authService.reloadUser();
+      } catch (e) {
+        // A transient network error must not crash the timer; the next tick
+        // simply tries again.
+        debugPrint('Email verification check failed: $e');
+        return;
+      }
       final user = _authService.currentUser;
       if (user?.emailVerified ?? false) {
         _timer?.cancel();
@@ -61,7 +69,7 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('${AppStrings.error}: ${e.toString()}'),
+            content: Text(ExceptionHandler.messageFor(e)),
             backgroundColor: Theme.of(context).colorScheme.error,
           ),
         );

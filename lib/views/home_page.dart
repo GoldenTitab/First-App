@@ -1,14 +1,20 @@
-import 'package:first_app/utils/app_routes.dart';
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../services/auth_service.dart';
-import '../services/song_service.dart';
-import '../services/player_service.dart';
+
 import '../models/song.dart';
+import '../services/auth_service.dart';
+import '../services/favorites_service.dart';
+import '../services/player_service.dart';
+import '../services/song_service.dart';
+import '../utils/app_routes.dart';
 import '../utils/constants.dart';
+import '../utils/exception_handler.dart';
 import '../widgets/custom_bottom_navigation_bar.dart';
-import '../widgets/custom_drawer.dart';
 import '../widgets/custom_dialog.dart';
+import '../widgets/custom_drawer.dart';
 import '../widgets/loading_overlay.dart';
 import '../widgets/song/song_list_view.dart';
 import '../widgets/song/song_player_controls.dart';
@@ -21,9 +27,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  static const int _favoritesTab = 2;
+
   final AuthService _authService = AuthService();
   final SongService _songService = SongService();
   final PlayerService _playerService = PlayerService();
+  final FavoritesService _favorites = FavoritesService();
 
   bool _isLoggingOut = false;
   int _currentIndex = 0;
@@ -36,52 +45,101 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _playerService.init();
+    _playerService.addListener(_onPlayerChanged);
+
+    final uid = _authService.currentUser?.uid;
+    if (uid != null) unawaited(_favorites.load(uid));
+
     _fetchSongs();
   }
 
   @override
   void dispose() {
-    _playerService.dispose();
+    // Only detach our own listener. PlayerService is an app-wide singleton and
+    // must NOT be disposed here (it would break playback after re-login).
+    _playerService.removeListener(_onPlayerChanged);
     super.dispose();
   }
 
-  Future<void> _fetchSongs({bool forceRefresh = false}) async {
-    setState(() {
-      _isLoadingSongs = true;
-      _errorMessage = null;
-    });
+  void _onPlayerChanged() {
+    final error = _playerService.error;
+    if (error == null || !mounted) return;
+    _playerService.clearError();
+    _showSnackBar(error, isError: true);
+  }
+
+  void _showSnackBar(String message, {bool isError = false}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: isError ? Theme.of(context).colorScheme.error : null,
+      ),
+    );
+  }
+
+  /// [silent] is used by pull-to-refresh: keep the current list on screen and
+  /// report a failure with a snack bar instead of replacing it with an error.
+  Future<void> _fetchSongs({
+    bool forceRefresh = false,
+    bool silent = false,
+  }) async {
+    if (!silent) {
+      setState(() {
+        _isLoadingSongs = true;
+        _errorMessage = null;
+      });
+    }
     try {
       final songs = await _songService.fetchSongs(forceRefresh: forceRefresh);
-      if (mounted) {
-        setState(() {
-          _songs = songs;
-          _isLoadingSongs = false;
-        });
-      }
+      if (!mounted) return;
+      setState(() {
+        _songs = songs;
+        _isLoadingSongs = false;
+        _errorMessage = null;
+      });
     } catch (e) {
-      if (mounted) {
+      if (!mounted) return;
+      final message = ExceptionHandler.messageFor(e);
+      if (silent) {
+        _showSnackBar(message, isError: true);
+      } else {
         setState(() {
-          _errorMessage = e.toString();
+          _errorMessage = message;
           _isLoadingSongs = false;
         });
       }
     }
   }
 
-  Widget _buildHomeTab() {
+  Widget _buildSongsTab({bool favoritesOnly = false}) {
     return ListenableBuilder(
-      listenable: _playerService,
-      builder: (context, _) => SongListView(
-        songs: _songs,
-        isLoading: _isLoadingSongs,
-        errorMessage: _errorMessage,
-        onRetry: () => _fetchSongs(forceRefresh: true),
-        currentSong: _playerService.currentSong,
-        isPlaying: _playerService.isPlaying,
-        currentPosition: _playerService.currentPosition,
-        totalDuration: _playerService.totalDuration,
-        onPlayPause: _playerService.playOrPause,
-      ),
+      listenable: Listenable.merge([_playerService, _favorites]),
+      builder: (context, _) {
+        final songs = favoritesOnly
+            ? _songs.where((s) => _favorites.isFavorite(s.id)).toList()
+            : _songs;
+
+        return SongListView(
+          songs: songs,
+          isLoading: _isLoadingSongs,
+          errorMessage: _errorMessage,
+          onRetry: () => _fetchSongs(forceRefresh: true),
+          currentSong: _playerService.currentSong,
+          isPlaying: _playerService.isPlaying,
+          position: _playerService.positionNotifier,
+          duration: _playerService.durationNotifier,
+          favoriteIds: _favorites.ids,
+          onPlayPause: (song) => _playerService.playOrPause(song, queue: songs),
+          onToggleFavorite: (song) => _favorites.toggle(song.id),
+          onRefresh: favoritesOnly
+              ? null
+              : () => _fetchSongs(forceRefresh: true, silent: true),
+          emptyMessage: favoritesOnly
+              ? AppStrings.noFavorites
+              : AppStrings.musicNotFound,
+          emptyIcon: favoritesOnly ? Icons.favorite_border : Icons.music_off,
+        );
+      },
     );
   }
 
@@ -106,26 +164,10 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildFavoritesTab() {
-    final colorScheme = Theme.of(context).colorScheme;
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.favorite, size: 64, color: colorScheme.onSurfaceVariant),
-          const SizedBox(height: 16),
-          Text(
-            AppStrings.favorites,
-            style: TextStyle(color: colorScheme.onSurfaceVariant),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildProfileTab() {
     final user = _authService.currentUser;
     final colorScheme = Theme.of(context).colorScheme;
+    final verified = user?.emailVerified == true;
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -149,23 +191,15 @@ class _HomePageState extends State<HomePage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(
-                user?.emailVerified == true
-                    ? Icons.verified
-                    : Icons.warning_amber,
+                verified ? Icons.verified : Icons.warning_amber,
                 size: 16,
-                color: user?.emailVerified == true
-                    ? colorScheme.primary
-                    : colorScheme.error,
+                color: verified ? colorScheme.primary : colorScheme.error,
               ),
               const SizedBox(width: 4),
               Text(
-                user?.emailVerified == true
-                    ? AppStrings.approved
-                    : AppStrings.notApproved,
+                verified ? AppStrings.approved : AppStrings.notApproved,
                 style: TextStyle(
-                  color: user?.emailVerified == true
-                      ? colorScheme.primary
-                      : colorScheme.error,
+                  color: verified ? colorScheme.primary : colorScheme.error,
                 ),
               ),
             ],
@@ -187,17 +221,16 @@ class _HomePageState extends State<HomePage> {
     setState(() => _isLoggingOut = true);
     try {
       await _playerService.stop();
+      _favorites.clear();
       await _authService.signOut();
       if (mounted) {
         context.go(AppRoutes.login);
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('${AppStrings.logoutError}${e.toString()}'),
-            backgroundColor: Theme.of(context).colorScheme.error,
-          ),
+        _showSnackBar(
+          '${AppStrings.logoutError}${ExceptionHandler.messageFor(e)}',
+          isError: true,
         );
       }
     } finally {
@@ -207,13 +240,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final pages = [
-      _buildHomeTab(),
-      _buildLibraryTab(),
-      _buildFavoritesTab(),
-      _buildProfileTab(),
-    ];
-
     return LoadingOverlay(
       isLoading: _isLoggingOut,
       child: Scaffold(
@@ -229,20 +255,34 @@ class _HomePageState extends State<HomePage> {
         ),
         body: Column(
           children: [
-            Expanded(child: pages[_currentIndex]),
+            // IndexedStack keeps every tab alive, so scroll position and state
+            // survive tab switches.
+            Expanded(
+              child: IndexedStack(
+                index: _currentIndex,
+                children: [
+                  _buildSongsTab(),
+                  _buildLibraryTab(),
+                  _buildSongsTab(favoritesOnly: true),
+                  _buildProfileTab(),
+                ],
+              ),
+            ),
             ListenableBuilder(
               listenable: _playerService,
               builder: (context, _) => SongPlayerControls(
                 currentSong: _playerService.currentSong,
                 isPlaying: _playerService.isPlaying,
-                currentPosition: _playerService.currentPosition,
-                totalDuration: _playerService.totalDuration,
-                onPlayPause: _playerService.currentSong != null
-                    ? () => _playerService.playOrPause(
-                        _playerService.currentSong!,
-                      )
-                    : () {},
+                isLoading: _playerService.isLoading,
+                hasPrevious: _playerService.hasPrevious,
+                hasNext: _playerService.hasNext,
+                position: _playerService.positionNotifier,
+                duration: _playerService.durationNotifier,
+                onPlayPause: _playerService.togglePlayPause,
+                onPrevious: _playerService.previous,
+                onNext: _playerService.next,
                 onStop: _playerService.stop,
+                onSeek: _playerService.seek,
               ),
             ),
           ],
@@ -251,7 +291,10 @@ class _HomePageState extends State<HomePage> {
           currentIndex: _currentIndex,
           onTap: (index) => setState(() => _currentIndex = index),
         ),
-        drawer: CustomDrawer(onLogout: _showLogoutDialog),
+        drawer: CustomDrawer(
+          onLogout: _showLogoutDialog,
+          onOpenFavorites: () => setState(() => _currentIndex = _favoritesTab),
+        ),
       ),
     );
   }

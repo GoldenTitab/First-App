@@ -58,6 +58,34 @@ class _LoginViewState extends State<LoginView> {
     }
   }
 
+  Future<void> _forgotPassword() async {
+    final email = _emailController.text.trim();
+    if (AppValidators.email(email) != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text(AppStrings.enterEmailFirst)),
+      );
+      return;
+    }
+    try {
+      await _authService.sendPasswordResetEmail(email);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text(AppStrings.passwordResetSent)),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        await ExceptionHandler.showErrorDialog(context, e);
+      }
+    }
+  }
+
+  void _showComingSoon() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text(AppStrings.comingSoon)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -112,7 +140,7 @@ class _LoginViewState extends State<LoginView> {
                     Align(
                       alignment: Alignment.centerRight,
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: _forgotPassword,
                         child: const Text(AppStrings.forgotPassword),
                       ),
                     ),
@@ -142,7 +170,7 @@ class _LoginViewState extends State<LoginView> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           IconButton(
-                            onPressed: () {},
+                            onPressed: _showComingSoon,
                             icon: Text(
                               String.fromCharCode(
                                 FontAwesomeIcons.spotify.codePoint,
@@ -159,7 +187,7 @@ class _LoginViewState extends State<LoginView> {
                             ),
                           ),
                           IconButton(
-                            onPressed: () {},
+                            onPressed: _showComingSoon,
                             icon: Text(
                               String.fromCharCode(
                                 FontAwesomeIcons.apple.codePoint,
@@ -176,7 +204,7 @@ class _LoginViewState extends State<LoginView> {
                             ),
                           ),
                           IconButton(
-                            onPressed: () {},
+                            onPressed: _showComingSoon,
                             icon: Text(
                               String.fromCharCode(
                                 FontAwesomeIcons.google.codePoint,

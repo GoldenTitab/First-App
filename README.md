@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/images/SplashScreen.png" alt="Aurora Logo" width="120" height="120"/>
+<img src="assets/images/splash_logo.png" alt="Aurora Logo" width="120" height="120"/>
 
 # Aurora Music Player
 
@@ -24,18 +24,21 @@ A modern, cross-platform music player built with Flutter — focused on clean ar
 
 ### Currently Available
 - 🎵 **Online Music Streaming** — Fetches and streams songs from a remote JSON source
-- 🔐 **Firebase Authentication** — Secure sign-up, login, and email verification flow
+- 🔐 **Firebase Authentication** — Sign-up, login, email verification and **password reset**
 - 🎨 **Light & Dark Theme** — Full Material 3 theme support with automatic system switching
 - 🌍 **RTL & Persian Support** — Full Farsi localization with Vazir font
-- ▶️ **Playback Controls** — Play, pause, resume, and stop with real-time progress tracking
-- 📋 **Song List** — Cover art, artist info, duration, and active song highlighting
-- 🔁 **Smart Caching** — Songs cached locally for 10 minutes to reduce redundant requests
-- 💬 **Error Handling** — User-friendly Persian error messages for all failure cases
+- ▶️ **Full Player Controls** — Play, pause, resume, stop, **next / previous, draggable seek bar**, auto-advance to the next track
+- ❤️ **Favorites** — Heart any song; favorites are saved on the device per account
+- 📋 **Song List** — Cover art, artist info, duration, active song highlighting, pull-to-refresh
+- 🔁 **Smart Caching** — 10-minute in-memory cache, with an offline fallback to the last downloaded list
+- 💬 **Error Handling** — User-friendly Persian error messages (raw exception text is never shown)
+- 🧪 **Tests & CI** — Unit/widget tests and a GitHub Actions workflow (`flutter analyze` + `flutter test`)
 
 ### In Development
 - [ ] Playlist creation and management
 - [ ] Background audio with media notification
-- [ ] Favorites and library organization
+- [ ] Library organization (Library tab is still a placeholder)
+- [ ] Social sign-in (Google / Apple / Spotify buttons currently show "coming soon")
 - [ ] Local file playback
 - [ ] Settings page (equalizer, sleep timer, quality)
 - [ ] Offline mode with local database (Hive)
@@ -59,11 +62,12 @@ A modern, cross-platform music player built with Flutter — focused on clean ar
 |---|---|
 | Framework | Flutter 3.x |
 | Language | Dart 3.x |
-| Authentication | Firebase Auth |
+| Authentication | Firebase Auth (`firebase_core` 4.x, `firebase_auth` 6.x) |
 | Remote Data | REST API over HTTP |
 | Audio | `audioplayers` |
 | Navigation | GoRouter |
-| State | `ChangeNotifier` (PlayerService) |
+| State | `ChangeNotifier` / `ValueNotifier` (services) |
+| Local storage | `shared_preferences` |
 | Equality | `equatable` |
 | Localization | `flutter_localizations` (fa_IR) |
 | Font | Vazir |
@@ -74,8 +78,8 @@ A modern, cross-platform music player built with Flutter — focused on clean ar
 
 ### Prerequisites
 
-- [Flutter SDK](https://docs.flutter.dev/get-started/install) `>=3.0.0`
-- [Dart SDK](https://dart.dev/get-dart) `>=3.0.0`
+- [Flutter SDK](https://docs.flutter.dev/get-started/install) — latest stable (the project needs Dart `^3.11.3`, see `pubspec.yaml`)
+- iOS builds: Xcode 16+ and iOS 15+ (required by Firebase iOS SDK 12)
 - A Firebase project with **Authentication** enabled (Email/Password)
 - Android Studio or VS Code with Flutter extension
 
@@ -89,9 +93,10 @@ cd First-App
 # 2. Install dependencies
 flutter pub get
 
-# 3. Configure Firebase
-# Replace lib/firebase_options.dart with your own generated file:
-# flutterfire configure
+# 3. Configure Firebase (use YOUR OWN Firebase project)
+flutterfire configure
+#    -> regenerates lib/firebase_options.dart and firebase.json
+#    -> download android/app/google-services.json (git-ignored) from the Firebase console
 
 # 4. Run the app
 flutter run
@@ -102,6 +107,20 @@ flutter run
 No `.env` file is needed. Firebase configuration is handled by `firebase_options.dart`.  
 Make sure **Email/Password** sign-in is enabled in your Firebase Console under Authentication → Sign-in methods.
 
+```bash
+# Run the tests
+flutter test
+```
+
+### Release signing (Android)
+
+Create `android/key.properties` (git-ignored) with `storeFile`, `storePassword`, `keyAlias` and `keyPassword`. When the file exists, release builds are signed with it; otherwise they fall back to the debug key. Before publishing, also change the `applicationId` (`com.example.first_app`) and re-register the app in Firebase.
+
+### Security notes
+
+- **Never commit** `google-services.json`, keystores, `.env` files or any tool config directory such as `.config/` (the Firebase CLI stores a login token there).
+- Firebase API keys in `firebase_options.dart` are identifiers, not secrets — protect the project with **Security Rules**, **App Check** and API-key restrictions.
+
 ---
 
 ## 🏗 Architecture
@@ -111,51 +130,60 @@ Aurora follows a **layered architecture** separating concerns into models, servi
 ```
 lib/
 ├── models/
-│   └── song.dart               # Song model with Equatable + copyWith
+│   └── song.dart                  # Song model with Equatable + copyWith
 │
 ├── services/
-│   ├── auth_service.dart       # Firebase Auth singleton
-│   ├── song_service.dart       # HTTP fetch + 10-min cache singleton
-│   └── player_service.dart     # AudioPlayer singleton (ChangeNotifier)
+│   ├── auth_service.dart          # Firebase Auth (singleton, test constructor)
+│   ├── song_service.dart          # HTTP fetch + cache + stale fallback (test constructor)
+│   ├── player_service.dart        # AudioPlayer + play queue (ChangeNotifier)
+│   ├── favorites_service.dart     # Per-account favorites (SharedPreferences)
+│   └── onboarding_service.dart    # "Welcome seen" flag
 │
 ├── views/
-│   ├── splash_screen.dart      # Animated splash with RTL progress bar
-│   ├── login_view.dart         # Form-validated login
-│   ├── register_view.dart      # Form-validated register + confirm password
-│   ├── verify_email_view.dart  # Email verification polling
-│   └── home_page.dart          # Main 4-tab layout
+│   ├── splash_screen.dart         # Animated splash with RTL progress bar
+│   ├── welcome_view.dart          # Onboarding
+│   ├── login_view.dart            # Login + password reset
+│   ├── register_view.dart         # Register + confirm password
+│   ├── verify_email_view.dart     # Email verification polling
+│   └── home_page.dart             # 4-tab layout (IndexedStack) + mini player
 │
 ├── widgets/
 │   ├── song/
 │   │   ├── song_list_view.dart
 │   │   ├── song_list_item.dart
-│   │   ├── song_player_controls.dart
+│   │   ├── song_player_controls.dart   # Mini player (prev / play / next / stop)
+│   │   ├── song_seek_bar.dart          # Draggable seek bar
 │   │   └── song_progress_indicator.dart
 │   ├── custom_bottom_navigation_bar.dart
 │   ├── custom_dialog.dart
 │   ├── custom_drawer.dart
 │   ├── custom_elevated_button.dart
-│   ├── custom_text_field.dart  # TextFormField + visibility toggle
+│   ├── custom_text_field.dart     # TextFormField + visibility toggle
 │   └── loading_overlay.dart
 │
 ├── utils/
-│   ├── app_routes.dart         # GoRouter with auth redirect
-│   ├── app_theme.dart          # Full light + dark Material 3 themes
-│   ├── constants.dart          # Strings, durations, validators
-│   └── exception_handler.dart  # Firebase + generic error mapping
+│   ├── app_routes.dart            # GoRouter with auth redirect + refresh
+│   ├── auth_refresh_notifier.dart # Auth stream -> router refreshListenable
+│   ├── app_theme.dart             # Full light + dark Material 3 themes
+│   ├── constants.dart             # Strings, durations, validators
+│   ├── exception_handler.dart     # Error -> friendly Persian message
+│   └── format.dart                # Duration formatting
 │
-├── app.dart                    # MaterialApp.router entry
-├── main.dart                   # Firebase init + error handlers
-└── firebase_options.dart       # Auto-generated by FlutterFire CLI
+├── app.dart                       # MaterialApp.router entry
+├── main.dart                      # Firebase init + error handlers
+└── firebase_options.dart          # Generated by FlutterFire CLI
+
+test/                              # Unit + widget tests (run in CI)
 ```
+
 
 ### Key Design Decisions
 
-**Singleton Services** — `AuthService`, `SongService`, and `PlayerService` are all singletons. This ensures a single source of truth for auth state, cached data, and audio playback across the entire app.
+**App-wide Services** — `AuthService`, `SongService`, `PlayerService`, `FavoritesService` are singletons, giving one source of truth for auth, cached data, playback and favorites. `AuthService`, `SongService` and `FavoritesService` expose a `@visibleForTesting` constructor (custom `FirebaseAuth` / `http.Client` + clock / fresh instance) so they can be unit-tested. A widget must never `dispose()` them — `PlayerService.dispose()` is intentionally a no-op. A dependency-injection package (Provider/Riverpod) is the natural next step.
 
-**GoRouter with Auth Redirect** — Navigation is handled declaratively. The router's `redirect` callback checks Firebase auth state and email verification on every route change, eliminating the need for a separate `AuthWrapper` widget.
+**GoRouter with Auth Redirect** — Navigation is declarative. The `redirect` callback checks Firebase auth state and email verification, and `refreshListenable` re-runs it whenever the auth state changes, so a sign-out or expired session is reflected immediately.
 
-**PlayerService as ChangeNotifier** — Audio state (`isPlaying`, `currentPosition`, etc.) lives inside `PlayerService` which extends `ChangeNotifier`. Views subscribe via `addListener` and rebuild only when needed.
+**Fine-grained Rebuilds** — `PlayerService` notifies coarse changes (current song, playing, loading, error) through `ChangeNotifier`, while the playback position and duration are separate `ValueNotifier`s. Only the progress bars rebuild on every tick, not the whole song list.
 
 **Form Validation** — All input forms use Flutter's `Form` + `GlobalKey<FormState>` with `AutovalidateMode.onUserInteraction`, so errors appear as the user types rather than only on submit.
 
@@ -163,19 +191,11 @@ lib/
 
 ## 📦 Dependencies
 
-```yaml
-dependencies:
-  flutter:
-    sdk: flutter
-  firebase_core: ^3.x.x
-  firebase_auth: ^5.x.x
-  audioplayers: ^6.4.0
-  http: ^1.x.x
-  go_router: ^14.0.0
-  equatable: ^2.0.5
-  flutter_localizations:
-    sdk: flutter
-```
+See [`pubspec.yaml`](pubspec.yaml) for the exact constraints. Notes:
+
+- `firebase_core` and `firebase_auth` must always be upgraded **together**.
+- Build-time tools (`flutter_launcher_icons`, `flutter_native_splash`) live under `dev_dependencies`.
+- Run `flutter pub outdated` to see what can be upgraded.
 
 ---
 
@@ -191,13 +211,14 @@ dependencies:
 - [x] RTL + Persian localization
 
 ### v1.1 — Player Experience
-- [ ] Mini player persistent at bottom of all tabs
-- [ ] Seek bar interaction (tap to seek)
-- [ ] Next / Previous track controls
-- [ ] Background audio + lock screen controls (`audio_service`)
+- [x] Mini player persistent at bottom of all tabs
+- [x] Seek bar interaction (drag to seek)
+- [x] Next / Previous track controls
+- [ ] Background audio + lock screen controls (migrate to `just_audio` + `audio_service`)
 
 ### v1.2 — Library & Personalization
-- [ ] Favorites system (Firestore)
+- [x] Favorites system (local, per account)
+- [ ] Sync favorites across devices (Firestore)
 - [ ] Custom playlists
 - [ ] Recently played history
 - [ ] Search and filter

@@ -49,7 +49,8 @@ class AppStrings {
   static const String error = 'خطا';
   static const String genericError = 'خطایی رخ داده است.';
   static const String unknownError = 'خطای ناشناخته: ';
-  static const String playbackError = 'خطا در پخش: ';
+  static const String playbackError =
+      'پخش آهنگ ناموفق بود. اتصال اینترنت را بررسی کنید و دوباره تلاش کنید.';
   static const String fetchSongsErrorWithCode =
       'دریافت لیست آهنگ‌ها ناموفق بود (کد:';
   static const String fetchSongsError = 'خطا در دریافت آهنگ‌ها:';
@@ -59,6 +60,8 @@ class AppStrings {
   // Auth Errors
   static const String userNotFound = 'کاربری با این ایمیل یافت نشد.';
   static const String wrongPassword = 'رمز عبور اشتباه است.';
+  static const String wrongCredentials = 'ایمیل یا رمز عبور اشتباه است.';
+  static const String userDisabled = 'این حساب کاربری غیرفعال شده است.';
   static const String invalidEmail = 'ایمیل معتبر وارد کنید.';
   static const String weakPassword =
       'رمز عبور باید حداقل ۶ کاراکتر داشته باشد.';
@@ -83,6 +86,20 @@ class AppStrings {
   static const String about = 'درباره ما';
   static const String nowPlaying = 'در حال پخش';
   static const String noSongPlaying = 'آهنگی در حال پخش نیست';
+
+  // Password reset
+  static const String passwordResetSent =
+      'ایمیل بازیابی رمز عبور ارسال شد.\nلطفاً صندوق ورودی خود را بررسی کنید.';
+  static const String enterEmailFirst =
+      'ابتدا ایمیل خود را در کادر بالا وارد کنید.';
+
+  // Player & favorites
+  static const String previous = 'قبلی';
+  static const String addToFavorites = 'افزودن به علاقه‌مندی‌ها';
+  static const String removeFromFavorites = 'حذف از علاقه‌مندی‌ها';
+  static const String noFavorites =
+      'هنوز آهنگی به علاقه‌مندی‌ها اضافه نکرده‌اید.';
+  static const String comingSoon = 'این بخش به‌زودی اضافه می‌شود.';
 
   // Status
   static const String approved = 'تأیید شده';
@@ -118,7 +135,7 @@ class AppValidators {
     if (value == null || value.trim().isEmpty) {
       return AppStrings.requiredField;
     }
-    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    final emailRegex = RegExp(r'^[\w.+-]+@([\w-]+\.)+[\w-]{2,}$');
     if (!emailRegex.hasMatch(value.trim())) {
       return AppStrings.invalidEmail;
     }

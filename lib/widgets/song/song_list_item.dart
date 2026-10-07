@@ -1,23 +1,30 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
 import '../../models/song.dart';
+import '../../utils/constants.dart';
 import 'song_progress_indicator.dart';
 
 class SongListItem extends StatelessWidget {
   final Song song;
   final bool isPlaying;
   final bool isCurrentSong;
-  final Duration currentPosition;
-  final Duration totalDuration;
+  final bool isFavorite;
+  final ValueListenable<Duration> position;
+  final ValueListenable<Duration> duration;
   final VoidCallback onPlayPause;
+  final VoidCallback onToggleFavorite;
 
   const SongListItem({
     super.key,
     required this.song,
     required this.isPlaying,
     required this.isCurrentSong,
-    required this.currentPosition,
-    required this.totalDuration,
+    required this.isFavorite,
+    required this.position,
+    required this.duration,
     required this.onPlayPause,
+    required this.onToggleFavorite,
   });
 
   @override
@@ -82,7 +89,7 @@ class SongListItem extends StatelessWidget {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      '${song.artist} • ${song.album}',
+                      '${song.artist} \u2022 ${song.album}',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -95,14 +102,14 @@ class SongListItem extends StatelessWidget {
                     if (isCurrentSong) ...[
                       const SizedBox(height: 6),
                       SongProgressIndicator(
-                        currentPosition: currentPosition,
-                        totalDuration: totalDuration,
+                        position: position,
+                        duration: duration,
                       ),
                     ],
                   ],
                 ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: 4),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
@@ -114,14 +121,35 @@ class SongListItem extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 4),
-                  Icon(
-                    isActive
-                        ? Icons.pause_circle_filled
-                        : Icons.play_circle_filled,
-                    color: isCurrentSong
-                        ? colorScheme.primary
-                        : colorScheme.onSurfaceVariant,
-                    size: 36,
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        visualDensity: VisualDensity.compact,
+                        tooltip: isFavorite
+                            ? AppStrings.removeFromFavorites
+                            : AppStrings.addToFavorites,
+                        onPressed: onToggleFavorite,
+                        icon: Icon(
+                          isFavorite
+                              ? Icons.favorite
+                              : Icons.favorite_border,
+                          color: isFavorite
+                              ? colorScheme.error
+                              : colorScheme.onSurfaceVariant,
+                          size: 22,
+                        ),
+                      ),
+                      Icon(
+                        isActive
+                            ? Icons.pause_circle_filled
+                            : Icons.play_circle_filled,
+                        color: isCurrentSong
+                            ? colorScheme.primary
+                            : colorScheme.onSurfaceVariant,
+                        size: 36,
+                      ),
+                    ],
                   ),
                 ],
               ),

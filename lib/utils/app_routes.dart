@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../services/auth_service.dart';
 import '../services/onboarding_service.dart';
+import 'auth_refresh_notifier.dart';
 import '../views/splash_screen.dart';
 import '../views/welcome_view.dart';
 import '../views/login_view.dart';
@@ -21,6 +22,7 @@ class AppRoutes {
 
   static final GoRouter router = GoRouter(
     initialLocation: splash,
+    refreshListenable: AuthRefreshNotifier(AuthService().authStateChanges),
     redirect: _globalRedirect,
     routes: [
       GoRoute(path: splash, builder: (_, _) => const SplashScreen()),
