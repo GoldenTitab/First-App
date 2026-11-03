@@ -45,6 +45,9 @@ doc/api/
 .env
 .env.*
 .config/
+# Service account private keys must never be committed (purged 2026-11-03 after a public leak)
+golden-titab-*.json
+firebase-tools.json
 .firebase/
 firebase-debug.log
 firebase-debug.*.log
