@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 class AppStrings {
   AppStrings._();
 
-  // App Info
   static const String appTitle = 'Aurora';
 
-  // Onboarding & Splash
   static const String welcomeMessage = 'به Aurora خوش آمدید';
   static const String welcomeSubtitle =
       'موسیقی را با شفافیت و زیبایی تجربه کنید';
@@ -14,7 +12,6 @@ class AppStrings {
   static const String next = 'بعدی';
   static const String splashMessage = 'به شفافیت آب، به درخشندگی شفق';
 
-  // Auth
   static const String loginTitle = 'ورود به حساب';
   static const String registerTitle = 'ثبت‌نام';
   static const String verifyEmailTitle = 'تأیید ایمیل';
@@ -30,14 +27,12 @@ class AppStrings {
   static const String repeatedPasswordDifferentError =
       'رمز عبور با تکرار آن مطابقت ندارد.';
 
-  // Email Verification
   static const String verifyEmailMessage =
       'یک ایمیل تأیید به آدرس شما ارسال شده است.\nلطفاً صندوق ورودی خود را بررسی کنید.';
   static const String emailVerificationSent =
       'ایمیل تأیید ارسال شد.\nلطفاً صندوق ورودی خود را چک کنید.';
   static const String emailNotReceived = 'ایمیل دریافت نکرده‌اید؟';
 
-  // Dialogs
   static const String logoutDialogTitle = 'خروج از حساب';
   static const String logoutDialogContent =
       'آیا مطمئن هستید که می‌خواهید خارج شوید؟';
@@ -45,7 +40,6 @@ class AppStrings {
   static const String retry = 'تلاش مجدد';
   static const String okay = 'باشه';
 
-  // Errors
   static const String error = 'خطا';
   static const String genericError = 'خطایی رخ داده است.';
   static const String unknownError = 'خطای ناشناخته: ';
@@ -57,7 +51,6 @@ class AppStrings {
   static const String fetchSongsListError = 'خطا در دریافت لیست آهنگ‌ها';
   static const String musicNotFound = 'هیچ آهنگی یافت نشد.';
 
-  // Auth Errors
   static const String userNotFound = 'کاربری با این ایمیل یافت نشد.';
   static const String wrongPassword = 'رمز عبور اشتباه است.';
   static const String wrongCredentials = 'ایمیل یا رمز عبور اشتباه است.';
@@ -75,7 +68,6 @@ class AppStrings {
   static const String requiredField = 'این فیلد الزامی است.';
   static const String invalidFormat = 'قالب داده نامعتبر است.';
 
-  // Navigation
   static const String home = 'خانه';
   static const String library = 'کتابخانه';
   static const String favorites = 'علاقه‌مندی‌ها';
@@ -87,13 +79,11 @@ class AppStrings {
   static const String nowPlaying = 'در حال پخش';
   static const String noSongPlaying = 'آهنگی در حال پخش نیست';
 
-  // Password reset
   static const String passwordResetSent =
       'ایمیل بازیابی رمز عبور ارسال شد.\nلطفاً صندوق ورودی خود را بررسی کنید.';
   static const String enterEmailFirst =
       'ابتدا ایمیل خود را در کادر بالا وارد کنید.';
 
-  // Player & favorites
   static const String previous = 'قبلی';
   static const String addToFavorites = 'افزودن به علاقه‌مندی‌ها';
   static const String removeFromFavorites = 'حذف از علاقه‌مندی‌ها';
@@ -101,11 +91,9 @@ class AppStrings {
       'هنوز آهنگی به علاقه‌مندی‌ها اضافه نکرده‌اید.';
   static const String comingSoon = 'این بخش به‌زودی اضافه می‌شود.';
 
-  // Status
   static const String approved = 'تأیید شده';
   static const String notApproved = 'تأیید نشده';
 
-  // Social Login
   static const String loginWaysText = 'با استفاده از روش‌های دیگر وارد شوید';
   static const String goToRegister = 'حساب ندارید؟ ثبت‌نام کنید...';
 }

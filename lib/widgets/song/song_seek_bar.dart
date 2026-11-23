@@ -3,10 +3,6 @@ import 'package:flutter/material.dart';
 
 import '../../utils/format.dart';
 
-/// Draggable seek bar with elapsed / total time labels.
-///
-/// While the user drags, the slider follows the finger; the actual seek is only
-/// performed once, when the drag ends.
 class SongSeekBar extends StatefulWidget {
   final ValueListenable<Duration> position;
   final ValueListenable<Duration> duration;
@@ -24,7 +20,7 @@ class SongSeekBar extends StatefulWidget {
 }
 
 class _SongSeekBarState extends State<SongSeekBar> {
-  double? _dragValue; // milliseconds, only while dragging
+  double? _dragValue;
 
   @override
   Widget build(BuildContext context) {

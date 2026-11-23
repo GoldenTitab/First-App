@@ -22,10 +22,7 @@ class ExceptionHandler {
     await CustomDialog.showError(context, message, onRetry: onRetry);
   }
 
-  /// Converts any error into a short, user-friendly Persian message.
-  /// Raw exception text is never shown to the user.
   static String messageFor(Object error) {
-    // Order matters: the most specific types first.
     if (error is FirebaseAuthException) {
       return _firebaseAuthMessage(error);
     }
@@ -48,15 +45,11 @@ class ExceptionHandler {
     if (raw.contains('403') || raw.contains('Forbidden')) {
       return AppStrings.networkError;
     }
-    // Never leak HTML error pages or stack traces into the UI.
     return AppStrings.genericError;
   }
 
   static String _firebaseAuthMessage(FirebaseAuthException e) {
     switch (e.code) {
-      // Firebase now reports a single `invalid-credential` for both an unknown
-      // e-mail and a wrong password (email-enumeration protection), but the
-      // legacy codes are still handled for older projects.
       case 'invalid-credential':
       case 'invalid-login-credentials':
         return AppStrings.wrongCredentials;

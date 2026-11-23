@@ -29,8 +29,6 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
       try {
         await _authService.reloadUser();
       } catch (e) {
-        // A transient network error must not crash the timer; the next tick
-        // simply tries again.
         debugPrint('Email verification check failed: $e');
         return;
       }

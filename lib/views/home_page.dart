@@ -55,8 +55,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void dispose() {
-    // Only detach our own listener. PlayerService is an app-wide singleton and
-    // must NOT be disposed here (it would break playback after re-login).
     _playerService.removeListener(_onPlayerChanged);
     super.dispose();
   }
@@ -77,8 +75,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  /// [silent] is used by pull-to-refresh: keep the current list on screen and
-  /// report a failure with a snack bar instead of replacing it with an error.
   Future<void> _fetchSongs({
     bool forceRefresh = false,
     bool silent = false,
@@ -255,8 +251,6 @@ class _HomePageState extends State<HomePage> {
         ),
         body: Column(
           children: [
-            // IndexedStack keeps every tab alive, so scroll position and state
-            // survive tab switches.
             Expanded(
               child: IndexedStack(
                 index: _currentIndex,

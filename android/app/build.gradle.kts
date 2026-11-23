@@ -8,8 +8,6 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
-// Release signing: create android/key.properties (see README). Without it the
-// release build falls back to the debug key so `flutter run --release` still works.
 val keystoreProperties = Properties()
 val keystorePropertiesFile = rootProject.file("key.properties")
 if (keystorePropertiesFile.exists()) {
@@ -36,7 +34,7 @@ android {
         targetSdk = 36
         versionCode = flutter.versionCode
         versionName = flutter.versionName
-        multiDexEnabled = true 
+        multiDexEnabled = true
     }
 
     signingConfigs {

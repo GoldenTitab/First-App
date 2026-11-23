@@ -6,12 +6,6 @@ import 'package:flutter/foundation.dart';
 import '../models/song.dart';
 import '../utils/constants.dart';
 
-/// App-lifetime audio player with a simple play queue.
-///
-/// Coarse state (current song, playing/loading, error) notifies through
-/// [ChangeNotifier]. The playback position and duration change several times a
-/// second, so they live in their own [ValueNotifier]s: only the progress bars
-/// rebuild on every tick, not the whole song list.
 class PlayerService extends ChangeNotifier {
   PlayerService._internal();
   static final PlayerService _instance = PlayerService._internal();
@@ -28,12 +22,10 @@ class PlayerService extends ChangeNotifier {
   Song? _currentSong;
   bool _isPlaying = false;
   bool _isLoading = false;
-  bool _hasSource = false; // false before the first play and after completion
+  bool _hasSource = false;
   String? _error;
   bool _initialized = false;
 
-  /// Incremented for every play request so that a slow, outdated request can
-  /// detect it has been superseded (rapid taps on different songs).
   int _requestId = 0;
 
   Song? get currentSong => _currentSong;
@@ -56,7 +48,6 @@ class PlayerService extends ChangeNotifier {
 
   bool get hasPrevious => _currentIndex > 0;
 
-  /// Subscribes to the underlying player. Safe to call more than once.
   void init() {
     if (_initialized) return;
     _initialized = true;
@@ -87,8 +78,6 @@ class PlayerService extends ChangeNotifier {
     }
   }
 
-  /// Tapping a song: start it, or pause/resume it if it is already current.
-  /// Pass [queue] to define what "next" and "previous" mean for this song.
   Future<void> playOrPause(Song song, {List<Song>? queue}) async {
     if (queue != null) _queue = List.unmodifiable(queue);
 
@@ -99,11 +88,10 @@ class PlayerService extends ChangeNotifier {
     }
   }
 
-  /// Pause/resume the current song (no-op when nothing is loaded).
   Future<void> togglePlayPause() async {
     if (_currentSong == null) return;
     if (!_hasSource) {
-      await _start(_currentSong!); // finished earlier: play again
+      await _start(_currentSong!);
       return;
     }
     try {
@@ -123,8 +111,6 @@ class PlayerService extends ChangeNotifier {
     await _start(_queue[i + 1]);
   }
 
-  /// Like most players: within the first 3 seconds go to the previous track,
-  /// later restart the current one.
   Future<void> previous() async {
     final i = _currentIndex;
     final restart =
@@ -165,7 +151,6 @@ class PlayerService extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Call after the error has been shown to the user.
   void clearError() {
     if (_error == null) return;
     _error = null;
@@ -187,7 +172,7 @@ class PlayerService extends ChangeNotifier {
 
     try {
       await _audioPlayer.play(UrlSource(song.audioUrl));
-      if (request != _requestId) return; // superseded by a newer request
+      if (request != _requestId) return;
       _hasSource = true;
     } catch (e) {
       if (request != _requestId) return;
@@ -207,10 +192,6 @@ class PlayerService extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// This service lives for the whole app lifetime and is shared by every
-  /// screen, so a widget's `dispose()` must never tear it down. Disposing it
-  /// would leave the shared singleton unusable after the next sign-in.
   @override
-  // ignore: must_call_super
   void dispose() {}
 }

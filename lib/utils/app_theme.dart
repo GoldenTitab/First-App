@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 class AppColors {
   AppColors._();
 
-  // Primary
   static const Color primary900 = Color(0xFF0A0E36);
   static const Color primary800 = Color(0xFF111752);
   static const Color primary700 = Color(0xFF161E6A);
@@ -15,7 +14,6 @@ class AppColors {
   static const Color primary100 = Color(0xFFD5D8EE);
   static const Color primary50 = Color(0xFFEAEBF7);
 
-  // Secondary
   static const Color secondary900 = Color(0xFF211F4A);
   static const Color secondary800 = Color(0xFF363472);
   static const Color secondary700 = Color(0xFF4A4892);
@@ -27,7 +25,6 @@ class AppColors {
   static const Color secondary100 = Color(0xFFE5E5F4);
   static const Color secondary50 = Color(0xFFF2F2FA);
 
-  // Accent 1 (Gold/Orange)
   static const Color accent1_900 = Color(0xFF5C3800);
   static const Color accent1_800 = Color(0xFF8A5400);
   static const Color accent1_700 = Color(0xFFAD6B00);
@@ -39,7 +36,6 @@ class AppColors {
   static const Color accent1_100 = Color(0xFFFEEDD2);
   static const Color accent1_50 = Color(0xFFFFF6EC);
 
-  // Accent 2 (Red)
   static const Color accent2_900 = Color(0xFF4A0D08);
   static const Color accent2_800 = Color(0xFF7A1812);
   static const Color accent2_700 = Color(0xFF9E251B);
@@ -51,7 +47,6 @@ class AppColors {
   static const Color accent2_100 = Color(0xFFFCE1DF);
   static const Color accent2_50 = Color(0xFFFEF0EF);
 
-  // Neutral
   static const Color neutral900 = Color(0xFF111316);
   static const Color neutral800 = Color(0xFF212529);
   static const Color neutral700 = Color(0xFF343A40);
@@ -63,7 +58,6 @@ class AppColors {
   static const Color neutral100 = Color(0xFFF1F3F5);
   static const Color neutral50 = Color(0xFFF8F9FA);
 
-  // Success
   static const Color success900 = Color(0xFF0B3D22);
   static const Color success800 = Color(0xFF145E34);
   static const Color success700 = Color(0xFF1C7D45);
@@ -75,7 +69,6 @@ class AppColors {
   static const Color success100 = Color(0xFFD4F0E0);
   static const Color success50 = Color(0xFFEAF8F0);
 
-  // Error
   static const Color error900 = Color(0xFF4A0D08);
   static const Color error800 = Color(0xFF7A1812);
   static const Color error700 = Color(0xFF9E251B);
@@ -87,7 +80,6 @@ class AppColors {
   static const Color error100 = Color(0xFFFCE1DF);
   static const Color error50 = Color(0xFFFEF0EF);
 
-  // Warning
   static const Color warning900 = Color(0xFF4F3000);
   static const Color warning800 = Color(0xFF7A4A00);
   static const Color warning700 = Color(0xFF9E6200);
@@ -99,7 +91,6 @@ class AppColors {
   static const Color warning100 = Color(0xFFFDEDD2);
   static const Color warning50 = Color(0xFFFEF6EC);
 
-  // Info
   static const Color info900 = Color(0xFF0D3050);
   static const Color info800 = Color(0xFF164D7E);
   static const Color info700 = Color(0xFF1E65A4);
@@ -111,7 +102,6 @@ class AppColors {
   static const Color info100 = Color(0xFFD9EEF9);
   static const Color info50 = Color(0xFFECF6FD);
 
-  // Dark Theme Specific Colors
   static const Color darkInputFill = Color(0xFF252848);
   static const Color darkInputBorder = Color(0xFF3A3D6A);
   static const Color darkCardBorder = Color(0xFF2E3058);

@@ -6,8 +6,6 @@ class AuthService {
   static final AuthService _instance = AuthService._internal();
   factory AuthService() => _instance;
 
-  /// Creates a non-singleton instance around a custom [FirebaseAuth]
-  /// (use a mock in unit tests).
   @visibleForTesting
   AuthService.withAuth(FirebaseAuth auth) : _auth = auth;
 
@@ -21,7 +19,6 @@ class AuthService {
     String email,
     String password,
   ) async {
-    // Only the e-mail is trimmed: a password must be sent exactly as typed.
     return await _auth.signInWithEmailAndPassword(
       email: email.trim(),
       password: password,

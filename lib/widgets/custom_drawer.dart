@@ -12,7 +12,6 @@ class CustomDrawer extends StatelessWidget {
     required this.onOpenFavorites,
   });
 
-  /// Closes the drawer and tells the user the feature is not built yet.
   void _comingSoon(BuildContext context) {
     final messenger = ScaffoldMessenger.of(context);
     Navigator.of(context).pop();

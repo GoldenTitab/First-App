@@ -5,7 +5,6 @@ import '../../models/song.dart';
 import '../../utils/constants.dart';
 import 'song_seek_bar.dart';
 
-/// Mini player shown above the bottom navigation bar on every tab.
 class SongPlayerControls extends StatelessWidget {
   final Song? currentSong;
   final bool isPlaying;

@@ -9,7 +9,7 @@ import 'package:http/testing.dart';
 http.Response _json(Object body, [int status = 200]) => http.Response.bytes(
   utf8.encode(jsonEncode(body)),
   status,
-  headers: {'content-type': 'application/json'}, // note: no charset
+  headers: {'content-type': 'application/json'},
 );
 
 Map<String, dynamic> _song(int id, {String title = 'T'}) => {
@@ -40,7 +40,7 @@ void main() {
         (_) async => _json([
           _song(1),
           {'title': 'no id'},
-          {..._song(3), 'audioUrl': ''}, // nothing to play
+          {..._song(3), 'audioUrl': ''},
           'not even an object',
           _song(5),
         ]),
@@ -117,9 +117,9 @@ void main() {
     await service.fetchSongs();
     now = now.add(const Duration(minutes: 9));
     await service.fetchSongs();
-    expect(calls, 1); // still fresh
+    expect(calls, 1);
 
-    now = now.add(const Duration(minutes: 2)); // 11 minutes in total
+    now = now.add(const Duration(minutes: 2));
     await service.fetchSongs();
     expect(calls, 2);
   });
@@ -136,14 +136,12 @@ void main() {
     );
 
     await service.fetchSongs();
-    now = now.add(const Duration(minutes: 11)); // cache expired
+    now = now.add(const Duration(minutes: 11));
     offline = true;
 
-    // Normal load: the old list is better than an error screen.
     final songs = await service.fetchSongs();
     expect(songs.map((s) => s.id), [1]);
 
-    // Explicit refresh (retry button / pull-to-refresh): show the failure.
     await expectLater(
       service.fetchSongs(forceRefresh: true),
       throwsA(

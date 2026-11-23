@@ -18,10 +18,8 @@ class SongListView extends StatelessWidget {
   final ValueChanged<Song> onPlayPause;
   final ValueChanged<Song> onToggleFavorite;
 
-  /// Pull-to-refresh handler (optional).
   final Future<void> Function()? onRefresh;
 
-  /// Shown when [songs] is empty (defaults to "no songs found").
   final String emptyMessage;
   final IconData emptyIcon;
 

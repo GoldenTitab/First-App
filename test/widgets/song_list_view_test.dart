@@ -91,8 +91,8 @@ void main() {
 
     expect(find.text('First'), findsOneWidget);
     expect(find.text('Second'), findsOneWidget);
-    expect(find.byIcon(Icons.favorite), findsOneWidget); // only song 2
-    expect(find.byIcon(Icons.favorite_border), findsOneWidget); // song 1
+    expect(find.byIcon(Icons.favorite), findsOneWidget);
+    expect(find.byIcon(Icons.favorite_border), findsOneWidget);
 
     await tester.tap(find.text('First'));
     expect(played?.id, 1);

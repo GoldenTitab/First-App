@@ -1,4 +1,3 @@
-/// Formats a [Duration] as `m:ss` (or `h:mm:ss` for one hour or more).
 String formatDuration(Duration d) {
   final totalSeconds = d.inSeconds < 0 ? 0 : d.inSeconds;
   final hours = totalSeconds ~/ 3600;

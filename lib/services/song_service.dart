@@ -12,9 +12,6 @@ class SongService {
   static final SongService _instance = SongService._internal();
   factory SongService() => _instance;
 
-  /// Creates a non-singleton instance with a custom HTTP client
-  /// (use `MockClient` from `package:http/testing.dart` in unit tests) and an
-  /// optional fake clock to test cache expiry.
   @visibleForTesting
   SongService.withClient(http.Client client, {DateTime Function()? now})
     : _client = client,
@@ -35,11 +32,6 @@ class SongService {
       _cacheTime != null &&
       _now().difference(_cacheTime!) < _cacheExpiry;
 
-  /// Returns the song list, using the in-memory cache when it is fresh.
-  ///
-  /// If the network fails and a previous (stale) list exists, that list is
-  /// returned instead of an error - unless [forceRefresh] is true, in which
-  /// case the user explicitly asked for fresh data and sees the failure.
   Future<List<Song>> fetchSongs({bool forceRefresh = false}) async {
     if (!forceRefresh && _isCacheValid) {
       return _cachedSongs!;
@@ -56,8 +48,6 @@ class SongService {
         );
       }
 
-      // Decode the raw bytes as UTF-8 ourselves: `response.body` falls back to
-      // latin-1 when the server omits the charset, which garbles Persian text.
       final decoded = json.decode(utf8.decode(response.bodyBytes));
       if (decoded is! List) {
         throw const FormatException('Expected a JSON array of songs.');
@@ -67,10 +57,9 @@ class SongService {
       for (final item in decoded) {
         try {
           final song = Song.fromJson(item as Map<String, dynamic>);
-          if (song.audioUrl.isEmpty) continue; // nothing to play
+          if (song.audioUrl.isEmpty) continue;
           songs.add(song);
         } catch (e) {
-          // One malformed entry must not break the whole list.
           debugPrint('Skipping invalid song entry: $e');
         }
       }
@@ -94,8 +83,6 @@ class SongService {
     }
   }
 
-  /// The previously cached list, but only when the caller did not explicitly
-  /// ask for fresh data.
   List<Song>? _staleFallback(bool forceRefresh) =>
       forceRefresh ? null : _cachedSongs;
 

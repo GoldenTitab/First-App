@@ -51,7 +51,7 @@ void main() {
 
     service.clear();
     expect(service.ids, isEmpty);
-    expect(await service.toggle(9), isFalse); // nobody signed in
+    expect(await service.toggle(9), isFalse);
     expect(service.ids, isEmpty);
   });
 

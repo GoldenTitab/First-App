@@ -1,8 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-/// Thin progress bar. It listens to the position/duration notifiers directly,
-/// so only this small widget rebuilds while a song plays.
 class SongProgressIndicator extends StatelessWidget {
   final ValueListenable<Duration> position;
   final ValueListenable<Duration> duration;
